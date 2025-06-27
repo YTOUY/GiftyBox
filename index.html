@@ -15,20 +15,23 @@
     </div>
     <!-- Основное приложение -->
     <div id="app" class="hidden">
+        <!-- Баланс -->
+        <div id="gcoins" class="gcoins-display">1000</div>
         <!-- Главная -->
         <div id="page-home" class="page active">
             <h2 class="page-title">Кейсы</h2>
+            <div id="case-grid"></div>
             <div class="case-list">
                 <div class="case-card case-basic" onclick="openCasePage('basic')">
                     <div class="case-sticker"><img src="assets/nft/basic-heart.gif" alt="Basic Case"></div>
                     <div class="case-name">Basic</div>
                 </div>
                 <div class="case-card case-standard" onclick="openCasePage('standard')">
-                    <div class="case-sticker"><img src="assets/nft/standard-rocket.gif" alt="Standard Case"></div>
+                    <div class="case-sticker"><img src="assets/nft/basic-rocket.gif" alt="Standard Case"></div>
                     <div class="case-name">Standard</div>
                 </div>
                 <div class="case-card case-rare" onclick="openCasePage('rare')">
-                    <div class="case-sticker"><img src="assets/nft/rare-trophy.gif" alt="Rare Case"></div>
+                    <div class="case-sticker"><img src="assets/nft/basic-trophy.gif" alt="Rare Case"></div>
                     <div class="case-name">Rare</div>
                 </div>
                 <div class="case-card case-epic" onclick="openCasePage('epic')">
@@ -36,7 +39,7 @@
                     <div class="case-name">Epic</div>
                 </div>
                 <div class="case-card case-legendary" onclick="openCasePage('legendary')">
-                    <div class="case-sticker"><img src="assets/nft/legendary-neko-helmet.gif" alt="Legendary Case"></div>
+                    <div class="case-sticker"><img src="assets/nft/mythic-neko-helmet.gif" alt="Legendary Case"></div>
                     <div class="case-name">Legendary</div>
                 </div>
                 <div class="case-card case-mythic" onclick="openCasePage('mythic')">
@@ -73,12 +76,18 @@
                 <div>Возможные апгрейды</div>
                 <div id="upgrade-options"></div>
             </div>
+            <!-- Добавляю селекты для апгрейда -->
+            <div class="upgrade-selects">
+                <select id="current-nft"></select>
+                <select id="target-nft"></select>
+                <button onclick="upgradeNFT()">Апгрейд</button>
+            </div>
         </div>
         <!-- Профиль -->
         <div id="page-profile" class="page">
             <h2 class="page-title">Профиль</h2>
             <div class="profile-card">
-                <div class="profile-avatar"><img src="assets/nft/legendary-neko-helmet.gif" alt="Avatar"></div>
+                <div class="profile-avatar"><img src="assets/nft/mythic-neko-helmet.gif" alt="Avatar"></div>
                 <div class="profile-info">
                     <div id="profile-username">@username</div>
                     <div id="profile-balance">Баланс: <span>1000</span> G-Coins</div>
@@ -89,6 +98,8 @@
                 <div class="profile-nft"><img src="assets/nft/epic-light-sword.gif" alt="NFT"></div>
             </div>
             <div class="profile-ref">Реферальная система: 5%</div>
+            <!-- Добавляю ссылку для приглашения -->
+            <a id="referral-link" href="#" target="_blank">Пригласить друга</a>
         </div>
         <!-- Нижнее меню -->
         <nav class="bottom-nav">
