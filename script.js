@@ -324,14 +324,18 @@ window.renderCases = function() {
     const caseList = document.querySelector('.case-list');
     caseList.innerHTML = '';
     Object.entries(cases).forEach(([key, data]) => {
-        let imgSrc = data.sticker;
-        let isAnimated = imgSrc.startsWith('http');
-        let imgTag = `<img src="${imgSrc}" alt="${data.name}" class="case-sticker-img" style="border-radius:12px;">`;
+        let nft = data.nfts[0];
+        let imgSrc;
+        if (nft.gcoins) {
+            imgSrc = "assets/nft/gcoins.gif"; // если есть иконка, иначе можно заменить на другую
+        } else {
+            imgSrc = `assets/nft/${key}-${nft.id}.gif`;
+        }
+        let imgTag = `<img src="${imgSrc}" alt="${nft.label}" class="case-sticker-img" style="border-radius:12px;">`;
         const div = document.createElement('div');
         div.className = `case-card case-${key}`;
         div.innerHTML = `
             <div class="case-sticker">${imgTag}</div>
-            <div class="case-name">${data.name}</div>
         `;
         div.onclick = () => window.openCasePage(key);
         caseList.appendChild(div);
