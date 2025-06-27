@@ -286,28 +286,82 @@ let currentCase = null;
 
 window.openCasePage = function(caseKey) {
     currentCase = caseKey;
-    document.getElementById('case-title').textContent = caseData[caseKey].name;
-    document.getElementById('case-roulette-sticker').src = caseData[caseKey].sticker;
     window.showPage('case');
+    // Заполняем название и цену
+    document.getElementById('case-name').textContent = cases[caseKey].name;
+    document.getElementById('case-price').textContent = cases[caseKey].cost + ' G-Coins';
+    // Заполняем NFT
+    const nftList = document.getElementById('case-nft-list');
+    nftList.innerHTML = '';
+    cases[caseKey].nfts.forEach(nft => {
+        const img = document.createElement('img');
+        img.src = `assets/nft/${caseKey}-${nft}.png`;
+        img.alt = nft;
+        img.className = 'case-nft-img';
+        img.style.width = '64px';
+        img.style.height = '64px';
+        img.style.borderRadius = '12px';
+        nftList.appendChild(img);
+    });
 };
+
+// Анимация рулетки
+function animateRoulette(caseKey, callback) {
+    const nfts = cases[caseKey].nfts;
+    const nftList = document.getElementById('case-nft-list');
+    let current = 0;
+    let totalSpins = Math.floor(Math.random() * 10) + 15; // случайное число оборотов
+    let interval = 80;
+    let resultIndex = getRandomIndexByProbability(cases[caseKey].probabilities);
+    function spin() {
+        nftList.childNodes.forEach((img, idx) => {
+            img.style.opacity = (idx === current) ? '1' : '0.4';
+            img.style.transform = (idx === current) ? 'scale(1.2)' : 'scale(1)';
+        });
+        if (totalSpins > 0) {
+            current = (current + 1) % nfts.length;
+            totalSpins--;
+            setTimeout(spin, interval);
+            if (totalSpins < 7) interval += 25; // замедление
+        } else {
+            // Останавливаемся на resultIndex
+            current = resultIndex;
+            nftList.childNodes.forEach((img, idx) => {
+                img.style.opacity = (idx === current) ? '1' : '0.4';
+                img.style.transform = (idx === current) ? 'scale(1.2)' : 'scale(1)';
+            });
+            if (callback) callback(nfts[current]);
+        }
+    }
+    spin();
+}
+
+function getRandomIndexByProbability(probabilities) {
+    const rand = Math.random();
+    let cumulative = 0;
+    for (let i = 0; i < probabilities.length; i++) {
+        cumulative += probabilities[i];
+        if (rand <= cumulative) return i;
+    }
+    return probabilities.length - 1;
+}
 
 window.openCase = function() {
     if (!currentCase) return;
-    const rewards = caseData[currentCase].rewards;
-    const reward = rewards[Math.floor(Math.random() * rewards.length)];
-    setTimeout(() => {
-        inventory.push(reward);
+    animateRoulette(currentCase, function(wonNft) {
+        // Добавляем NFT в профиль
+        inventory.push(wonNft);
         window.updateInventory();
-        window.showPage('inventory');
-    }, 1800);
+        alert('Поздравляем! Вы выиграли: ' + wonNft.replace(/-/g, ' '));
+    });
 };
 
 window.demoCase = function() {
     if (!currentCase) return;
-    document.getElementById('case-roulette-sticker').classList.add('demo-spin');
-    setTimeout(() => {
-        document.getElementById('case-roulette-sticker').classList.remove('demo-spin');
-    }, 1800);
+    animateRoulette(currentCase, function(wonNft) {
+        // Просто показать, не добавлять в инвентарь
+        alert('В демо-режиме выпал: ' + wonNft.replace(/-/g, ' '));
+    });
 };
 
 window.updateInventory = function() {
