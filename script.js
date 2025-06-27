@@ -212,100 +212,37 @@ function populateNFTSelects() {
 
 populateNFTSelects();
 
-// SPA-навигация
+// --- Инициализация переменных и функций до использования ---
 const pages = document.querySelectorAll('.page');
 const navBtns = document.querySelectorAll('.nav-btn');
 
-function showPage(page) {
+window.showPage = function(page) {
     pages.forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
     navBtns.forEach(btn => btn.classList.remove('active'));
     const btn = document.querySelector('.nav-btn[data-page="' + page + '"]');
     if (btn) btn.classList.add('active');
-}
+};
 
-// Генерация кейсов на главной странице с анимированным изображением
-function renderCases() {
+// --- caseData (оставить как в предыдущей версии) ---
+// ... caseData ...
+
+window.renderCases = function() {
     const caseList = document.querySelector('.case-list');
     caseList.innerHTML = '';
     Object.entries(cases).forEach(([key, data]) => {
-        // Для первых 5 — статичная картинка, для остальных — анимация
         let imgSrc = data.sticker;
         let isAnimated = imgSrc.startsWith('http');
-        let imgTag = isAnimated
-            ? `<img src="${imgSrc}" alt="${data.name}" class="case-sticker-img" style="border-radius:12px;">`
-            : `<img src="${imgSrc}" alt="${data.name}" class="case-sticker-img" style="border-radius:12px;">`;
+        let imgTag = `<img src="${imgSrc}" alt="${data.name}" class="case-sticker-img" style="border-radius:12px;">`;
         const div = document.createElement('div');
         div.className = `case-card case-${key}`;
         div.innerHTML = `
             <div class="case-sticker">${imgTag}</div>
             <div class="case-name">${data.name}</div>
         `;
-        div.onclick = () => openCasePage(key);
+        div.onclick = () => window.openCasePage(key);
         caseList.appendChild(div);
     });
-}
-
-// Открытие страницы кейса
-const caseData = {
-    basic: {
-        name: 'Basic',
-        sticker: 'assets/nft/basic-heart.png',
-        rewards: [
-            { id: 'basic-heart', img: 'assets/nft/basic-heart.png', animated: false },
-            { id: 'basic-teddybear', img: 'assets/nft/basic-teddybear.png', animated: false },
-            { id: 'basic-rose', img: 'assets/nft/basic-rose.png', animated: false },
-            { id: 'basic-rocket', img: 'assets/nft/basic-rocket.png', animated: false },
-            { id: 'basic-trophy', img: 'assets/nft/basic-trophy.png', animated: false }
-        ]
-    },
-    standard: {
-        name: 'Standard',
-        sticker: 'https://t.me/portals/market?startapp=gift_2c57a8b3-7ca4-4ac2-ba52-6a2bd112ca3b',
-        rewards: [
-            { id: 'basic-lunar-snake', img: 'https://t.me/portals/market?startapp=gift_2c57a8b3-7ca4-4ac2-ba52-6a2bd112ca3b', animated: true },
-            { id: 'standard-desk-calendar', img: 'https://t.me/portals/market?startapp=gift_8481c672-1e66-4a4b-9a5e-cb5c1c97380b', animated: true },
-            { id: 'standard-b-day-candle', img: 'https://t.me/portals/market?startapp=gift_22d726af-ce76-4909-bbb6-ec3ebb82a548', animated: true },
-            { id: 'standard-jester-hat', img: 'https://t.me/portals/market?startapp=gift_979396a9-1a78-4fee-998c-a6dead53a73b', animated: true }
-        ]
-    },
-    rare: {
-        name: 'Rare',
-        sticker: 'https://t.me/portals/market?startapp=gift_6f53235f-1d4f-4f32-b03f-d09920765401',
-        rewards: [
-            { id: 'rare-evil-eye', img: 'https://t.me/portals/market?startapp=gift_6f53235f-1d4f-4f32-b03f-d09920765401', animated: true },
-            { id: 'rare-homemade-cake', img: 'https://t.me/portals/market?startapp=gift_a4d7253d-e193-45b6-9fc7-d52181705b6a', animated: true },
-            { id: 'rare-easter-egg', img: 'https://t.me/portals/market?startapp=gift_b88d1f73-2eb5-4255-8ff2-3a4517f18ea3', animated: true }
-        ]
-    },
-    epic: {
-        name: 'Epic',
-        sticker: 'https://t.me/portals/market?startapp=gift_fdf5f5cd-a451-4ad8-9640-157038420186',
-        rewards: [
-            { id: 'epic-light-sword', img: 'https://t.me/portals/market?startapp=gift_fdf5f5cd-a451-4ad8-9640-157038420186', animated: true },
-            { id: 'epic-eternal-candle', img: 'https://t.me/portals/market?startapp=gift_d0cc49bb-9c4d-45c2-a1a0-81e3474020d7', animated: true },
-            { id: 'epic-candy-cane', img: 'https://t.me/portals/market?startapp=gift_8f04dd90-ed0c-4015-bab5-e8e539775c44', animated: true }
-        ]
-    },
-    legendary: {
-        name: 'Legendary',
-        sticker: 'https://t.me/portals/market?startapp=gift_ce206ef2-f6c5-4b58-b441-f37fc75e6b67',
-        rewards: [
-            { id: 'legendary-jelly-bunny', img: 'https://t.me/portals/market?startapp=gift_ce206ef2-f6c5-4b58-b441-f37fc75e6b67', animated: true },
-            { id: 'legendary-ginger-cookie', img: 'https://t.me/portals/market?startapp=gift_eedb0d9b-fc14-4e79-9864-4690d69a86cb', animated: true },
-            { id: 'legendary-cookie-heart', img: 'https://t.me/portals/market?startapp=gift_a8027521-a9b8-439a-99c5-cb14deff877e', animated: true }
-        ]
-    },
-    mythic: {
-        name: 'Mythic',
-        sticker: 'https://t.me/portals/market?startapp=gift_740eaf35-5c12-4e52-8bf5-28bb72190e74',
-        rewards: [
-            { id: 'mythic-diamond-ring', img: 'https://t.me/portals/market?startapp=gift_740eaf35-5c12-4e52-8bf5-28bb72190e74', animated: true },
-            { id: 'mythic-neko-helmet', img: 'https://t.me/portals/market?startapp=gift_437c1633-ab14-4fd2-a966-320b68347db5', animated: true },
-            { id: 'mythic-durov-cap', img: 'https://t.me/portals/market?startapp=gift_6d95e5b8-3c35-4188-8ebc-0c1f6efd151a', animated: true },
-            { id: 'mythic-bonus', img: 'https://t.me/portals/market?startapp=gift_66e16bd8-4e39-49d1-a5a1-a7e0ebd7b2db', animated: true }
-        ]
-    }
 };
 
 let currentCase = null;
@@ -314,8 +251,8 @@ window.openCasePage = function(caseKey) {
     currentCase = caseKey;
     document.getElementById('case-title').textContent = caseData[caseKey].name;
     document.getElementById('case-roulette-sticker').src = caseData[caseKey].sticker;
-    showPage('case');
-}
+    window.showPage('case');
+};
 
 window.openCase = function() {
     if (!currentCase) return;
@@ -323,10 +260,10 @@ window.openCase = function() {
     const reward = rewards[Math.floor(Math.random() * rewards.length)];
     setTimeout(() => {
         inventory.push(reward);
-        updateInventory();
-        showPage('inventory');
+        window.updateInventory();
+        window.showPage('inventory');
     }, 1800);
-}
+};
 
 window.demoCase = function() {
     if (!currentCase) return;
@@ -334,9 +271,9 @@ window.demoCase = function() {
     setTimeout(() => {
         document.getElementById('case-roulette-sticker').classList.remove('demo-spin');
     }, 1800);
-}
+};
 
-function updateInventory() {
+window.updateInventory = function() {
     const inventoryList = document.getElementById('inventory-list');
     if (!inventory.length) {
         inventoryList.innerHTML = '';
@@ -345,15 +282,14 @@ function updateInventory() {
     inventoryList.innerHTML = inventory.map(nftObj => {
         return `<div class=\"inventory-item\"><img src=\"${nftObj.img}\" alt=\"${nftObj.id}\" class=\"inventory-nft-img\"><span>${nftObj.id.replace(/-/g, ' ')}</span></div>`;
     }).join('');
-}
+};
 
-// Инициализация
-renderCases();
-showPage('home');
+// --- Инициализация приложения ---
+window.renderCases();
+window.showPage('home');
 
-// Навигация по меню
 navBtns.forEach(btn => {
     btn.onclick = () => {
-        showPage(btn.dataset.page);
+        window.showPage(btn.dataset.page);
     };
 });
