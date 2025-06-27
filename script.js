@@ -60,12 +60,48 @@ function startApp() {
 startApp();
 
 const cases = {
-    'basic': { cost: 100, nfts: ['heart', 'teddybear', 'lunar-snake'], probabilities: [0.4, 0.4, 0.2] },
-    'standard': { cost: 300, nfts: ['desk-calendar', 'b-day-candle', 'jester-hat'], probabilities: [0.4, 0.4, 0.2] },
-    'rare': { cost: 500, nfts: ['evil-eye', 'homemade-cake', 'easter-egg'], probabilities: [0.4, 0.4, 0.2] },
-    'epic': { cost: 800, nfts: ['light-sword', 'eternal-candle', 'candy-cane'], probabilities: [0.4, 0.4, 0.2] },
-    'legendary': { cost: 1200, nfts: ['jelly-bunny', 'ginger-cookie', 'trapped-heart'], probabilities: [0.4, 0.4, 0.2] },
-    'mythic': { cost: 1500, nfts: ['diamond-ring', 'neko-helmet', 'durov-cap'], probabilities: [0.4, 0.4, 0.2] }
+    'basic': {
+        name: 'Basic',
+        cost: 100,
+        nfts: ['heart', 'teddybear', 'lunar-snake'],
+        probabilities: [0.4, 0.4, 0.2],
+        sticker: 'assets/nft/basic-heart.gif'
+    },
+    'standard': {
+        name: 'Standard',
+        cost: 300,
+        nfts: ['desk-calendar', 'b-day-candle', 'jester-hat'],
+        probabilities: [0.4, 0.4, 0.2],
+        sticker: 'assets/nft/basic-rocket.gif'
+    },
+    'rare': {
+        name: 'Rare',
+        cost: 500,
+        nfts: ['evil-eye', 'homemade-cake', 'easter-egg'],
+        probabilities: [0.4, 0.4, 0.2],
+        sticker: 'assets/nft/basic-trophy.gif'
+    },
+    'epic': {
+        name: 'Epic',
+        cost: 800,
+        nfts: ['light-sword', 'eternal-candle', 'candy-cane'],
+        probabilities: [0.4, 0.4, 0.2],
+        sticker: 'assets/nft/epic-light-sword.gif'
+    },
+    'legendary': {
+        name: 'Legendary',
+        cost: 1200,
+        nfts: ['jelly-bunny', 'ginger-cookie', 'trapped-heart'],
+        probabilities: [0.4, 0.4, 0.2],
+        sticker: 'assets/nft/mythic-neko-helmet.gif'
+    },
+    'mythic': {
+        name: 'Mythic',
+        cost: 1500,
+        nfts: ['diamond-ring', 'neko-helmet', 'durov-cap'],
+        probabilities: [0.4, 0.4, 0.2],
+        sticker: 'assets/nft/mythic-durov-cap.gif'
+    }
 };
 
 function populateCases() {
