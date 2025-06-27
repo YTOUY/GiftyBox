@@ -220,7 +220,30 @@ function showPage(page) {
     pages.forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
     navBtns.forEach(btn => btn.classList.remove('active'));
-    document.querySelector('.nav-btn[data-page="' + page + '"]').classList.add('active');
+    const btn = document.querySelector('.nav-btn[data-page="' + page + '"]');
+    if (btn) btn.classList.add('active');
+}
+
+// Генерация кейсов на главной странице с анимированным изображением
+function renderCases() {
+    const caseList = document.querySelector('.case-list');
+    caseList.innerHTML = '';
+    Object.entries(cases).forEach(([key, data]) => {
+        // Для первых 5 — статичная картинка, для остальных — анимация
+        let imgSrc = data.sticker;
+        let isAnimated = imgSrc.startsWith('http');
+        let imgTag = isAnimated
+            ? `<img src="${imgSrc}" alt="${data.name}" class="case-sticker-img" style="border-radius:12px;">`
+            : `<img src="${imgSrc}" alt="${data.name}" class="case-sticker-img" style="border-radius:12px;">`;
+        const div = document.createElement('div');
+        div.className = `case-card case-${key}`;
+        div.innerHTML = `
+            <div class="case-sticker">${imgTag}</div>
+            <div class="case-name">${data.name}</div>
+        `;
+        div.onclick = () => openCasePage(key);
+        caseList.appendChild(div);
+    });
 }
 
 // Открытие страницы кейса
@@ -324,5 +347,13 @@ function updateInventory() {
     }).join('');
 }
 
-// SPA: при загрузке показываем главную
+// Инициализация
+renderCases();
 showPage('home');
+
+// Навигация по меню
+navBtns.forEach(btn => {
+    btn.onclick = () => {
+        showPage(btn.dataset.page);
+    };
+});
