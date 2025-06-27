@@ -1,6 +1,4 @@
 import requests
-import imageio
-from lottie.parsers.tgs import parse_tgs
 
 bot_token = '7878144684:AAEyxE_SKZiUN1Tl0x-xLD4D1p1cLt5Oy1A'
 
@@ -28,31 +26,12 @@ stickers = {
     "mythic-durov-cap": "CAACAgIAAxkBAAEQMkNoXsf056dolZjiowsTIOLTYg6RygACrmcAAjoPOUsRwF6fUR3DGDYE"
 }
 
-def download_tgs(name, file_id):
+for name, file_id in stickers.items():
     url = f'https://api.telegram.org/bot{bot_token}/getFile?file_id={file_id}'
     resp = requests.get(url)
     file_path = resp.json()['result']['file_path']
     tgs_url = f'https://api.telegram.org/file/bot{bot_token}/{file_path}'
     tgs_data = requests.get(tgs_url).content
-    tgs_filename = f"{name}.tgs"
-    with open(tgs_filename, "wb") as f:
+    with open(f"{name}.tgs", "wb") as f:
         f.write(tgs_data)
-    print(f"Скачан: {tgs_filename}")
-    return tgs_filename
-
-def tgs_to_gif(tgs_path, gif_path, fps=30):
-    animation = parse_tgs(tgs_path)
-    frames = []
-    for i in range(int(animation.frame_rate * animation.duration)):
-        frame = animation.render_frame(i / animation.frame_rate)
-        frames.append(frame)
-    imageio.mimsave(gif_path, frames, duration=1/animation.frame_rate)
-    print(f"Сохранено gif: {gif_path}")
-
-if __name__ == "__main__":
-    for name, file_id in stickers.items():
-        tgs_file = download_tgs(name, file_id)
-        gif_file = f"{name}.gif"
-        tgs_to_gif(tgs_file, gif_file)
-        # Можно удалить tgs после конвертации
-        # os.remove(tgs_file)
+    print(f"Скачан: {name}.tgs")
