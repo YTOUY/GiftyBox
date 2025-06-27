@@ -1,16 +1,15 @@
 // Global variables
-let gcoins = 1000; // Initial G-Coins balance
-let inventory = []; // User's NFT inventory
+let gcoins = 1000;
+let inventory = [];
+let activeCase = null;
 
-// DOM Elements
 const loadingScreen = document.getElementById('loading-screen');
 const mainContent = document.getElementById('main-content');
-const caseContainer = document.getElementById('case-container');
+const caseGrid = document.getElementById('case-grid');
 const gcoinsDisplay = document.getElementById('gcoins');
 const inventoryList = document.getElementById('inventory-list');
 const referralLink = document.getElementById('referral-link');
 
-// Loading Screen Animation
 const canvas = document.getElementById('star-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -35,7 +34,7 @@ let stars = createStars();
 function animateStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(star => {
-        const opacity = Math.sin(Date.now() / star.blink) * 0.5 + 0.5; // Blinking effect
+        const opacity = Math.sin(Date.now() / star.blink) * 0.5 + 0.5;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
@@ -59,46 +58,48 @@ function startApp() {
 
 startApp();
 
-// Case Definitions
 const cases = {
-    'basic': { cost: 100, nfts: ['heart', 'teddybear', 'lunar-snake', 'desk-calendar', 'b-day-candle'], probabilities: [0.25, 0.25, 0.2, 0.2, 0.1] },
-    'standard': { cost: 300, nfts: ['heart', 'teddybear', 'lunar-snake', 'desk-calendar', 'b-day-candle', 'jester-hat', 'evil-eye', 'homemade-cake'], probabilities: [0.15, 0.15, 0.15, 0.15, 0.1, 0.1, 0.1, 0.1] },
-    'rare': { cost: 500, nfts: ['b-day-candle', 'jester-hat', 'evil-eye', 'homemade-cake', 'easter-egg', 'light-sword', 'eternal-candle', 'candy-cane', 'jelly-bunny', 'ginger-cookie'], probabilities: [0.15, 0.15, 0.15, 0.15, 0.1, 0.1, 0.1, 0.05, 0.05, 0.05] },
-    'epic': { cost: 800, nfts: ['easter-egg', 'light-sword', 'eternal-candle', 'candy-cane', 'jelly-bunny', 'ginger-cookie', 'trapped-heart'], probabilities: [0.2, 0.2, 0.15, 0.15, 0.1, 0.1, 0.1] },
-    'legendary': { cost: 1200, nfts: ['light-sword', 'eternal-candle', 'candy-cane', 'jelly-bunny', 'ginger-cookie', 'trapped-heart'], probabilities: [0.25, 0.2, 0.15, 0.15, 0.15, 0.1] },
-    'mythic': { cost: 1500, nfts: ['trapped-heart', 'light-sword', 'eternal-candle', 'jelly-bunny', 'diamond-ring', 'neko-helmet', 'durov-cap'], probabilities: [0.4, 0.19, 0.19, 0.19, 0.01, 0.01, 0.01] }
+    'basic': { cost: 100, nfts: ['heart', 'teddybear', 'lunar-snake'], probabilities: [0.4, 0.4, 0.2] },
+    'standard': { cost: 300, nfts: ['desk-calendar', 'b-day-candle', 'jester-hat'], probabilities: [0.4, 0.4, 0.2] },
+    'rare': { cost: 500, nfts: ['evil-eye', 'homemade-cake', 'easter-egg'], probabilities: [0.4, 0.4, 0.2] },
+    'epic': { cost: 800, nfts: ['light-sword', 'eternal-candle', 'candy-cane'], probabilities: [0.4, 0.4, 0.2] },
+    'legendary': { cost: 1200, nfts: ['jelly-bunny', 'ginger-cookie', 'trapped-heart'], probabilities: [0.4, 0.4, 0.2] },
+    'mythic': { cost: 1500, nfts: ['diamond-ring', 'neko-helmet', 'durov-cap'], probabilities: [0.4, 0.4, 0.2] }
 };
 
 function populateCases() {
-    const container = document.getElementById('home-section');
+    caseGrid.innerHTML = '';
     Object.keys(cases).forEach(caseName => {
         const caseDiv = document.createElement('div');
         caseDiv.className = 'case';
-        caseDiv.innerHTML = `
-            <div class="nft-slot" data-nft="${cases[caseName].nfts[0]}"></div>
-            <div class="nft-slot" data-nft="${cases[caseName].nfts[1]}"></div>
-            <div class="nft-slot" data-nft="${cases[caseName].nfts[2]}"></div>
-            <div class="pointer"></div>
-        `;
-        const openBtn = document.createElement('button');
-        openBtn.textContent = `Открыть за ${cases[caseName].cost} G-Coins`;
-        openBtn.onclick = () => openCase(caseName); // Ensure caseName is captured
-        const demoBtn = document.createElement('button');
-        demoBtn.textContent = 'Демо-режим';
-        demoBtn.onclick = () => demoCase(caseName); // Ensure caseName is captured
-        caseDiv.appendChild(openBtn);
-        caseDiv.appendChild(demoBtn);
-        container.appendChild(caseDiv);
+        caseDiv.innerHTML = `<div class="case-name">${caseName.charAt(0).toUpperCase() + caseName.slice(1)}</div>`;
+        caseDiv.dataset.case = caseName;
+        caseDiv.onclick = () => showCaseDetails(caseName);
+        caseGrid.appendChild(caseDiv);
     });
+}
+
+function showCaseDetails(caseName) {
+    const caseDiv = document.querySelector(`[data-case="${caseName}"]`);
+    if (caseDiv.classList.contains('active')) return;
+
+    caseGrid.querySelectorAll('.case').forCaseEach(c => c.classList.remove('active'));
+    caseDiv.classList.add('active');
+    caseDiv.innerHTML = `
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[0]}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[1]}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[2]}"></div>
+        <div class="pointer"></div>
+        <div class="action-buttons">
+            <button class="open-btn" onclick="openCase('${caseName}')">Открыть</button>
+            <button class="demo-btn" onclick="demoCase('${caseName}')">Демо-режим</button>
+        </div>
+    `;
+    activeCase = caseName;
 }
 
 async function openCase(caseName) {
     const caseData = cases[caseName];
-    if (!caseData) {
-        console.error(`Case '${caseName}' not found in cases object`);
-        alert('Ошибка: кейс не найден!');
-        return;
-    }
     if (gcoins < caseData.cost) {
         alert('Недостаточно G-Coins!');
         return;
@@ -116,28 +117,17 @@ async function openCase(caseName) {
         updatePointer(caseName, data.nft);
         updateInventory();
     } else {
-        console.error('API error:', data);
         alert('Ошибка при открытии кейса!');
     }
 }
 
 function demoCase(caseName) {
-    const caseData = cases[caseName];
-    if (!caseData) {
-        console.error(`Case '${caseName}' not found in cases object`);
-        alert('Ошибка: кейс не найден!');
-        return;
-    }
     const nft = getRandomNFT(caseName);
     updatePointer(caseName, nft);
 }
 
 function getRandomNFT(caseName) {
     const caseData = cases[caseName];
-    if (!caseData || !caseData.nfts) {
-        console.error(`Invalid case data for '${caseName}':`, caseData);
-        return null;
-    }
     const rand = Math.random();
     let cumulative = 0;
     for (let i = 0; i < caseData.nfts.length; i++) {
@@ -148,16 +138,13 @@ function getRandomNFT(caseName) {
 }
 
 function updatePointer(caseName, nft) {
-    const cases = document.querySelectorAll('.case');
-    cases.forEach((caseElement, index) => {
-        if (Object.keys(cases)[index] === caseName) {
-            const pointer = caseElement.querySelector('.pointer');
-            const slots = caseElement.querySelectorAll('.nft-slot');
-            slots.forEach((slot, slotIndex) => {
-                if (slot.dataset.nft === nft) {
-                    pointer.style.left = `${25 + slotIndex * 25}%`;
-                }
-            });
+    const caseDiv = document.querySelector(`[data-case="${caseName}"].active`);
+    if (!caseDiv) return;
+    const pointer = caseDiv.querySelector('.pointer');
+    const slots = caseDiv.querySelectorAll('.nft-slot');
+    slots.forEach((slot, slotIndex) => {
+        if (slot.dataset.nft === nft) {
+            pointer.style.left = `${30 + slotIndex * 60}px`;
         }
     });
 }
@@ -166,15 +153,14 @@ function updateInventory() {
     inventoryList.innerHTML = inventory.map(nft => `<div>${nft}</div>`).join('');
 }
 
-// Navigation
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
         document.getElementById(btn.dataset.section + '-section').classList.add('active');
+        caseGrid.querySelectorAll('.case').forEach(c => c.classList.remove('active'));
     });
 });
 
-// Upgrade Logic
 function upgradeNFT() {
     const currentNFT = document.getElementById('current-nft').value;
     const targetNFT = document.getElementById('target-nft').value;
@@ -196,7 +182,6 @@ function upgradeNFT() {
     updateInventory();
 }
 
-// Populate NFT selects for upgrade
 function populateNFTSelects() {
     const currentSelect = document.getElementById('current-nft');
     const targetSelect = document.getElementById('target-nft');

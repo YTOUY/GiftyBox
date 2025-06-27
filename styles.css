@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f0f0f0;
+    background: #e6f0fa; /* Soft blue background */
     overflow-x: hidden;
 }
 
@@ -11,7 +11,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, #4a90e2, #7b8fa1);
+    background: linear-gradient(to bottom, #87ceeb, #b0c4de); /* Soft blue gradient */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,43 +41,92 @@ body {
 .hidden { display: none; }
 .active { display: block; }
 
-.case {
-    width: 400px;
-    height: 200px;
-    background: #4a4a4a;
-    border-radius: 15px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    margin: 20px auto;
+.case-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 60px;
 }
 
-.nft-slot {
-    width: 100px;
-    height: 100px;
+.case {
+    width: 180px;
+    height: 180px;
+    background: #87ceeb; /* Soft blue case */
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.case:hover {
+    transform: scale(1.05);
+}
+
+.case.active {
+    position: relative;
+    overflow: hidden;
+    background: #4a90e2;
+}
+
+.case.active .nft-slot {
+    width: 60px;
+    height: 60px;
     border-radius: 10px;
-    position: absolute;
-    top: 50px;
     background: linear-gradient(#00c4ff, #0066ff);
+    position: absolute;
+    top: 60px;
     box-shadow: 0 0 10px #00c4ff;
     animation: rotate 3s infinite linear;
 }
 
-.nft-slot:nth-child(1) { left: 50px; }
-.nft-slot:nth-child(2) { left: 150px; }
-.nft-slot:nth-child(3) { left: 250px; }
+.case.active .nft-slot:nth-child(1) { left: 30px; }
+.case.active .nft-slot:nth-child(2) { left: 90px; }
+.case.active .nft-slot:nth-child(3) { left: 150px; }
 
-.pointer {
+.case.active .pointer {
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 20px solid #ff4040;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid #ff4040;
     position: absolute;
-    top: -20px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
     transition: left 1s ease;
+}
+
+.case .case-name {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.action-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.action-buttons .open-btn {
+    background: #32cd32; /* Green for Open */
+    color: white;
+}
+
+.action-buttons .demo-btn {
+    background: #ff4500; /* Orange for Demo */
+    color: white;
 }
 
 .nav-bar {
@@ -85,7 +134,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #2c3e50;
+    background: #4682b4; /* Soft blue nav */
     display: flex;
     justify-content: space-around;
     padding: 10px 0;
@@ -103,18 +152,13 @@ body {
     cursor: pointer;
 }
 
-.nav-btn .icon {
-    font-size: 20px;
-    margin-bottom: 5px;
-}
-
 .section {
     margin-bottom: 60px;
 }
 
 @keyframes rotate {
     0% { transform: translateX(0); }
-    100% { transform: translateX(300px); }
+    100% { transform: translateX(180px); }
 }
 
 @keyframes fadeIn {
