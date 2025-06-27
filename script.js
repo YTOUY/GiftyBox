@@ -60,47 +60,95 @@ function startApp() {
 startApp();
 
 const cases = {
-    'basic': {
-        name: 'Basic',
+    basic: {
+        name: "Basic",
         cost: 100,
-        nfts: ['heart', 'teddybear', 'lunar-snake'],
-        probabilities: [0.4, 0.4, 0.2],
-        sticker: 'assets/nft/basic-heart.gif'
+        nfts: [
+            { id: "teddybear", label: "Мишка", stars: 15 },
+            { id: "heart", label: "Сердце", stars: 15 },
+            { id: "rose", label: "Роза", stars: 25 },
+            { id: "rocket", label: "Ракета", stars: 50 },
+            { id: "trophy", label: "Кубок", stars: 100 },
+            { id: "lunar-snake", label: "Lunar Snake" },
+            { id: "desk-calendar", label: "Desk Calendar" },
+            { id: "gcoins-50", label: "50 GCoins", gcoins: 50 }
+        ],
+        probabilities: [0.18, 0.18, 0.15, 0.13, 0.10, 0.10, 0.10, 0.06]
     },
-    'standard': {
-        name: 'Standard',
-        cost: 300,
-        nfts: ['desk-calendar', 'b-day-candle', 'jester-hat'],
-        probabilities: [0.4, 0.4, 0.2],
-        sticker: 'assets/nft/basic-rocket.gif'
+    standard: {
+        name: "Standard",
+        cost: 250,
+        nfts: [
+            { id: "teddybear", label: "Мишка", stars: 15 },
+            { id: "heart", label: "Сердце", stars: 15 },
+            { id: "lunar-snake", label: "Lunar Snake" },
+            { id: "desk-calendar", label: "Desk Calendar" },
+            { id: "b-day-candle", label: "B-Day Candle" },
+            { id: "jester-hat", label: "Jester Hat" },
+            { id: "evil-eye", label: "Evil Eye" },
+            { id: "gcoins-200", label: "200 GCoins", gcoins: 200 }
+        ],
+        probabilities: [0.15, 0.15, 0.13, 0.13, 0.13, 0.12, 0.12, 0.07]
     },
-    'rare': {
-        name: 'Rare',
+    rare: {
+        name: "Rare",
         cost: 500,
-        nfts: ['evil-eye', 'homemade-cake', 'easter-egg'],
-        probabilities: [0.4, 0.4, 0.2],
-        sticker: 'assets/nft/basic-trophy.gif'
+        nfts: [
+            { id: "rose", label: "Роза", stars: 25 },
+            { id: "rocket", label: "Ракета", stars: 50 },
+            { id: "trophy", label: "Кубок", stars: 100 },
+            { id: "b-day-candle", label: "B-Day Candle" },
+            { id: "jester-hat", label: "Jester Hat" },
+            { id: "evil-eye", label: "Evil Eye" },
+            { id: "homemade-cake", label: "Homemade Cake" },
+            { id: "easter-egg", label: "Easter Egg" }
+        ],
+        probabilities: [0.15, 0.14, 0.13, 0.13, 0.13, 0.12, 0.10, 0.10]
     },
-    'epic': {
-        name: 'Epic',
-        cost: 800,
-        nfts: ['light-sword', 'eternal-candle', 'candy-cane'],
-        probabilities: [0.4, 0.4, 0.2],
-        sticker: 'assets/nft/epic-light-sword.gif'
+    epic: {
+        name: "Epic",
+        cost: 1000,
+        nfts: [
+            { id: "b-day-candle", label: "B-Day Candle" },
+            { id: "jester-hat", label: "Jester Hat" },
+            { id: "evil-eye", label: "Evil Eye" },
+            { id: "homemade-cake", label: "Homemade Cake" },
+            { id: "easter-egg", label: "Easter Egg" },
+            { id: "light-sword", label: "Light Sword" },
+            { id: "eternal-candle", label: "Eternal Candle" },
+            { id: "trapped-heart", label: "Trapped Heart" }
+        ],
+        probabilities: [0.15, 0.14, 0.13, 0.13, 0.12, 0.12, 0.11, 0.10]
     },
-    'legendary': {
-        name: 'Legendary',
-        cost: 1200,
-        nfts: ['jelly-bunny', 'ginger-cookie', 'trapped-heart'],
-        probabilities: [0.4, 0.4, 0.2],
-        sticker: 'assets/nft/mythic-neko-helmet.gif'
+    legendary: {
+        name: "Legendary",
+        cost: 2000,
+        nfts: [
+            { id: "easter-egg", label: "Easter Egg" },
+            { id: "light-sword", label: "Light Sword" },
+            { id: "eternal-candle", label: "Eternal Candle" },
+            { id: "candy-cane", label: "Candy Cane" },
+            { id: "jelly-bunny", label: "Jelly Bunny" },
+            { id: "ginger-cookie", label: "Ginger Cookie" },
+            { id: "trapped-heart", label: "Trapped Heart" },
+            { id: "gcoins-2500", label: "2500 GCoins", gcoins: 2500 }
+        ],
+        probabilities: [0.14, 0.13, 0.13, 0.13, 0.12, 0.12, 0.10, 0.13]
     },
-    'mythic': {
-        name: 'Mythic',
-        cost: 1500,
-        nfts: ['diamond-ring', 'neko-helmet', 'durov-cap'],
-        probabilities: [0.4, 0.4, 0.2],
-        sticker: 'assets/nft/mythic-durov-cap.gif'
+    mythic: {
+        name: "Mythic",
+        cost: 5000,
+        nfts: [
+            { id: "light-sword", label: "Light Sword" },
+            { id: "jelly-bunny", label: "Jelly Bunny" },
+            { id: "ginger-cookie", label: "Ginger Cookie" },
+            { id: "trapped-heart", label: "Trapped Heart" },
+            { id: "diamond-ring", label: "Diamond Ring" },
+            { id: "neko-helmet", label: "Neko Helmet" },
+            { id: "durov-cap", label: "Durov's Cap" },
+            { id: "gcoins-7000", label: "7000 GCoins", gcoins: 7000 }
+        ],
+        probabilities: [0.18, 0.15, 0.15, 0.13, 0.01, 0.01, 0.01, 0.36]
     }
 };
 
@@ -123,9 +171,9 @@ function showCaseDetails(caseName) {
     caseGrid.querySelectorAll('.case').forEach(c => c.classList.remove('active'));
     caseDiv.classList.add('active');
     caseDiv.innerHTML = `
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[0]}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[0]}.png" alt="${cases[caseName].nfts[0]}"></div>
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[1]}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[1]}.png" alt="${cases[caseName].nfts[1]}"></div>
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[2]}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[2]}.png" alt="${cases[caseName].nfts[2]}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[0].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[0].id}.gif" alt="${cases[caseName].nfts[0].label}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[1].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[1].id}.gif" alt="${cases[caseName].nfts[1].label}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[2].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[2].id}.gif" alt="${cases[caseName].nfts[2].label}"></div>
         <div class="pointer"></div>
         <div class="action-buttons">
             <button class="open-btn" onclick="openCase('${caseName}')">Открыть</button>
@@ -180,24 +228,32 @@ function updatePointer(caseName, nft) {
     const pointer = caseDiv.querySelector('.pointer');
     const slots = caseDiv.querySelectorAll('.nft-slot');
     slots.forEach((slot, slotIndex) => {
-        if (slot.dataset.nft === nft) {
+        if (slot.dataset.nft === nft.id) {
             pointer.style.left = `${30 + slotIndex * 60}px`;
         }
     });
 }
 
 function updateInventory() {
-    inventoryList.innerHTML = inventory.map(nft => {
-        // Определяем кейс по названию nft
+    inventoryList.innerHTML = inventory.map(nftId => {
+        // Определяем кейс и объект по id
         let caseName = '';
+        let nftObj = null;
         for (const [key, value] of Object.entries(cases)) {
-            if (value.nfts.includes(nft)) {
+            const found = value.nfts.find(n => n.id === nftId || n.id === nftId.id);
+            if (found) {
                 caseName = key;
+                nftObj = found;
                 break;
             }
         }
-        const imgSrc = `assets/nft/${caseName}-${nft}.png`;
-        return `<div class="inventory-item"><img src="${imgSrc}" alt="${nft}" class="inventory-nft-img"><span>${nft}</span></div>`;
+        if (!nftObj) return '';
+        if (nftObj.gcoins) {
+            return `<div class="inventory-item"><div class="nft-img" style="background:#ffe7a0;color:#232b3a;font-weight:bold;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">${nftObj.gcoins} GCoins</div><span>${nftObj.label}</span></div>`;
+        } else {
+            const imgSrc = `assets/nft/${caseName}-${nftObj.id}.gif`;
+            return `<div class="inventory-item"><img src="${imgSrc}" alt="${nftObj.label}" class="inventory-nft-img"><span>${nftObj.label}</span></div>`;
+        }
     }).join('');
 }
 
@@ -237,10 +293,10 @@ function populateNFTSelects() {
         caseData.nfts.forEach(nft => {
             const option1 = document.createElement('option');
             const option2 = document.createElement('option');
-            option1.value = nft;
-            option2.value = nft;
-            option1.textContent = nft;
-            option2.textContent = nft;
+            option1.value = nft.id;
+            option2.value = nft.id;
+            option1.textContent = nft.label;
+            option2.textContent = nft.label;
             currentSelect.appendChild(option1);
             targetSelect.appendChild(option2);
         });
@@ -296,25 +352,39 @@ window.openCasePage = function(caseKey) {
     const gap = 24;
     // Дублируем массив для плавной анимации
     const extendedNfts = [...nfts, ...nfts, ...nfts];
-    extendedNfts.forEach((nft, i) => {
+    extendedNfts.forEach((nftObj, i) => {
         const slot = document.createElement('div');
         slot.className = 'nft-slot';
         slot.style.left = (i * (slotWidth + gap)) + 'px';
-        const img = document.createElement('img');
-        img.src = `assets/nft/${caseKey}-${nft}.png`;
-        img.alt = nft;
-        img.className = 'nft-img';
+        let img;
+        if (nftObj.gcoins) {
+            img = document.createElement('div');
+            img.className = 'nft-img';
+            img.style.display = 'flex';
+            img.style.alignItems = 'center';
+            img.style.justifyContent = 'center';
+            img.style.background = '#ffe7a0';
+            img.style.color = '#232b3a';
+            img.style.fontWeight = 'bold';
+            img.style.fontSize = '1.2rem';
+            img.textContent = nftObj.gcoins + ' GCoins';
+        } else {
+            img = document.createElement('img');
+            img.src = `assets/nft/${caseKey}-${nftObj.id}.gif`;
+            img.alt = nftObj.label;
+            img.className = 'nft-img';
+        }
         const name = document.createElement('div');
         name.className = 'nft-name';
-        name.textContent = nft;
+        name.textContent = nftObj.label;
         slot.appendChild(img);
         slot.appendChild(name);
         slotsContainer.appendChild(slot);
     });
     // Показываем содержимое кейса и шансы
     const contentList = document.getElementById('case-content-list');
-    contentList.innerHTML = '<table class="case-content-table"><tr><th>NFT</th><th>Шанс</th></tr>' +
-        nfts.map((nft, i) => `<tr><td>${nft}</td><td>${(cases[caseKey].probabilities[i]*100).toFixed(1)}%</td></tr>`).join('') + '</table>';
+    contentList.innerHTML = '<table class="case-content-table"><tr><th>Подарок</th><th>Шанс</th></tr>' +
+        nfts.map((nftObj, i) => `<tr><td>${nftObj.label}</td><td>${(cases[caseKey].probabilities[i]*100).toFixed(1)}%</td></tr>`).join('') + '</table>';
 };
 
 // Анимация вращения
@@ -393,8 +463,25 @@ window.updateInventory = function() {
         inventoryList.innerHTML = '';
         return;
     }
-    inventoryList.innerHTML = inventory.map(nftObj => {
-        return `<div class=\"inventory-item\"><img src=\"${nftObj.img}\" alt=\"${nftObj.id}\" class=\"inventory-nft-img\"><span>${nftObj.id.replace(/-/g, ' ')}</span></div>`;
+    inventoryList.innerHTML = inventory.map(nftId => {
+        // Определяем кейс и объект по id
+        let caseName = '';
+        let nftObj = null;
+        for (const [key, value] of Object.entries(cases)) {
+            const found = value.nfts.find(n => n.id === nftId || n.id === nftId.id);
+            if (found) {
+                caseName = key;
+                nftObj = found;
+                break;
+            }
+        }
+        if (!nftObj) return '';
+        if (nftObj.gcoins) {
+            return `<div class="inventory-item"><div class="nft-img" style="background:#ffe7a0;color:#232b3a;font-weight:bold;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">${nftObj.gcoins} GCoins</div><span>${nftObj.label}</span></div>`;
+        } else {
+            const imgSrc = `assets/nft/${caseName}-${nftObj.id}.gif`;
+            return `<div class="inventory-item"><img src="${imgSrc}" alt="${nftObj.label}" class="inventory-nft-img"><span>${nftObj.label}</span></div>`;
+        }
     }).join('');
 };
 
