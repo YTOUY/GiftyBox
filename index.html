@@ -8,7 +8,13 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div id="app">
+    <!-- Загрузочный экран -->
+    <div id="loading-screen">
+        <canvas id="star-canvas"></canvas>
+        <h1>GiftyBox - выигрывай подарки</h1>
+    </div>
+    <!-- Основное приложение -->
+    <div id="app" class="hidden">
         <!-- Главная -->
         <div id="page-home" class="page active">
             <h2 class="page-title">Кейсы</h2>

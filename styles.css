@@ -298,3 +298,37 @@ body {
     text-align: center;
     margin: 18px 0;
 }
+
+#loading-screen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #233a5e 0%, #4a5a7a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+#loading-screen h1 {
+    color: #fff;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 16px #0008;
+    margin-top: 32px;
+    margin-bottom: 0;
+    text-align: center;
+}
+#star-canvas {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+#app.hidden {
+    display: none;
+}

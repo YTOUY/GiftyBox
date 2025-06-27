@@ -15,45 +15,46 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-function createStars() {
+// --- Анимация звёзд на загрузочном экране ---
+function createStars(ctx, width, height, count = 50) {
     const stars = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < count; i++) {
         stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random() * width,
+            y: Math.random() * height,
             size: Math.random() * 2 + 1,
-            speed: Math.random() * 0.5 + 0.1,
+            speed: Math.random() * 0.3 + 0.1,
             blink: Math.random() * 1000
         });
     }
     return stars;
 }
 
-let stars = createStars();
-
-function animateStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+function animateStars(ctx, stars, width, height) {
+    ctx.clearRect(0, 0, width, height);
     stars.forEach(star => {
         const opacity = Math.sin(Date.now() / star.blink) * 0.5 + 0.5;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
-        star.y -= star.speed;
-        if (star.y < 0) star.y = canvas.height;
+        star.y += star.speed;
+        if (star.y > height) star.y = 0;
     });
-    requestAnimationFrame(animateStars);
+    requestAnimationFrame(() => animateStars(ctx, stars, width, height));
 }
 
 function startApp() {
-    animateStars();
+    // Звёзды на загрузочном экране
+    const stars = createStars(ctx, canvas.width, canvas.height, 60);
+    animateStars(ctx, stars, canvas.width, canvas.height);
     setTimeout(() => {
         loadingScreen.style.display = 'none';
         mainContent.style.display = 'block';
         gcoinsDisplay.textContent = gcoins;
         referralLink.href = `https://t.me/share?url=https://GiftyBox.netlify.app&text=Присоединяйся к GiftyBox!`;
         populateCases();
-    }, 3000);
+    }, 2000);
 }
 
 startApp();
