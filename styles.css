@@ -1,206 +1,300 @@
 body {
+    background: #181f2a;
+    color: #fff;
+    font-family: 'Inter', Arial, sans-serif;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #e6f0fa; /* Soft blue background */
-    overflow-x: hidden;
+    padding: 0;
 }
-
-#loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, #87ceeb, #b0c4de); /* Soft blue gradient */
+#app {
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    flex-direction: column;
+    justify-content: flex-end;
 }
-
-#loading-screen h1 {
-    color: white;
-    font-size: 2em;
-    text-align: center;
-    animation: fadeIn 2s;
-}
-
-#star-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-#main-content {
-    padding: 20px;
+.page {
     display: none;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    opacity: 0;
+    transform: translateY(24px);
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1);
 }
-
-.hidden { display: none; }
-.active { display: block; }
-
-.case-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 60px;
-}
-
-.case {
-    width: 180px;
-    height: 180px;
-    border-radius: 15px;
+.page.active {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.3s;
-    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 1;
 }
-
-.case:hover {
-    transform: scale(1.05);
-}
-
-.case.active {
-    overflow: hidden;
-    background: #4a90e2;
-}
-
-.case.active .nft-slot {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    position: absolute;
-    top: 60px;
-    animation: rotate 3s infinite linear;
-}
-
-.case.active .nft-slot img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
-}
-
-.case.active .nft-slot:nth-child(1) { left: 30px; }
-.case.active .nft-slot:nth-child(2) { left: 90px; }
-.case.active .nft-slot:nth-child(3) { left: 150px; }
-
-.case.active .pointer {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 15px solid #ff4040;
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: left 1s ease;
-}
-
-.case .case-name {
-    color: white;
-    font-weight: bold;
+.page-title {
     text-align: center;
-    pointer-events: none; /* Prevent interaction with text */
+    font-size: 1.5rem;
+    margin: 24px 0 16px 0;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
-
-/* Unique colors for each case */
-[data-case="basic"] { background: #ff9999; }      /* Light Red */
-[data-case="standard"] { background: #99ccff; }   /* Light Blue */
-[data-case="rare"] { background: #ccff99; }       /* Light Green */
-[data-case="epic"] { background: #ffcc99; }       /* Light Orange */
-[data-case="legendary"] { background: #cc99ff; }  /* Light Purple */
-[data-case="mythic"] { background: #ff99cc; }     /* Light Pink */
-
-.action-buttons {
+.case-list {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 18px;
     justify-content: center;
-    margin-top: 10px;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
+    margin-bottom: 24px;
 }
-
-.action-buttons button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.action-buttons .open-btn {
-    background: #32cd32; /* Green for Open */
-    color: white;
-}
-
-.action-buttons .demo-btn {
-    background: #ff4500; /* Orange for Demo */
-    color: white;
-}
-
-.nav-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #4682b4; /* Soft blue nav */
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.nav-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 14px;
+.case-card {
+    width: 140px;
+    height: 180px;
+    background: linear-gradient(135deg, #232b3a 60%, #2c232a 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0003;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+}
+.case-card:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 8px 32px #0005;
+}
+.case-sticker img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    background: #2226;
+}
+.case-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffe7a0;
+    text-align: center;
+    letter-spacing: 0.03em;
+    margin-top: 4px;
+}
+/* Индивидуальные цвета кейсов */
+.case-basic { background: linear-gradient(135deg, #232b3a 60%, #2c232a 100%); }
+.case-standard { background: linear-gradient(135deg, #2a233a 60%, #2a2c23 100%); }
+.case-rare { background: linear-gradient(135deg, #2a233a 60%, #3a232a 100%); }
+.case-epic { background: linear-gradient(135deg, #232a3a 60%, #232a3a 100%); }
+.case-legendary { background: linear-gradient(135deg, #3a2a23 60%, #232a3a 100%); }
+.case-mythic { background: linear-gradient(135deg, #2a3a23 60%, #3a2a3a 100%); }
+
+.bottom-nav {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 64px;
+    background: #232b3a;
+    box-shadow: 0 -2px 16px #0002;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    border-radius: 18px 18px 0 0;
+}
+.nav-btn {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    padding: 0 8px;
+    transition: color 0.15s;
+}
+.nav-btn.active, .nav-btn:focus {
+    color: #7ecbff;
+}
+.nav-icon svg {
+    display: block;
+    margin: 0 auto 2px auto;
+    filter: drop-shadow(0 0 2px #fff8);
 }
 
-.section {
-    margin-bottom: 60px;
+/* Кнопки */
+.btn {
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    margin: 8px 12px;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px #0002;
+}
+.btn-red {
+    background: #ff4d4f;
+    color: #fff;
+}
+.btn-red:hover {
+    background: #d9363e;
+}
+.btn-blue {
+    background: #3a8fff;
+    color: #fff;
+}
+.btn-blue:hover {
+    background: #2563c9;
 }
 
-@keyframes rotate {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(180px); }
+/* Страница кейса */
+#page-case {
+    align-items: center;
+    justify-content: flex-start;
 }
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+#case-title {
+    margin-top: 32px;
+    margin-bottom: 18px;
+    font-size: 1.4rem;
+    color: #ffe7a0;
 }
-
-/* Стили для NFT подарков в инвентаре */
-.inventory-item {
+.case-roulette {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 18px auto;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    background: #fff2;
-    border-radius: 8px;
-    padding: 6px 12px;
-    box-shadow: 0 2px 8px #0001;
+    justify-content: center;
+    background: #232b3a;
+    border-radius: 50%;
+    box-shadow: 0 2px 16px #0003;
+    position: relative;
+}
+#case-roulette-sticker {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.case-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 24px;
 }
 
+/* Инвентарь */
+#inventory-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 24px;
+}
+.inventory-item {
+    background: #232b3a;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0002;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+    min-height: 120px;
+}
 .inventory-nft-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #2226;
+}
+
+/* Апгрейды */
+#page-upgrades {
+    align-items: center;
+}
+.upgrade-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: conic-gradient(#3aef7c 0 65%, #ff4d4f 0 100%);
+    margin: 0 auto 18px auto;
+    box-shadow: 0 2px 16px #0003;
+}
+.upgrade-section {
+    background: #232b3a;
+    border-radius: 12px;
+    margin: 12px 0;
+    padding: 12px 18px;
+    width: 90%;
+    max-width: 400px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+/* Профиль */
+#page-profile {
+    align-items: center;
+}
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #232b3a;
+    border-radius: 16px;
+    padding: 18px 24px;
+    margin: 0 auto 18px auto;
+    box-shadow: 0 2px 8px #0002;
+    max-width: 340px;
+}
+.profile-avatar img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #2226;
+}
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.profile-nft-list {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.profile-nft img {
     width: 48px;
     height: 48px;
-    object-fit: contain;
-    border-radius: 6px;
-    background: #fff;
-    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #2226;
+}
+.profile-ref {
+    color: #ffe7a0;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* Пустые состояния */
+#inventory-list:empty::before {
+    content: 'Инвентарь пуст';
+    color: #fff8;
+    font-size: 1.2rem;
+    display: block;
+    text-align: center;
+    margin-top: 48px;
+}
+#upgrade-current:empty::before {
+    content: 'Инвентарь пуст';
+    color: #fff8;
+    font-size: 1.1rem;
+    display: block;
+    text-align: center;
+    margin: 18px 0;
 }

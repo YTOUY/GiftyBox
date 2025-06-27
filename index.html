@@ -5,38 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GiftyBox</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div id="loading-screen">
-        <canvas id="star-canvas"></canvas>
-        <h1>GiftyBox - получи подарки</h1>
-    </div>
-
-    <div id="main-content" class="hidden">
-        <div id="case-grid" class="case-grid"></div>
-        <div class="nav-bar">
-            <button class="nav-btn" data-section="profile">👤 Профиль</button>
-            <button class="nav-btn" data-section="upgrade">📈 Апгрейд</button>
-            <button class="nav-btn" data-section="inventory">🎁 Подарки</button>
+    <div id="app">
+        <!-- Главная -->
+        <div id="page-home" class="page active">
+            <h2 class="page-title">Кейсы</h2>
+            <div class="case-list">
+                <div class="case-card case-basic" onclick="openCasePage('basic')">
+                    <div class="case-sticker"><img src="assets/nft/basic-heart.gif" alt="Basic Case"></div>
+                    <div class="case-name">Basic</div>
+                </div>
+                <div class="case-card case-standard" onclick="openCasePage('standard')">
+                    <div class="case-sticker"><img src="assets/nft/standard-rocket.gif" alt="Standard Case"></div>
+                    <div class="case-name">Standard</div>
+                </div>
+                <div class="case-card case-rare" onclick="openCasePage('rare')">
+                    <div class="case-sticker"><img src="assets/nft/rare-trophy.gif" alt="Rare Case"></div>
+                    <div class="case-name">Rare</div>
+                </div>
+                <div class="case-card case-epic" onclick="openCasePage('epic')">
+                    <div class="case-sticker"><img src="assets/nft/epic-light-sword.gif" alt="Epic Case"></div>
+                    <div class="case-name">Epic</div>
+                </div>
+                <div class="case-card case-legendary" onclick="openCasePage('legendary')">
+                    <div class="case-sticker"><img src="assets/nft/legendary-neko-helmet.gif" alt="Legendary Case"></div>
+                    <div class="case-name">Legendary</div>
+                </div>
+                <div class="case-card case-mythic" onclick="openCasePage('mythic')">
+                    <div class="case-sticker"><img src="assets/nft/mythic-durov-cap.gif" alt="Mythic Case"></div>
+                    <div class="case-name">Mythic</div>
+                </div>
+            </div>
         </div>
-
-        <div id="profile-section" class="section active">
-            <h2>Профиль</h2>
-            <p>Баланс: <span id="gcoins">1000</span> G-Coins</p>
-            <p>Реферальная ссылка: <a id="referral-link" href="#">Пригласить</a></p>
+        <!-- Страница кейса -->
+        <div id="page-case" class="page">
+            <h2 id="case-title" class="page-title"></h2>
+            <div class="case-roulette">
+                <img id="case-roulette-sticker" src="" alt="Case Sticker">
+            </div>
+            <div class="case-buttons">
+                <button class="btn btn-red" onclick="openCase()">Открыть</button>
+                <button class="btn btn-blue" onclick="demoCase()">Демо режим</button>
+            </div>
         </div>
-        <div id="upgrade-section" class="section">
-            <h2>Апгрейд</h2>
-            <select id="current-nft"></select>
-            <select id="target-nft"></select>
-            <button onclick="upgradeNFT()">Прокрутить</button>
-        </div>
-        <div id="inventory-section" class="section">
-            <h2>Мои подарки</h2>
+        <!-- Инвентарь -->
+        <div id="page-inventory" class="page">
+            <h2 class="page-title">Мои подарки</h2>
             <div id="inventory-list"></div>
         </div>
+        <!-- Апгрейды -->
+        <div id="page-upgrades" class="page">
+            <h2 class="page-title">Апгрейды</h2>
+            <div class="upgrade-circle"></div>
+            <div class="upgrade-section">
+                <div>Подарок для апгрейда</div>
+                <div id="upgrade-current"></div>
+            </div>
+            <div class="upgrade-section">
+                <div>Возможные апгрейды</div>
+                <div id="upgrade-options"></div>
+            </div>
+        </div>
+        <!-- Профиль -->
+        <div id="page-profile" class="page">
+            <h2 class="page-title">Профиль</h2>
+            <div class="profile-card">
+                <div class="profile-avatar"><img src="assets/nft/legendary-neko-helmet.gif" alt="Avatar"></div>
+                <div class="profile-info">
+                    <div id="profile-username">@username</div>
+                    <div id="profile-balance">Баланс: <span>1000</span> G-Coins</div>
+                </div>
+            </div>
+            <div class="profile-nft-list">
+                <div class="profile-nft"><img src="assets/nft/mythic-durov-cap.gif" alt="NFT"></div>
+                <div class="profile-nft"><img src="assets/nft/epic-light-sword.gif" alt="NFT"></div>
+            </div>
+            <div class="profile-ref">Реферальная система: 5%</div>
+        </div>
+        <!-- Нижнее меню -->
+        <nav class="bottom-nav">
+            <button class="nav-btn" data-page="home" onclick="showPage('home')">
+                <span class="nav-icon"> <!-- Домик -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="10" width="16" height="10" fill="white"/>
+                        <polygon points="12,3 2,12 22,12" fill="white"/>
+                    </svg>
+                </span>
+                <span>Главная</span>
+            </button>
+            <button class="nav-btn" data-page="inventory" onclick="showPage('inventory')">
+                <span class="nav-icon"> <!-- Подарок -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="8" width="16" height="12" fill="white"/>
+                        <rect x="8" y="4" width="8" height="4" fill="white"/>
+                    </svg>
+                </span>
+                <span>Инвентарь</span>
+            </button>
+            <button class="nav-btn" data-page="upgrades" onclick="showPage('upgrades')">
+                <span class="nav-icon"> <!-- Стрелка вверх -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="12,4 4,20 20,20" fill="white"/>
+                    </svg>
+                </span>
+                <span>Апгрейды</span>
+            </button>
+            <button class="nav-btn" data-page="profile" onclick="showPage('profile')">
+                <span class="nav-icon"> <!-- Человек -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" fill="white"/>
+                        <rect x="6" y="14" width="12" height="6" fill="white"/>
+                    </svg>
+                </span>
+                <span>Профиль</span>
+            </button>
+        </nav>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
