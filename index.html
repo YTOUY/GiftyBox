@@ -45,22 +45,17 @@
         <!-- Страница кейса -->
         <div id="page-case" class="page">
             <h2 id="case-title" class="page-title"></h2>
-            <div class="case-roulette-block" style="margin:0 auto;max-width:340px;background:#232b3a;border-radius:24px;padding:32px 0 24px 0;position:relative;box-shadow:0 2px 16px #0003;display:flex;flex-direction:column;align-items:center;">
+            <div class="case-roulette-block" style="margin:0 auto;width:65vw;max-width:420px;background:#232b3a;border-radius:24px;padding:32px 0 24px 0;position:relative;box-shadow:0 2px 16px #0003;display:flex;flex-direction:column;align-items:center;">
                 <!-- Треугольный указатель -->
-                <svg width="32" height="24" viewBox="0 0 32 24" style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);z-index:2;" xmlns="http://www.w3.org/2000/svg"><polygon points="16,0 32,24 0,24" fill="red"/></svg>
-                <!-- Список NFT (анимируемый) -->
-                <div id="case-nft-list" style="display:flex;gap:18px;justify-content:center;align-items:center;min-height:80px;margin-bottom:16px;">
-                    <!-- NFT будут добавляться скриптом -->
-                </div>
-                <!-- Название кейса -->
-                <div id="case-name" style="font-size:1.2rem;font-weight:600;color:#ffe7a0;margin-bottom:8px;text-align:center;"></div>
-                <!-- Цена кейса -->
-                <div id="case-price" style="font-size:2rem;font-weight:700;color:#7ecbff;text-align:center;"></div>
+                <div class="pointer"></div>
+                <!-- Слоты NFT -->
+                <div id="nft-slots-container" style="position:relative;width:100%;height:130px;overflow:hidden;margin-top:12px;"></div>
             </div>
             <div class="case-buttons">
                 <button class="btn btn-red" onclick="openCase()">Открыть</button>
                 <button class="btn btn-blue" onclick="demoCase()">Демо режим</button>
             </div>
+            <div id="case-content-list" style="margin-top:32px;"></div>
         </div>
         <!-- Инвентарь -->
         <div id="page-inventory" class="page">

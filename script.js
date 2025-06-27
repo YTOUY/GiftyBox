@@ -286,51 +286,74 @@ let currentCase = null;
 
 window.openCasePage = function(caseKey) {
     currentCase = caseKey;
+    document.getElementById('case-title').textContent = cases[caseKey].name;
     window.showPage('case');
-    // Заполняем название и цену
-    document.getElementById('case-name').textContent = cases[caseKey].name;
-    document.getElementById('case-price').textContent = cases[caseKey].cost + ' G-Coins';
-    // Заполняем NFT
-    const nftList = document.getElementById('case-nft-list');
-    nftList.innerHTML = '';
-    cases[caseKey].nfts.forEach(nft => {
+    // Генерируем слоты
+    const slotsContainer = document.getElementById('nft-slots-container');
+    slotsContainer.innerHTML = '';
+    const nfts = cases[caseKey].nfts;
+    const slotWidth = 100;
+    const gap = 24;
+    // Дублируем массив для плавной анимации
+    const extendedNfts = [...nfts, ...nfts, ...nfts];
+    extendedNfts.forEach((nft, i) => {
+        const slot = document.createElement('div');
+        slot.className = 'nft-slot';
+        slot.style.left = (i * (slotWidth + gap)) + 'px';
         const img = document.createElement('img');
         img.src = `assets/nft/${caseKey}-${nft}.png`;
         img.alt = nft;
-        img.className = 'case-nft-img';
-        img.style.width = '64px';
-        img.style.height = '64px';
-        img.style.borderRadius = '12px';
-        nftList.appendChild(img);
+        img.className = 'nft-img';
+        const name = document.createElement('div');
+        name.className = 'nft-name';
+        name.textContent = nft;
+        slot.appendChild(img);
+        slot.appendChild(name);
+        slotsContainer.appendChild(slot);
     });
+    // Показываем содержимое кейса и шансы
+    const contentList = document.getElementById('case-content-list');
+    contentList.innerHTML = '<table class="case-content-table"><tr><th>NFT</th><th>Шанс</th></tr>' +
+        nfts.map((nft, i) => `<tr><td>${nft}</td><td>${(cases[caseKey].probabilities[i]*100).toFixed(1)}%</td></tr>`).join('') + '</table>';
 };
 
-// Анимация рулетки
+// Анимация вращения
 function animateRoulette(caseKey, callback) {
     const nfts = cases[caseKey].nfts;
-    const nftList = document.getElementById('case-nft-list');
-    let current = 0;
-    let totalSpins = Math.floor(Math.random() * 10) + 15; // случайное число оборотов
-    let interval = 80;
-    let resultIndex = getRandomIndexByProbability(cases[caseKey].probabilities);
+    const slotsContainer = document.getElementById('nft-slots-container');
+    const slotWidth = 100;
+    const gap = 24;
+    const total = nfts.length * 3;
+    let resultIndex = getRandomIndexByProbability(cases[caseKey].probabilities) + nfts.length; // центральная копия
+    let targetLeft = (slotsContainer.offsetWidth/2 - slotWidth/2) - resultIndex * (slotWidth + gap);
+    let currentLeft = 0;
+    let spins = Math.floor(Math.random()*10)+15;
+    let speed = 32;
     function spin() {
-        nftList.childNodes.forEach((img, idx) => {
-            img.style.opacity = (idx === current) ? '1' : '0.4';
-            img.style.transform = (idx === current) ? 'scale(1.2)' : 'scale(1)';
+        currentLeft -= speed;
+        Array.from(slotsContainer.children).forEach((slot, i) => {
+            slot.style.transform = `translateX(${currentLeft + i*(slotWidth+gap)}px)`;
         });
-        if (totalSpins > 0) {
-            current = (current + 1) % nfts.length;
-            totalSpins--;
-            setTimeout(spin, interval);
-            if (totalSpins < 7) interval += 25; // замедление
+        if (spins > 0) {
+            spins--;
+            setTimeout(spin, 16);
+            if (spins < 7) speed -= 2;
         } else {
-            // Останавливаемся на resultIndex
-            current = resultIndex;
-            nftList.childNodes.forEach((img, idx) => {
-                img.style.opacity = (idx === current) ? '1' : '0.4';
-                img.style.transform = (idx === current) ? 'scale(1.2)' : 'scale(1)';
-            });
-            if (callback) callback(nfts[current]);
+            // Плавная остановка
+            let step = (targetLeft - currentLeft)/8;
+            if (Math.abs(step) > 1) {
+                currentLeft += step;
+                Array.from(slotsContainer.children).forEach((slot, i) => {
+                    slot.style.transform = `translateX(${currentLeft + i*(slotWidth+gap)}px)`;
+                });
+                requestAnimationFrame(spin);
+            } else {
+                currentLeft = targetLeft;
+                Array.from(slotsContainer.children).forEach((slot, i) => {
+                    slot.style.transform = `translateX(${currentLeft + i*(slotWidth+gap)}px)`;
+                });
+                if (callback) callback(nfts[resultIndex % nfts.length]);
+            }
         }
     }
     spin();

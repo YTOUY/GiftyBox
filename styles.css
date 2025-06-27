@@ -332,3 +332,86 @@ body {
 #app.hidden {
     display: none;
 }
+
+/* --- Стили для анимированной рулетки --- */
+.case-roulette-block {
+  margin: 0 auto;
+  width: 65vw;
+  max-width: 420px;
+  background: #232b3a;
+  border-radius: 24px;
+  padding: 32px 0 24px 0;
+  position: relative;
+  box-shadow: 0 2px 16px #0003;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pointer {
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 28px solid #ff4040;
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+#nft-slots-container {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.nft-slot {
+  width: 100px;
+  height: 120px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(#00c4ff, #0066ff);
+  box-shadow: 0 0 10px #00c4ff;
+  transition: transform 0.2s;
+}
+.nft-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.nft-name {
+  margin-top: 4px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+#case-content-list {
+  margin-top: 32px;
+  background: #232b3a;
+  border-radius: 16px;
+  padding: 18px 12px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.case-content-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.case-content-table th, .case-content-table td {
+  padding: 8px 6px;
+  color: #fff;
+  text-align: left;
+}
+.case-content-table th {
+  color: #7ecbff;
+  font-size: 1.1rem;
+}
