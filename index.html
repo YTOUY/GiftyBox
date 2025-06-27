@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftyBox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <canvas id="star-canvas"></canvas>
+        <h1>GiftyBox - получи подарки</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+        <!-- Case Display -->
+        <div id="case-container">
+            <div class="case">
+                <div class="nft-slot" data-nft="heart"></div>
+                <div class="nft-slot" data-nft="teddybear"></div>
+                <div class="nft-slot" data-nft="rose"></div>
+                <div class="pointer"></div>
+            </div>
+            <button onclick="openCase()">Открыть за 100 G-Coins</button>
+            <button onclick="demoCase()">Демо-режим</button>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <button class="nav-btn" data-section="home">
+                <span class="icon">🏠</span>
+                <span>Главная</span>
+            </button>
+            <button class="nav-btn" data-section="inventory">
+                <span class="icon">🎁</span>
+                <span>Инвентарь</span>
+            </button>
+            <button class="nav-btn" data-section="upgrade">
+                <span class="icon">📈</span>
+                <span>Апгрейды</span>
+            </button>
+            <button class="nav-btn" data-section="profile">
+                <span class="icon">👤</span>
+                <span>Профиль</span>
+            </button>
+        </div>
+
+        <!-- Sections -->
+        <div id="home-section" class="section active">
+            <h2>Кейсы</h2>
+            <!-- Cases will be dynamically populated -->
+        </div>
+        <div id="inventory-section" class="section">
+            <h2>Мои подарки</h2>
+            <div id="inventory-list"></div>
+        </div>
+        <div id="upgrade-section" class="section">
+            <h2>Апгрейды</h2>
+            <select id="current-nft"></select>
+            <select id="target-nft"></select>
+            <button onclick="upgradeNFT()">Прокрутить</button>
+        </div>
+        <div id="profile-section" class="section">
+            <h2>Профиль</h2>
+            <p>Баланс: <span id="gcoins">0</span> G-Coins</p>
+            <p>Реферальная ссылка: <a id="referral-link" href="#">Пригласить</a></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

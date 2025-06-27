@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    overflow-x: hidden;
+}
+
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #4a90e2, #7b8fa1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#loading-screen h1 {
+    color: white;
+    font-size: 2em;
+    text-align: center;
+    animation: fadeIn 2s;
+}
+
+#star-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#main-content {
+    padding: 20px;
+    display: none;
+}
+
+.hidden { display: none; }
+.active { display: block; }
+
+.case {
+    width: 400px;
+    height: 200px;
+    background: #4a4a4a;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+}
+
+.nft-slot {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50px;
+    background: linear-gradient(#00c4ff, #0066ff);
+    box-shadow: 0 0 10px #00c4ff;
+    animation: rotate 3s infinite linear;
+}
+
+.nft-slot:nth-child(1) { left: 50px; }
+.nft-slot:nth-child(2) { left: 150px; }
+.nft-slot:nth-child(3) { left: 250px; }
+
+.pointer {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 20px solid #ff4040;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: left 1s ease;
+}
+
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #2c3e50;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nav-btn .icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.section {
+    margin-bottom: 60px;
+}
+
+@keyframes rotate {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(300px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
