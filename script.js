@@ -52,7 +52,7 @@ function startApp() {
         loadingScreen.style.display = 'none';
         mainContent.style.display = 'block';
         gcoinsDisplay.textContent = gcoins;
-        referralLink.href = `https://t.me/share?url=https://your-site-name.netlify.app&text=Присоединяйся к GiftyBox!`;
+        referralLink.href = `https://t.me/share?url=https://GiftyBox.netlify.app&text=Присоединяйся к GiftyBox!`;
         populateCases();
     }, 3000);
 }
@@ -82,10 +82,10 @@ function populateCases() {
         `;
         const openBtn = document.createElement('button');
         openBtn.textContent = `Открыть за ${cases[caseName].cost} G-Coins`;
-        openBtn.onclick = () => openCase(caseName);
+        openBtn.onclick = () => openCase(caseName); // Ensure caseName is captured
         const demoBtn = document.createElement('button');
         demoBtn.textContent = 'Демо-режим';
-        demoBtn.onclick = () => demoCase(caseName);
+        demoBtn.onclick = () => demoCase(caseName); // Ensure caseName is captured
         caseDiv.appendChild(openBtn);
         caseDiv.appendChild(demoBtn);
         container.appendChild(caseDiv);
@@ -93,7 +93,13 @@ function populateCases() {
 }
 
 async function openCase(caseName) {
-    if (gcoins < cases[caseName].cost) {
+    const caseData = cases[caseName];
+    if (!caseData) {
+        console.error(`Case '${caseName}' not found in cases object`);
+        alert('Ошибка: кейс не найден!');
+        return;
+    }
+    if (gcoins < caseData.cost) {
         alert('Недостаточно G-Coins!');
         return;
     }
@@ -109,16 +115,29 @@ async function openCase(caseName) {
         gcoinsDisplay.textContent = gcoins;
         updatePointer(caseName, data.nft);
         updateInventory();
+    } else {
+        console.error('API error:', data);
+        alert('Ошибка при открытии кейса!');
     }
 }
 
 function demoCase(caseName) {
+    const caseData = cases[caseName];
+    if (!caseData) {
+        console.error(`Case '${caseName}' not found in cases object`);
+        alert('Ошибка: кейс не найден!');
+        return;
+    }
     const nft = getRandomNFT(caseName);
     updatePointer(caseName, nft);
 }
 
 function getRandomNFT(caseName) {
     const caseData = cases[caseName];
+    if (!caseData || !caseData.nfts) {
+        console.error(`Invalid case data for '${caseName}':`, caseData);
+        return null;
+    }
     const rand = Math.random();
     let cumulative = 0;
     for (let i = 0; i < caseData.nfts.length; i++) {
@@ -155,16 +174,16 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     });
 });
 
-// Upgrade Logic (Placeholder)
+// Upgrade Logic
 function upgradeNFT() {
     const currentNFT = document.getElementById('current-nft').value;
     const targetNFT = document.getElementById('target-nft').value;
-    const cost = 250; // Example cost
+    const cost = 250;
     if (gcoins < cost) {
         alert('Недостаточно G-Coins для апгрейда!');
         return;
     }
-    if (Math.random() < 0.65) { // 65% chance
+    if (Math.random() < 0.65) {
         const index = inventory.indexOf(currentNFT);
         if (index > -1) inventory[index] = targetNFT;
         gcoins -= cost;
