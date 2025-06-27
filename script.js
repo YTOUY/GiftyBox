@@ -83,12 +83,12 @@ function showCaseDetails(caseName) {
     const caseDiv = document.querySelector(`[data-case="${caseName}"]`);
     if (caseDiv.classList.contains('active')) return;
 
-    caseGrid.querySelectorAll('.case').forCaseEach(c => c.classList.remove('active'));
+    caseGrid.querySelectorAll('.case').forEach(c => c.classList.remove('active'));
     caseDiv.classList.add('active');
     caseDiv.innerHTML = `
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[0]}"></div>
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[1]}"></div>
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[2]}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[0]}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[0]}.png" alt="${cases[caseName].nfts[0]}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[1]}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[1]}.png" alt="${cases[caseName].nfts[1]}"></div>
+        <div class="nft-slot" data-nft="${cases[caseName].nfts[2]}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[2]}.png" alt="${cases[caseName].nfts[2]}"></div>
         <div class="pointer"></div>
         <div class="action-buttons">
             <button class="open-btn" onclick="openCase('${caseName}')">Открыть</button>
@@ -150,7 +150,18 @@ function updatePointer(caseName, nft) {
 }
 
 function updateInventory() {
-    inventoryList.innerHTML = inventory.map(nft => `<div>${nft}</div>`).join('');
+    inventoryList.innerHTML = inventory.map(nft => {
+        // Определяем кейс по названию nft
+        let caseName = '';
+        for (const [key, value] of Object.entries(cases)) {
+            if (value.nfts.includes(nft)) {
+                caseName = key;
+                break;
+            }
+        }
+        const imgSrc = `assets/nft/${caseName}-${nft}.png`;
+        return `<div class="inventory-item"><img src="${imgSrc}" alt="${nft}" class="inventory-nft-img"><span>${nft}</span></div>`;
+    }).join('');
 }
 
 document.querySelectorAll('.nav-btn').forEach(btn => {

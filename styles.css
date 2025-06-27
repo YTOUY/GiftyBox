@@ -51,13 +51,13 @@ body {
 .case {
     width: 180px;
     height: 180px;
-    background: #87ceeb; /* Soft blue case */
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: transform 0.3s;
+    position: relative;
 }
 
 .case:hover {
@@ -65,7 +65,6 @@ body {
 }
 
 .case.active {
-    position: relative;
     overflow: hidden;
     background: #4a90e2;
 }
@@ -74,11 +73,16 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 10px;
-    background: linear-gradient(#00c4ff, #0066ff);
     position: absolute;
     top: 60px;
-    box-shadow: 0 0 10px #00c4ff;
     animation: rotate 3s infinite linear;
+}
+
+.case.active .nft-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
 }
 
 .case.active .nft-slot:nth-child(1) { left: 30px; }
@@ -102,13 +106,27 @@ body {
     color: white;
     font-weight: bold;
     text-align: center;
+    pointer-events: none; /* Prevent interaction with text */
 }
+
+/* Unique colors for each case */
+[data-case="basic"] { background: #ff9999; }      /* Light Red */
+[data-case="standard"] { background: #99ccff; }   /* Light Blue */
+[data-case="rare"] { background: #ccff99; }       /* Light Green */
+[data-case="epic"] { background: #ffcc99; }       /* Light Orange */
+[data-case="legendary"] { background: #cc99ff; }  /* Light Purple */
+[data-case="mythic"] { background: #ff99cc; }     /* Light Pink */
 
 .action-buttons {
     display: flex;
     gap: 10px;
     justify-content: center;
     margin-top: 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
 }
 
 .action-buttons button {
@@ -164,4 +182,25 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* Стили для NFT подарков в инвентаре */
+.inventory-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    background: #fff2;
+    border-radius: 8px;
+    padding: 6px 12px;
+    box-shadow: 0 2px 8px #0001;
+}
+
+.inventory-nft-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #eee;
 }
