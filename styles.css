@@ -211,8 +211,9 @@ body {
     margin-top: 20px;
     display: flex;
     align-items: center;
-    padding: 0 60px;
+    padding: 0 80px;
     will-change: transform;
+    min-width: 4000px;
 }
 
 /* Слоты NFT */

@@ -66,15 +66,19 @@ const cases = {
         cost: 100,
         nfts: [
             { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
+            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
+            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
+            { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
             { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
             { id: "rose", label: "Роза", rarity: "basic", stars: 25 },
             { id: "rocket", label: "Ракета", rarity: "basic", stars: 50 },
             { id: "trophy", label: "Кубок", rarity: "basic", stars: 100 },
             { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
             { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
+            { id: "gcoins-50", label: "50 GCoins", rarity: "special", gcoins: 50 },
             { id: "gcoins-50", label: "50 GCoins", rarity: "special", gcoins: 50 }
         ],
-        probabilities: [0.18, 0.18, 0.15, 0.13, 0.10, 0.10, 0.10, 0.06]
+        probabilities: [0.15, 0.15, 0.15, 0.12, 0.12, 0.10, 0.08, 0.06, 0.05, 0.04, 0.04, 0.04]
     },
     standard: {
         name: "Standard Case",
@@ -83,13 +87,17 @@ const cases = {
             { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
             { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
             { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
+            { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
             { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
+            { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
+            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
             { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
             { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
             { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
+            { id: "gcoins-200", label: "200 GCoins", rarity: "special", gcoins: 200 },
             { id: "gcoins-200", label: "200 GCoins", rarity: "special", gcoins: 200 }
         ],
-        probabilities: [0.15, 0.15, 0.13, 0.13, 0.13, 0.12, 0.12, 0.07]
+        probabilities: [0.12, 0.12, 0.10, 0.10, 0.10, 0.10, 0.09, 0.09, 0.08, 0.05, 0.03, 0.03]
     },
     rare: {
         name: "Rare Case",
@@ -99,27 +107,35 @@ const cases = {
             { id: "rocket", label: "Ракета", rarity: "basic", stars: 50 },
             { id: "trophy", label: "Кубок", rarity: "basic", stars: 100 },
             { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
+            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
+            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
             { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
             { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
+            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
+            { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
             { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
             { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 }
         ],
-        probabilities: [0.15, 0.14, 0.13, 0.13, 0.13, 0.12, 0.10, 0.10]
+        probabilities: [0.10, 0.10, 0.08, 0.09, 0.09, 0.09, 0.09, 0.08, 0.08, 0.07, 0.07, 0.06]
     },
     epic: {
         name: "Epic Case",
         cost: 1000,
         nfts: [
-            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
             { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
             { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
             { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
             { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
+            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
+            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
             { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
             { id: "eternal-candle", label: "Eternal Candle", rarity: "epic", stars: 180 },
-            { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 }
+            { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 },
+            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
+            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
+            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 }
         ],
-        probabilities: [0.15, 0.14, 0.13, 0.13, 0.12, 0.12, 0.11, 0.10]
+        probabilities: [0.08, 0.08, 0.08, 0.08, 0.08, 0.10, 0.10, 0.09, 0.09, 0.08, 0.08, 0.06]
     },
     legendary: {
         name: "Legendary Case",
@@ -130,26 +146,34 @@ const cases = {
             { id: "eternal-candle", label: "Eternal Candle", rarity: "epic", stars: 180 },
             { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 },
             { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
+            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
+            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
             { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
             { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
+            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
+            { id: "gcoins-2500", label: "2500 GCoins", rarity: "special", gcoins: 2500 },
             { id: "gcoins-2500", label: "2500 GCoins", rarity: "special", gcoins: 2500 }
         ],
-        probabilities: [0.14, 0.13, 0.13, 0.13, 0.12, 0.12, 0.10, 0.13]
+        probabilities: [0.08, 0.08, 0.08, 0.08, 0.10, 0.10, 0.10, 0.10, 0.09, 0.09, 0.05, 0.05]
     },
     mythic: {
         name: "Mythic Case",
         cost: 5000,
         nfts: [
             { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
+            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
             { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
             { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
+            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
             { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
             { id: "diamond-ring", label: "Diamond Ring", rarity: "mythic", stars: 500 },
             { id: "neko-helmet", label: "Neko Helmet", rarity: "mythic", stars: 600 },
             { id: "durov-cap", label: "Durov's Cap", rarity: "mythic", stars: 1000 },
+            { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 },
+            { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 },
             { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 }
         ],
-        probabilities: [0.18, 0.15, 0.15, 0.13, 0.01, 0.01, 0.01, 0.36]
+        probabilities: [0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.01, 0.01, 0.01, 0.12, 0.12, 0.12]
     }
 };
 
@@ -180,16 +204,28 @@ function createRouletteSlots(caseName) {
     console.log('NFT в кейсе:', nfts);
     
     // Создаем больше слотов для плавного вращения
-    const totalSlots = 20;
+    const totalSlots = 30;
     
+    // Создаем массив для случайного порядка
+    const shuffledNfts = [];
     for (let i = 0; i < totalSlots; i++) {
         const nftIndex = i % nfts.length;
-        const nft = nfts[nftIndex];
+        shuffledNfts.push(nfts[nftIndex]);
+    }
+    
+    // Перемешиваем массив для случайного порядка
+    for (let i = shuffledNfts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledNfts[i], shuffledNfts[j]] = [shuffledNfts[j], shuffledNfts[i]];
+    }
+    
+    for (let i = 0; i < totalSlots; i++) {
+        const nft = shuffledNfts[i];
         
         const slot = document.createElement('div');
         slot.className = 'nft-slot';
         slot.dataset.nftId = nft.id;
-        slot.dataset.nftIndex = nftIndex;
+        slot.dataset.nftIndex = i;
         
         const img = document.createElement('img');
         
@@ -238,7 +274,7 @@ function createRouletteSlots(caseName) {
         container.appendChild(slot);
     }
     
-    console.log(`Создано ${totalSlots} слотов для рулетки`);
+    console.log(`Создано ${totalSlots} слотов для рулетки в случайном порядке`);
     console.log('Контейнер слотов:', container);
 }
 
@@ -417,7 +453,6 @@ function spinRoulette(winningNFT) {
         console.log('Начинаем анимацию рулетки');
         console.log('Выигрышный NFT:', winningNFT);
         console.log('Количество слотов:', slots.length);
-        console.log('Контейнер:', container);
         
         // Находим индекс выигрышного NFT
         let winningIndex = -1;
@@ -445,11 +480,11 @@ function spinRoulette(winningNFT) {
         const containerWidth = container.offsetWidth;
         const centerPosition = containerWidth / 2 - slotWidth / 2;
         
-        // Вычисляем конечную позицию
+        // Вычисляем конечную позицию (центрируем выигрышный слот)
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         
-        // Добавляем несколько полных оборотов для эффекта
-        const totalDistance = -(slots.length * slotWidth) + finalPosition;
+        // Добавляем несколько полных оборотов для эффекта, но не слишком много
+        const totalDistance = -(slots.length * slotWidth * 2) + finalPosition;
         
         console.log('Параметры анимации:', {
             slotWidth,
@@ -459,7 +494,7 @@ function spinRoulette(winningNFT) {
             totalDistance
         });
         
-        // Запускаем анимацию
+        // Запускаем анимацию с меньшим расстоянием
         container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         container.style.transform = `translateX(${totalDistance}px)`;
         
