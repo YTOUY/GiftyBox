@@ -206,63 +206,55 @@ function openCasePage(caseName) {
 function createRouletteSlots(caseName) {
     const container = document.getElementById('nft-slots-container');
     if (!container) return;
-    
     container.innerHTML = '';
-    
     const caseData = cases[caseName];
     if (!caseData) return;
-    
-    console.log('Создаем слоты для кейса:', caseName);
-    console.log('NFT в кейсе:', caseData.nfts);
-    
     // Используем существующий массив NFT (они уже повторяются в данных)
-    const allNFTs = [...caseData.nfts];
-    
-    // Перемешиваем массив для случайного порядка
-    for (let i = allNFTs.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [allNFTs[i], allNFTs[j]] = [allNFTs[j], allNFTs[i]];
+    const baseNFTs = [...caseData.nfts];
+    // Дублируем массив 7 раз для бесконечной рулетки
+    const repeatCount = 7;
+    const allNFTs = [];
+    for (let r = 0; r < repeatCount; r++) {
+        for (let i = 0; i < baseNFTs.length; i++) {
+            allNFTs.push(baseNFTs[i]);
+        }
     }
-    
-    // Создаем больше слотов для бесконечной ленты
-    const totalSlots = 150; // Увеличиваем количество слотов для лучшего повторения
-    
-    for (let i = 0; i < totalSlots; i++) {
-        const nft = allNFTs[i % allNFTs.length];
+    // Перемешиваем только центральную копию для случайности
+    const centerStart = Math.floor(repeatCount / 2) * baseNFTs.length;
+    const centerNFTs = allNFTs.slice(centerStart, centerStart + baseNFTs.length);
+    for (let i = centerNFTs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [centerNFTs[i], centerNFTs[j]] = [centerNFTs[j], centerNFTs[i]];
+    }
+    for (let i = 0; i < baseNFTs.length; i++) {
+        allNFTs[centerStart + i] = centerNFTs[i];
+    }
+    // Рендерим слоты
+    for (let i = 0; i < allNFTs.length; i++) {
+        const nft = allNFTs[i];
         const slot = document.createElement('div');
         slot.className = 'nft-slot';
-        
-        // Создаем уникальный идентификатор для каждого NFT
         const uniqueId = `${nft.id}-${nft.label}-${nft.rarity}`;
         slot.dataset.nftId = uniqueId;
         slot.dataset.nftRarity = nft.rarity;
         slot.dataset.nftLabel = nft.label;
-        
         let imgSrc;
         if (nft.gcoins) {
             imgSrc = 'assets/nft/gcoins.gif';
         } else {
             imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
         }
-        
-        // Убираем слова редкости из названия
         let displayName = cleanNFTName(nft.label);
-        
-        console.log('Загружаем изображение:', imgSrc, 'для NFT:', displayName);
-        
         slot.innerHTML = `
-            <img src="${imgSrc}" alt="${displayName}" class="nft-slot-img" 
-                 onload="console.log('Успешно загружено изображение:', '${imgSrc}')"
-                 onerror="console.log('Не удалось загрузить изображение:', '${imgSrc}')">
+            <img src="${imgSrc}" alt="${displayName}" class="nft-slot-img">
             <div class="nft-slot-name">${displayName}</div>
             <div class="nft-slot-rarity ${nft.rarity}">${nft.rarity}</div>
         `;
-        
         container.appendChild(slot);
     }
-    
-    console.log(`Создано ${totalSlots} слотов для бесконечной ленты`);
-    console.log('Контейнер слотов:', container);
+    // Сохраняем параметры для анимации
+    container._repeatCount = repeatCount;
+    container._baseLength = baseNFTs.length;
 }
 
 // Функция открытия кейса
@@ -432,7 +424,7 @@ function showWinNotification(nft) {
 function spinRoulette(winningNFT) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
-        const viewport = container.parentElement; // .slots-viewport
+        const viewport = container.parentElement;
         if (!container || !viewport) {
             console.error('Контейнер слотов или viewport не найден!');
             resolve();
@@ -444,34 +436,42 @@ function spinRoulette(winningNFT) {
             resolve();
             return;
         }
-        // Уникальный id для поиска
+        // Индексы центральной копии
+        const repeatCount = container._repeatCount || 7;
+        const baseLength = container._baseLength || Math.floor(slots.length / repeatCount);
+        const centerStart = Math.floor(repeatCount / 2) * baseLength;
+        const centerEnd = centerStart + baseLength;
+        // Находим все слоты с выигрышным NFT только в центральной копии
         const winningUniqueId = `${winningNFT.id}-${winningNFT.label}-${winningNFT.rarity}`;
         const winningSlots = [];
-        slots.forEach((slot, index) => {
-            if (slot.dataset.nftId === winningUniqueId) {
-                winningSlots.push(index);
+        for (let i = centerStart; i < centerEnd; i++) {
+            if (slots[i].dataset.nftId === winningUniqueId) {
+                winningSlots.push(i);
             }
-        });
+        }
         const winningIndex = winningSlots[Math.floor(Math.random() * winningSlots.length)];
         // Сброс
         container.style.transition = 'none';
-        container.style.transform = 'translateX(0)';
-        container.offsetHeight;
-        // Центрируем выигрышный слот ровно по центру viewport (центральный из 3)
+        // Центрируем центральную копию
         const slotWidth = 136;
         const viewportWidth = viewport.offsetWidth;
-        const centerSlotIndex = Math.floor(viewportWidth / slotWidth / 2); // для 3 слотов = 1
         const centerPosition = (viewportWidth / 2) - (slotWidth / 2);
-        const finalPosition = centerPosition - (winningIndex * slotWidth);
-        // Добавляем обороты
-        const totalDistance = finalPosition - centerPosition - (slots.length * slotWidth * 2);
+        // Ставим контейнер так, чтобы первый слот центральной копии был на своём месте
+        const initialOffset = centerPosition - (centerStart * slotWidth);
+        container.style.transform = `translateX(${initialOffset}px)`;
+        container.offsetHeight;
+        // Анимируем к выигрышному слоту
+        const finalOffset = centerPosition - (winningIndex * slotWidth);
         container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        container.style.transform = `translateX(${totalDistance}px)`;
+        container.style.transform = `translateX(${finalOffset}px)`;
         setTimeout(() => {
             const centerSlot = slots[winningIndex];
             if (centerSlot) centerSlot.classList.add('winning');
+            // После анимации мгновенно возвращаем контейнер в центр (без анимации)
             setTimeout(() => {
                 if (centerSlot) centerSlot.classList.remove('winning');
+                container.style.transition = 'none';
+                container.style.transform = `translateX(${finalOffset}px)`;
                 resolve();
             }, 1000);
         }, 7500);
