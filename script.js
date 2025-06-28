@@ -209,9 +209,7 @@ function createRouletteSlots(caseName) {
     container.innerHTML = '';
     const caseData = cases[caseName];
     if (!caseData) return;
-    // Используем существующий массив NFT (они уже повторяются в данных)
     const baseNFTs = [...caseData.nfts];
-    // Дублируем массив 7 раз для бесконечной рулетки
     const repeatCount = 7;
     const allNFTs = [];
     for (let r = 0; r < repeatCount; r++) {
@@ -219,7 +217,6 @@ function createRouletteSlots(caseName) {
             allNFTs.push(baseNFTs[i]);
         }
     }
-    // Перемешиваем только центральную копию для случайности
     const centerStart = Math.floor(repeatCount / 2) * baseNFTs.length;
     const centerNFTs = allNFTs.slice(centerStart, centerStart + baseNFTs.length);
     for (let i = centerNFTs.length - 1; i > 0; i--) {
@@ -229,7 +226,6 @@ function createRouletteSlots(caseName) {
     for (let i = 0; i < baseNFTs.length; i++) {
         allNFTs[centerStart + i] = centerNFTs[i];
     }
-    // Рендерим слоты
     for (let i = 0; i < allNFTs.length; i++) {
         const nft = allNFTs[i];
         const slot = document.createElement('div');
@@ -238,6 +234,7 @@ function createRouletteSlots(caseName) {
         slot.dataset.nftId = uniqueId;
         slot.dataset.nftRarity = nft.rarity;
         slot.dataset.nftLabel = nft.label;
+        slot.dataset.nftRaw = JSON.stringify(nft);
         let imgSrc;
         if (nft.gcoins) {
             imgSrc = 'assets/nft/gcoins.gif';
@@ -252,20 +249,18 @@ function createRouletteSlots(caseName) {
         `;
         container.appendChild(slot);
     }
-    // Сохраняем параметры для анимации
     container._repeatCount = repeatCount;
     container._baseLength = baseNFTs.length;
 }
 
-// Получить NFT из DOM-слота (теперь возвращает объект прямо из data-атрибутов)
+// Получить NFT из DOM-слота (теперь возвращает исходный объект из data-nft-raw)
 function getNFTFromSlot(slot) {
     if (!slot) return null;
-    return {
-        id: slot.dataset.nftId.split('-')[0],
-        label: slot.dataset.nftLabel,
-        rarity: slot.dataset.nftRarity,
-        gcoins: slot.dataset.gcoins ? Number(slot.dataset.gcoins) : undefined
-    };
+    try {
+        return JSON.parse(slot.dataset.nftRaw);
+    } catch (e) {
+        return null;
+    }
 }
 
 // Плавная анимация рулетки (easeInOutCubic) и точное совпадение результата
@@ -415,26 +410,20 @@ function getRandomNFT(caseName) {
 // Обновление инвентаря
 function updateInventory() {
     inventoryList.innerHTML = '';
-    
     if (inventory.length === 0) {
         inventoryList.innerHTML = '<div class="empty-inventory">Инвентарь пуст</div>';
         return;
     }
-    
     inventory.forEach((nft, index) => {
         const item = document.createElement('div');
         item.className = 'inventory-item';
-        
         let imgSrc;
         if (nft.gcoins) {
             imgSrc = 'assets/nft/gcoins.gif';
         } else {
             imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
         }
-        
-        // Убираем слова редкости из названия
         let displayName = cleanNFTName(nft.label);
-        
         item.innerHTML = `
             <img src="${imgSrc}" alt="${displayName}" class="inventory-nft-img">
             <div class="inventory-nft-name">${displayName}</div>
@@ -485,17 +474,13 @@ function populateNFTSelects() {
 function showWinNotification(nft) {
     const notification = document.createElement('div');
     notification.className = 'win-notification';
-    
     let imgSrc;
     if (nft.gcoins) {
         imgSrc = 'assets/nft/gcoins.gif';
     } else {
         imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
     }
-    
-    // Убираем слова редкости из названия
     let displayName = cleanNFTName(nft.label);
-    
     notification.innerHTML = `
         <div class="win-content">
             <img src="${imgSrc}" alt="${displayName}">
@@ -503,9 +488,7 @@ function showWinNotification(nft) {
             <p>Вы получили: ${displayName}</p>
         </div>
     `;
-    
     document.body.appendChild(notification);
-    
     setTimeout(() => {
         notification.remove();
     }, 3000);
