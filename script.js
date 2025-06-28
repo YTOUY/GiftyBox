@@ -195,70 +195,58 @@ function openCasePage(caseName) {
 // Создание слотов для рулетки
 function createRouletteSlots(caseName) {
     const container = document.getElementById('nft-slots-container');
+    if (!container) return;
+    
     container.innerHTML = '';
     
     const caseData = cases[caseName];
-    const nfts = caseData.nfts;
+    if (!caseData) return;
     
-    console.log(`Создаем слоты для кейса: ${caseName}`);
-    console.log('NFT в кейсе:', nfts);
+    console.log('Создаем слоты для кейса:', caseName);
+    console.log('NFT в кейсе:', caseData.nfts);
     
-    // Создаем бесконечную ленту - повторяем NFT много раз
-    const totalSlots = 50; // Больше слотов для плавности
+    // Создаем массив всех NFT с учетом их количества
+    const allNFTs = [];
+    caseData.nfts.forEach(nft => {
+        for (let i = 0; i < nft.count; i++) {
+            allNFTs.push(nft);
+        }
+    });
+    
+    // Перемешиваем массив для случайного порядка
+    for (let i = allNFTs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allNFTs[i], allNFTs[j]] = [allNFTs[j], allNFTs[i]];
+    }
+    
+    // Создаем больше слотов для бесконечной ленты
+    const totalSlots = 100; // Увеличиваем количество слотов
+    const slotWidth = 136; // 120px + 16px margin
     
     for (let i = 0; i < totalSlots; i++) {
-        const nftIndex = i % nfts.length;
-        const nft = nfts[nftIndex];
-        
+        const nft = allNFTs[i % allNFTs.length];
         const slot = document.createElement('div');
         slot.className = 'nft-slot';
         slot.dataset.nftId = nft.id;
-        slot.dataset.nftIndex = i;
+        slot.dataset.nftRarity = nft.rarity;
         
-        const img = document.createElement('img');
-        
-        // Правильный путь к изображению
+        let imgSrc;
         if (nft.gcoins) {
-            // Для G-Coins используем специальную иконку
-            img.src = 'assets/nft/gcoins.gif';
+            imgSrc = 'assets/nft/gcoins.gif';
         } else {
-            // Для NFT используем формат {rarity}-{id}.gif
-            img.src = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+            imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
         }
         
-        console.log(`Загружаем изображение: ${img.src} для NFT: ${nft.label}`);
+        console.log('Загружаем изображение:', imgSrc, 'для NFT:', nft.label);
         
-        img.alt = nft.label;
+        slot.innerHTML = `
+            <img src="${imgSrc}" alt="${nft.label}" class="nft-slot-img" 
+                 onload="console.log('Успешно загружено изображение:', '${imgSrc}')"
+                 onerror="console.log('Не удалось загрузить изображение:', '${imgSrc}')">
+            <div class="nft-slot-name">${nft.label}</div>
+            <div class="nft-slot-rarity ${nft.rarity}">${nft.rarity}</div>
+        `;
         
-        // Обработка ошибки загрузки изображения
-        img.onerror = function() {
-            console.warn(`Не удалось загрузить изображение: ${img.src}`);
-            // Показываем fallback текст
-            this.style.display = 'none';
-            const fallback = document.createElement('div');
-            fallback.style.cssText = `
-                width: 80px;
-                height: 80px;
-                background: #ffe7a0;
-                color: #1a1f2a;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 8px;
-                font-weight: bold;
-                font-size: 0.8rem;
-                text-align: center;
-            `;
-            fallback.textContent = nft.gcoins ? `${nft.gcoins} GCoins` : nft.label;
-            slot.appendChild(fallback);
-        };
-        
-        // Обработка успешной загрузки
-        img.onload = function() {
-            console.log(`Успешно загружено изображение: ${img.src}`);
-        };
-        
-        slot.appendChild(img);
         container.appendChild(slot);
     }
     
@@ -463,8 +451,8 @@ function spinRoulette(winningNFT) {
         container.offsetHeight;
         
         // Вычисляем размеры
-        const slotWidth = 136; // 120px + 16px margin
-        const containerWidth = container.offsetWidth;
+        const slotWidth = 136; // 120px + 16px gap
+        const containerWidth = container.parentElement.offsetWidth;
         const centerPosition = containerWidth / 2 - slotWidth / 2;
         
         // Вычисляем конечную позицию (центрируем выигрышный слот)
@@ -472,7 +460,7 @@ function spinRoulette(winningNFT) {
         
         // Добавляем несколько полных оборотов для эффекта
         // Используем большее расстояние для более плавной анимации
-        const totalDistance = -(slots.length * slotWidth * 3) + finalPosition;
+        const totalDistance = -(slots.length * slotWidth * 2) + finalPosition;
         
         console.log('Параметры анимации:', {
             slotWidth,
@@ -529,11 +517,21 @@ function showPage(pageName) {
     });
     
     // Показываем нужную страницу
-    document.getElementById(`page-${pageName}`).classList.add('active');
+    const targetPage = document.getElementById(`page-${pageName}`);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
     
-    // Обновляем активную кнопку в навигации
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+    // Обновляем активную кнопку в навигации (если есть)
+    const navButtons = document.querySelectorAll('.nav-btn');
+    if (navButtons.length > 0) {
+        navButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        const activeButton = document.querySelector(`[data-page="${pageName}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    }
 }

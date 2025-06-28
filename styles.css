@@ -235,8 +235,9 @@ body {
     align-items: center;
     padding: 0 80px;
     will-change: transform;
-    min-width: 8000px;
+    min-width: 15000px;
     transform: translateX(0);
+    gap: 16px;
 }
 
 /* Слоты NFT */
@@ -246,28 +247,59 @@ body {
     height: 120px;
     background: #1a1f2a;
     border-radius: 16px;
-    margin: 0 8px;
+    margin: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px #0002;
     transition: transform 0.3s ease;
     position: relative;
     z-index: 1;
+    padding: 8px;
 }
 
-.nft-slot img {
+.nft-slot-img {
     width: 80px;
     height: 80px;
     object-fit: contain;
     border-radius: 8px;
     display: block;
     pointer-events: none;
+    margin-bottom: 4px;
 }
+
+.nft-slot-name {
+    font-size: 10px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2px;
+    font-weight: 500;
+    line-height: 1.2;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nft-slot-rarity {
+    font-size: 8px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.nft-slot-rarity.standard { background: #666; color: #fff; }
+.nft-slot-rarity.rare { background: #4a90e2; color: #fff; }
+.nft-slot-rarity.epic { background: #9b59b6; color: #fff; }
+.nft-slot-rarity.legendary { background: #f39c12; color: #fff; }
+.nft-slot-rarity.mythic { background: #e74c3c; color: #fff; }
 
 .nft-slot.winning {
     transform: scale(1.1);
     box-shadow: 0 0 20px #ffe7a0;
+    z-index: 10;
 }
 
 .case-buttons {
@@ -473,13 +505,12 @@ body {
 @media (max-width: 768px) {
     .case-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        padding: 0 16px;
+        gap: 12px;
+        padding: 12px;
     }
     
     .case-card {
-        min-height: 180px;
-        padding: 16px 12px;
+        min-height: 140px;
     }
     
     .case-gif img {
@@ -488,22 +519,37 @@ body {
     }
     
     .case-name {
-        font-size: 0.9rem;
+        font-size: 14px;
     }
     
     .case-roulette-container {
-        width: 90vw;
-        padding: 30px 0 20px 0;
+        padding: 0 20px;
     }
     
     .nft-slot {
         width: 100px;
         height: 100px;
+        padding: 6px;
     }
     
-    .nft-slot img {
+    .nft-slot-img {
         width: 60px;
         height: 60px;
+    }
+    
+    .nft-slot-name {
+        font-size: 8px;
+    }
+    
+    .nft-slot-rarity {
+        font-size: 6px;
+        padding: 1px 4px;
+    }
+    
+    #nft-slots-container {
+        min-width: 12000px;
+        padding: 0 40px;
+        gap: 12px;
     }
 }
 
