@@ -109,13 +109,41 @@
                     <div id="profile-balance">Баланс: <span>1000</span> G-Coins</div>
                 </div>
             </div>
-            <div class="profile-nft-list">
-                <div class="profile-nft"><img src="assets/nft/mythic-durov-cap.gif" alt="NFT"></div>
-                <div class="profile-nft"><img src="assets/nft/epic-light-sword.gif" alt="NFT"></div>
+            <div class="profile-nft-list" id="profile-nft-list">
+                <!-- NFT будут добавляться динамически -->
             </div>
             <div class="profile-ref">Реферальная система: 5%</div>
             <!-- Добавляю ссылку для приглашения -->
             <a id="referral-link" href="#" target="_blank">Пригласить друга</a>
+        </div>
+        
+        <!-- Детальный просмотр NFT -->
+        <div id="page-nft-detail" class="page">
+            <div class="nft-detail-header">
+                <button class="back-btn" onclick="goBack()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M12 19L5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <h2 id="nft-detail-title" class="page-title">NFT</h2>
+            </div>
+            <div class="nft-detail-content">
+                <div class="nft-detail-image">
+                    <img id="nft-detail-img" src="" alt="NFT">
+                </div>
+                <div class="nft-detail-info">
+                    <h3 id="nft-detail-name">Название NFT</h3>
+                    <div class="nft-detail-rarity" id="nft-detail-rarity">Редкость</div>
+                </div>
+                <div class="nft-detail-actions">
+                    <button class="btn btn-sell" id="nft-sell-btn" onclick="sellNFT()">
+                        Продать за <span id="nft-sell-price">0</span> GCoins
+                    </button>
+                    <button class="btn btn-withdraw" onclick="withdrawNFT()">
+                        Вывести
+                    </button>
+                </div>
+            </div>
         </div>
         <!-- Нижнее меню -->
         <nav class="bottom-nav">

@@ -682,4 +682,176 @@ function showPage(pageName) {
             activeButton.classList.add('active');
         }
     }
+    
+    // Специальная обработка для страницы профиля
+    if (pageName === 'profile') {
+        updateProfileNFTs();
+    }
+}
+
+// Обновление NFT в профиле
+function updateProfileNFTs() {
+    const profileNFTList = document.getElementById('profile-nft-list');
+    if (!profileNFTList) return;
+    
+    profileNFTList.innerHTML = '';
+    
+    if (inventory.length === 0) {
+        profileNFTList.innerHTML = '<div class="empty-inventory">У вас пока нет NFT</div>';
+        return;
+    }
+    
+    // Показываем первые 6 NFT в профиле
+    const displayNFTs = inventory.slice(0, 6);
+    
+    displayNFTs.forEach((nft, index) => {
+        const nftElement = document.createElement('div');
+        nftElement.className = 'profile-nft';
+        nftElement.onclick = () => openNFTDetail(nft, index);
+        
+        let imgSrc;
+        if (nft.gcoins) {
+            imgSrc = 'assets/nft/gcoins.gif';
+        } else {
+            imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+        }
+        
+        nftElement.innerHTML = `<img src="${imgSrc}" alt="${nft.label}">`;
+        profileNFTList.appendChild(nftElement);
+    });
+}
+
+// Открытие детального просмотра NFT
+function openNFTDetail(nft, index) {
+    // Сохраняем текущую страницу для возврата
+    window.previousPage = document.querySelector('.page.active').id.replace('page-', '');
+    
+    // Заполняем данные NFT
+    document.getElementById('nft-detail-title').textContent = 'NFT';
+    document.getElementById('nft-detail-name').textContent = cleanNFTName(nft.label);
+    document.getElementById('nft-detail-rarity').textContent = nft.rarity;
+    
+    let imgSrc;
+    if (nft.gcoins) {
+        imgSrc = 'assets/nft/gcoins.gif';
+    } else {
+        imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+    }
+    document.getElementById('nft-detail-img').src = imgSrc;
+    
+    // Рассчитываем цену продажи на основе Portals Market
+    const sellPrice = calculateNFTSellPrice(nft);
+    document.getElementById('nft-sell-price').textContent = sellPrice;
+    
+    // Сохраняем данные NFT для использования в функциях
+    window.currentNFTDetail = { nft, index };
+    
+    // Показываем страницу детального просмотра
+    showPage('nft-detail');
+}
+
+// Расчет цены продажи NFT на основе Portals Market
+function calculateNFTSellPrice(nft) {
+    // Базовые цены в TON (примерные, основанные на Portals Market)
+    const basePrices = {
+        'basic': { min: 0.1, max: 0.5 },
+        'standard': { min: 0.5, max: 2 },
+        'rare': { min: 2, max: 10 },
+        'epic': { min: 10, max: 50 },
+        'legendary': { min: 50, max: 200 },
+        'mythic': { min: 200, max: 1000 },
+        'special': { min: 0.1, max: 0.5 } // для GCoins
+    };
+    
+    const rarity = nft.rarity || 'basic';
+    const priceRange = basePrices[rarity] || basePrices.basic;
+    
+    // Генерируем случайную цену в диапазоне
+    const tonPrice = priceRange.min + Math.random() * (priceRange.max - priceRange.min);
+    
+    // Конвертируем в GCoins (1 TON = 100 GCoins)
+    const gcoinsPrice = Math.floor(tonPrice * 100);
+    
+    // Для специальных NFT (GCoins) возвращаем их номинальную стоимость
+    if (nft.gcoins) {
+        return nft.gcoins;
+    }
+    
+    return gcoinsPrice;
+}
+
+// Функция продажи NFT
+function sellNFT() {
+    if (!window.currentNFTDetail) return;
+    
+    const { nft, index } = window.currentNFTDetail;
+    const sellPrice = calculateNFTSellPrice(nft);
+    
+    if (confirm(`Продать ${cleanNFTName(nft.label)} за ${sellPrice} GCoins?`)) {
+        // Увеличиваем баланс
+        gcoins += sellPrice;
+        gcoinsDisplay.textContent = gcoins;
+        
+        // Удаляем NFT из инвентаря
+        inventory.splice(index, 1);
+        
+        // Обновляем отображение
+        updateInventory();
+        updateProfileNFTs();
+        
+        // Возвращаемся в профиль
+        goBack();
+        
+        // Показываем уведомление
+        showNotification(`NFT продан за ${sellPrice} GCoins!`);
+    }
+}
+
+// Функция вывода NFT
+function withdrawNFT() {
+    if (!window.currentNFTDetail) return;
+    
+    const { nft } = window.currentNFTDetail;
+    
+    // Показываем уведомление о выводе
+    const notification = document.createElement('div');
+    notification.className = 'withdraw-notification';
+    notification.innerHTML = `
+        <h3>Вывод NFT</h3>
+        <p>Ваш подарок будет выведен</p>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Функция возврата назад
+function goBack() {
+    if (window.previousPage) {
+        showPage(window.previousPage);
+        window.previousPage = null;
+    } else {
+        showPage('profile');
+    }
+}
+
+// Показ уведомления
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'win-notification';
+    notification.innerHTML = `
+        <div class="win-content">
+            <h3>Уведомление</h3>
+            <p>${message}</p>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }

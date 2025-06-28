@@ -688,3 +688,207 @@ body {
     pointer-events: none;
     opacity: 0.85;
 }
+
+/* Стили для профиля - кликабельные NFT */
+.profile-nft {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.profile-nft:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(255, 231, 160, 0.3);
+}
+
+.profile-nft img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.2s ease;
+}
+
+.profile-nft:hover img {
+    filter: brightness(1.1);
+}
+
+/* Стили для детального просмотра NFT */
+#page-nft-detail {
+    padding: 20px;
+    background: linear-gradient(135deg, #0f1419, #1a1f2a);
+    min-height: 100vh;
+}
+
+.nft-detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    margin-right: 15px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nft-detail-header .page-title {
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.nft-detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.nft-detail-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #232b3a, #2c232a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.nft-detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 20px;
+}
+
+.nft-detail-info {
+    text-align: center;
+    width: 100%;
+}
+
+.nft-detail-name {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.nft-detail-rarity {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: capitalize;
+    background: #ffe7a0;
+    color: #1a1f2a;
+}
+
+.nft-detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.btn-sell {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 16px rgba(39, 174, 96, 0.3);
+}
+
+.btn-sell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+}
+
+.btn-withdraw {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 16px rgba(231, 76, 60, 0.3);
+}
+
+.btn-withdraw:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+/* Уведомление о выводе */
+.withdraw-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #232b3a, #2c232a);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    animation: scaleIn 0.3s ease;
+    max-width: 300px;
+    width: 90%;
+}
+
+.withdraw-notification h3 {
+    color: #ffe7a0;
+    font-size: 1.3rem;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+}
+
+.withdraw-notification p {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Адаптивность для детального просмотра */
+@media (max-width: 768px) {
+    .nft-detail-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .nft-detail-name {
+        font-size: 1.5rem;
+    }
+    
+    .nft-detail-actions {
+        max-width: 250px;
+    }
+    
+    .btn-sell, .btn-withdraw {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
