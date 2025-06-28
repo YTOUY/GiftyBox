@@ -268,7 +268,7 @@ function getNFTFromSlot(slot) {
     };
 }
 
-// Анимация рулетки с фазами: разгон, быстро, замедление
+// Анимация рулетки с плавным разгон-ускорением, быстрым центром и плавным замедлением
 function spinRoulette(caseName) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
@@ -292,11 +292,6 @@ function spinRoulette(caseName) {
         const centerStart = Math.floor(repeatCount / 2) * baseLength;
         // Начальная позиция: первый слот центральной копии по центру
         const initialOffset = (viewportWidth / 2) - (slotWidth / 2) - (centerStart * slotWidth);
-        // Фазы
-        const phase1 = 2000; // разгон (2 сек)
-        const phase2 = 2500; // быстро (2.5 сек)
-        const phase3 = 3000; // замедление (3 сек)
-        const duration = phase1 + phase2 + phase3;
         // Случайный целевой индекс в центральной копии
         const centerCopyStart = centerStart;
         const centerCopyEnd = centerStart + baseLength;
@@ -304,31 +299,36 @@ function spinRoulette(caseName) {
         // Итоговая позиция: целевой слот по центру
         const finalOffset = (viewportWidth / 2) - (slotWidth / 2) - (targetIndex * slotWidth);
         // Сколько "оборотов" сделать (визуально)
-        const extraSpins = 3; // сколько раз слот-лента "проедет" мимо центра
+        const extraSpins = 3;
         const totalDistance = finalOffset - initialOffset - extraSpins * baseLength * slotWidth;
-        // Анимация
+        // Длительность
+        const duration = 7500;
         let start = null;
+        // Кастомная easeInOut: плавный разгон, быстрый центр, плавное замедление
+        function customEase(t) {
+            // t: 0..1
+            // 0-0.25: easeInQuad (разгон)
+            // 0.25-0.7: почти линейно (быстро)
+            // 0.7-1: easeOutCubic (замедление)
+            if (t < 0.25) {
+                return 2 * t * t;
+            } else if (t < 0.7) {
+                // линейно, но чуть ускоряем
+                return 0.125 + (t - 0.25) * 1.5 * 0.55;
+            } else {
+                // easeOutCubic
+                let tt = (t - 0.7) / 0.3;
+                return 0.95 + (1 - Math.pow(1 - tt, 3)) * 0.05;
+            }
+        }
         function animate(now) {
             if (!start) start = now;
             let elapsed = now - start;
             if (elapsed > duration) elapsed = duration;
-            let progress = elapsed / duration;
-            let currentOffset;
-            if (elapsed <= phase1) {
-                // Разгон: от 0 до 1/3 пути, easeInQuad
-                let t = elapsed / phase1;
-                let eased = t * t;
-                currentOffset = initialOffset + totalDistance * (eased * 0.33);
-            } else if (elapsed <= phase1 + phase2) {
-                // Быстро: равномерно, 1/3 до 2/3 пути
-                let t = (elapsed - phase1) / phase2;
-                currentOffset = initialOffset + totalDistance * (0.33 + t * 0.34);
-            } else {
-                // Замедление: от 2/3 до конца, easeOutCubic
-                let t = (elapsed - phase1 - phase2) / phase3;
-                let eased = 1 - Math.pow(1 - t, 3);
-                currentOffset = initialOffset + totalDistance * (0.67 + eased * 0.33);
-            }
+            let t = elapsed / duration;
+            let eased = customEase(t);
+            if (eased > 1) eased = 1;
+            const currentOffset = initialOffset + totalDistance * eased;
             container.style.transition = 'none';
             container.style.transform = `translateX(${currentOffset}px)`;
             if (elapsed < duration) {
