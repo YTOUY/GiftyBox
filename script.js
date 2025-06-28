@@ -237,6 +237,9 @@ function createRouletteSlots(caseName) {
         slot.appendChild(img);
         container.appendChild(slot);
     }
+    
+    console.log(`Создано ${totalSlots} слотов для рулетки`);
+    console.log('Контейнер слотов:', container);
 }
 
 // Функция открытия кейса
@@ -396,7 +399,25 @@ function showWinNotification(nft) {
 function spinRoulette(winningNFT) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
+        
+        if (!container) {
+            console.error('Контейнер слотов не найден!');
+            resolve();
+            return;
+        }
+        
         const slots = container.querySelectorAll('.nft-slot');
+        
+        if (slots.length === 0) {
+            console.error('Слоты не найдены!');
+            resolve();
+            return;
+        }
+        
+        console.log('Начинаем анимацию рулетки');
+        console.log('Выигрышный NFT:', winningNFT);
+        console.log('Количество слотов:', slots.length);
+        console.log('Контейнер:', container);
         
         // Находим индекс выигрышного NFT
         let winningIndex = -1;
@@ -410,27 +431,54 @@ function spinRoulette(winningNFT) {
             winningIndex = 0;
         }
         
-        // Вычисляем конечную позицию (центрируем выигрышный слот)
+        console.log('Индекс выигрышного слота:', winningIndex);
+        
+        // Сбрасываем предыдущие трансформации
+        container.style.transition = 'none';
+        container.style.transform = 'translateX(0)';
+        
+        // Принудительно перерисовываем
+        container.offsetHeight;
+        
+        // Вычисляем размеры
         const slotWidth = 136; // 120px + 16px margin
         const containerWidth = container.offsetWidth;
         const centerPosition = containerWidth / 2 - slotWidth / 2;
+        
+        // Вычисляем конечную позицию
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         
         // Добавляем несколько полных оборотов для эффекта
         const totalDistance = -(slots.length * slotWidth) + finalPosition;
         
-        // Анимация вращения
+        console.log('Параметры анимации:', {
+            slotWidth,
+            containerWidth,
+            centerPosition,
+            finalPosition,
+            totalDistance
+        });
+        
+        // Запускаем анимацию
         container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         container.style.transform = `translateX(${totalDistance}px)`;
         
         // После завершения анимации
         setTimeout(() => {
+            console.log('Анимация завершена');
+            
             // Подсвечиваем выигрышный слот
             const centerSlot = slots[winningIndex];
-            centerSlot.classList.add('winning');
+            if (centerSlot) {
+                centerSlot.classList.add('winning');
+                console.log('Подсвечиваем выигрышный слот');
+            }
             
             setTimeout(() => {
-                centerSlot.classList.remove('winning');
+                if (centerSlot) {
+                    centerSlot.classList.remove('winning');
+                }
+                console.log('Анимация полностью завершена');
                 resolve();
             }, 1000);
         }, 7500);

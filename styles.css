@@ -185,6 +185,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 /* Треугольный указатель направленный вниз */
@@ -206,10 +207,12 @@ body {
     position: relative;
     width: 100%;
     height: 150px;
-    overflow: hidden;
+    overflow: visible;
     margin-top: 20px;
     display: flex;
     align-items: center;
+    padding: 0 60px;
+    will-change: transform;
 }
 
 /* Слоты NFT */
@@ -225,6 +228,8 @@ body {
     justify-content: center;
     box-shadow: 0 2px 8px #0002;
     transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .nft-slot img {
@@ -232,6 +237,8 @@ body {
     height: 80px;
     object-fit: contain;
     border-radius: 8px;
+    display: block;
+    pointer-events: none;
 }
 
 .nft-slot.winning {
