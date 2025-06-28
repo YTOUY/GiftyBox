@@ -225,7 +225,7 @@ function createRouletteSlots(caseName) {
     }
     
     // Создаем больше слотов для бесконечной ленты
-    const totalSlots = 100; // Увеличиваем количество слотов
+    const totalSlots = 150; // Увеличиваем количество слотов для лучшего повторения
     
     for (let i = 0; i < totalSlots; i++) {
         const nft = allNFTs[i % allNFTs.length];
@@ -482,14 +482,16 @@ function spinRoulette(winningNFT) {
         // Вычисляем конечную позицию (центрируем выигрышный слот)
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         
-        // Добавляем несколько полных оборотов для эффекта
-        // Используем меньшее расстояние для более плавной анимации
-        const totalDistance = -(slots.length * slotWidth * 1.5) + finalPosition;
+        // Используем циклическую анимацию - слоты повторяются
+        // Начинаем с позиции, где видно начало массива слотов
+        const startPosition = centerPosition;
+        const totalDistance = finalPosition - startPosition;
         
         console.log('Параметры анимации:', {
             slotWidth,
             containerWidth,
             centerPosition,
+            startPosition,
             finalPosition,
             totalDistance
         });
