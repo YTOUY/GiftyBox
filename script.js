@@ -177,6 +177,16 @@ const cases = {
     }
 };
 
+// Вспомогательная функция для очистки названий от слов редкости
+function cleanNFTName(label) {
+    let displayName = label;
+    const rarityWords = ['Basic', 'Standard', 'Rare', 'Epic', 'Legendary', 'Mythic'];
+    rarityWords.forEach(word => {
+        displayName = displayName.replace(word, '').trim();
+    });
+    return displayName;
+}
+
 // Функция для перехода на страницу кейса
 function openCasePage(caseName) {
     activeCase = caseName;
@@ -235,13 +245,16 @@ function createRouletteSlots(caseName) {
             imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
         }
         
-        console.log('Загружаем изображение:', imgSrc, 'для NFT:', nft.label);
+        // Убираем слова редкости из названия
+        let displayName = cleanNFTName(nft.label);
+        
+        console.log('Загружаем изображение:', imgSrc, 'для NFT:', displayName);
         
         slot.innerHTML = `
-            <img src="${imgSrc}" alt="${nft.label}" class="nft-slot-img" 
+            <img src="${imgSrc}" alt="${displayName}" class="nft-slot-img" 
                  onload="console.log('Успешно загружено изображение:', '${imgSrc}')"
                  onerror="console.log('Не удалось загрузить изображение:', '${imgSrc}')">
-            <div class="nft-slot-name">${nft.label}</div>
+            <div class="nft-slot-name">${displayName}</div>
             <div class="nft-slot-rarity ${nft.rarity}">${nft.rarity}</div>
         `;
         
@@ -336,9 +349,12 @@ function updateInventory() {
             imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
         }
         
+        // Убираем слова редкости из названия
+        let displayName = cleanNFTName(nft.label);
+        
         item.innerHTML = `
-            <img src="${imgSrc}" alt="${nft.label}" class="inventory-nft-img">
-            <div class="inventory-nft-name">${nft.label}</div>
+            <img src="${imgSrc}" alt="${displayName}" class="inventory-nft-img">
+            <div class="inventory-nft-name">${displayName}</div>
             <div class="inventory-nft-rarity">${nft.rarity}</div>
         `;
         inventoryList.appendChild(item);
@@ -373,7 +389,11 @@ function populateNFTSelects() {
     inventory.forEach((nft, index) => {
         const option = document.createElement('option');
         option.value = index;
-        option.textContent = nft.label;
+        
+        // Убираем слова редкости из названия
+        let displayName = cleanNFTName(nft.label);
+        
+        option.textContent = displayName;
         currentSelect.appendChild(option);
     });
 }
@@ -390,11 +410,14 @@ function showWinNotification(nft) {
         imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
     }
     
+    // Убираем слова редкости из названия
+    let displayName = cleanNFTName(nft.label);
+    
     notification.innerHTML = `
         <div class="win-content">
-            <img src="${imgSrc}" alt="${nft.label}">
+            <img src="${imgSrc}" alt="${displayName}">
             <h3>Поздравляем!</h3>
-            <p>Вы получили: ${nft.label}</p>
+            <p>Вы получили: ${displayName}</p>
         </div>
     `;
     
@@ -460,8 +483,8 @@ function spinRoulette(winningNFT) {
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         
         // Добавляем несколько полных оборотов для эффекта
-        // Используем большее расстояние для более плавной анимации
-        const totalDistance = -(slots.length * slotWidth * 2) + finalPosition;
+        // Используем меньшее расстояние для более плавной анимации
+        const totalDistance = -(slots.length * slotWidth * 1.5) + finalPosition;
         
         console.log('Параметры анимации:', {
             slotWidth,
