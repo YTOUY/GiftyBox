@@ -1,8 +1,16 @@
+// Инициализация Supabase (замени на свои ключи)
+const SUPABASE_URL = 'https://your-project-url.supabase.co'; // Замени на свой URL
+const SUPABASE_ANON_KEY = 'your-anon-key'; // Замени на свой anon key
+
+// Создаем клиент Supabase
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 // Global variables
 let gcoins = 1000;
 let inventory = [];
 let activeCase = null;
 let isSpinning = false;
+let currentUserId = null; // ID текущего пользователя
 
 const loadingScreen = document.getElementById('loading-screen');
 const mainContent = document.getElementById('main-content');
@@ -49,16 +57,150 @@ function startApp() {
     // Звёзды на загрузочном экране
     const stars = createStars(ctx, canvas.width, canvas.height, 60);
     animateStars(ctx, stars, canvas.width, canvas.height);
-    setTimeout(() => {
+    setTimeout(async () => {
         loadingScreen.style.display = 'none';
         mainContent.style.display = 'block';
-        gcoinsDisplay.textContent = gcoins;
+        
+        // Инициализируем пользователя
+        await initializeUser();
+        
         referralLink.href = `https://t.me/share?url=https://GiftyBox.netlify.app&text=Присоединяйся к GiftyBox!`;
-        updateInventory();
     }, 2000);
 }
 
 startApp();
+
+// --- Функции для работы с Supabase ---
+
+// Генерация уникального ID пользователя
+function generateUserId() {
+    return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Инициализация пользователя
+async function initializeUser() {
+    // Проверяем, есть ли сохраненный ID пользователя
+    let userId = localStorage.getItem('giftybox_user_id');
+    
+    if (!userId) {
+        userId = generateUserId();
+        localStorage.setItem('giftybox_user_id', userId);
+    }
+    
+    currentUserId = userId;
+    
+    try {
+        // Получаем данные пользователя из Supabase
+        const response = await fetch('/.netlify/functions/api', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'getUser',
+                userId: userId
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            gcoins = data.user.gcoins;
+            gcoinsDisplay.textContent = gcoins;
+            
+            // Загружаем инвентарь
+            await loadInventory();
+        }
+    } catch (error) {
+        console.error('Error initializing user:', error);
+        // В случае ошибки используем локальные данные
+    }
+}
+
+// Загрузка инвентаря из Supabase
+async function loadInventory() {
+    if (!currentUserId) return;
+    
+    try {
+        const response = await fetch('/.netlify/functions/api', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'getInventory',
+                userId: currentUserId
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            inventory = data.inventory.map(item => {
+                const nftData = item.nfts || {};
+                return {
+                    id: item.nft_id,
+                    label: nftData.name || item.nft_id,
+                    rarity: nftData.rarity || 'basic',
+                    stars: nftData.stars || 0,
+                    gcoins: nftData.gcoins || 0,
+                    case_id: item.case_id,
+                    created_at: item.created_at
+                };
+            });
+            updateInventory();
+        }
+    } catch (error) {
+        console.error('Error loading inventory:', error);
+    }
+}
+
+// Открытие кейса через Supabase
+async function openCaseWithSupabase(caseName) {
+    if (!currentUserId) {
+        console.error('User not initialized');
+        return null;
+    }
+    
+    try {
+        const response = await fetch('/.netlify/functions/api', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'openCase',
+                userId: currentUserId,
+                case: caseName,
+                gcoins: gcoins
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            gcoins = data.newGcoins;
+            gcoinsDisplay.textContent = gcoins;
+            
+            // Добавляем NFT в локальный инвентарь
+            const nft = data.nft;
+            const nftData = {
+                id: nft,
+                label: nft,
+                rarity: 'basic',
+                stars: 0,
+                gcoins: 0,
+                case_id: caseName,
+                created_at: new Date().toISOString()
+            };
+            
+            inventory.push(nftData);
+            updateInventory();
+            
+            return nftData;
+        } else {
+            console.error('Failed to open case:', data.error);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error opening case:', error);
+        return null;
+    }
+}
 
 const cases = {
     basic: {
@@ -362,16 +504,28 @@ async function openCase() {
         alert('Недостаточно G-Coins!');
         return;
     }
+    
     isSpinning = true;
-    gcoins -= caseData.cost;
-    gcoinsDisplay.textContent = gcoins;
+    
     // Запускаем анимацию рулетки и получаем выигрышный NFT
     const winningNFT = await spinRoulette(activeCase);
+    
     if (winningNFT) {
-        inventory.push(winningNFT);
-        updateInventory();
-        showWinNotification(winningNFT);
+        // Открываем кейс через Supabase
+        const savedNFT = await openCaseWithSupabase(activeCase);
+        
+        if (savedNFT) {
+            showWinNotification(savedNFT);
+        } else {
+            // Если не удалось сохранить в Supabase, используем локальные данные
+            gcoins -= caseData.cost;
+            gcoinsDisplay.textContent = gcoins;
+            inventory.push(winningNFT);
+            updateInventory();
+            showWinNotification(winningNFT);
+        }
     }
+    
     isSpinning = false;
 }
 
