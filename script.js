@@ -268,7 +268,7 @@ function getNFTFromSlot(slot) {
     };
 }
 
-// Анимация вращения рулетки с очень быстрым стартом и плавным замедлением (7.5 сек)
+// Анимация рулетки с фазами: разгон, быстро, замедление
 function spinRoulette(caseName) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
@@ -284,44 +284,66 @@ function spinRoulette(caseName) {
             resolve(null);
             return;
         }
-        // Индексы центральной копии
+        // Параметры
+        const slotWidth = 136;
+        const viewportWidth = viewport.offsetWidth;
         const repeatCount = container._repeatCount || 7;
         const baseLength = container._baseLength || Math.floor(slots.length / repeatCount);
         const centerStart = Math.floor(repeatCount / 2) * baseLength;
-        const centerSlotIndex = centerStart + Math.floor(baseLength / 2);
-        // Анимация
-        const slotWidth = 136;
-        const viewportWidth = viewport.offsetWidth;
+        // Начальная позиция: первый слот центральной копии по центру
         const initialOffset = (viewportWidth / 2) - (slotWidth / 2) - (centerStart * slotWidth);
-        const finalOffset = (viewportWidth / 2) - (slotWidth / 2) - (centerSlotIndex * slotWidth);
-        const duration = 7500; // 7.5 сек
-        const start = performance.now();
-        // Кастомная ease: в начале скорость в 10 раз выше, потом замедление
-        function customEase(t) {
-            // t: 0..1
-            // В начале быстро, потом плавно замедляется
-            // Формула: ускорение в начале, замедление в конце
-            // t^0.25 — очень быстрое начало, (1-t)^3 — плавное замедление
-            return 1 - Math.pow(1 - Math.pow(t, 0.25), 3);
-        }
+        // Фазы
+        const phase1 = 2000; // разгон (2 сек)
+        const phase2 = 2500; // быстро (2.5 сек)
+        const phase3 = 3000; // замедление (3 сек)
+        const duration = phase1 + phase2 + phase3;
+        // Случайный целевой индекс в центральной копии
+        const centerCopyStart = centerStart;
+        const centerCopyEnd = centerStart + baseLength;
+        const targetIndex = centerCopyStart + Math.floor(Math.random() * baseLength);
+        // Итоговая позиция: целевой слот по центру
+        const finalOffset = (viewportWidth / 2) - (slotWidth / 2) - (targetIndex * slotWidth);
+        // Сколько "оборотов" сделать (визуально)
+        const extraSpins = 3; // сколько раз слот-лента "проедет" мимо центра
+        const totalDistance = finalOffset - initialOffset - extraSpins * baseLength * slotWidth;
+        // Анимация
+        let start = null;
         function animate(now) {
+            if (!start) start = now;
             let elapsed = now - start;
             if (elapsed > duration) elapsed = duration;
-            const progress = elapsed / duration;
-            const eased = customEase(progress);
-            const currentOffset = initialOffset + (finalOffset - initialOffset) * eased;
+            let progress = elapsed / duration;
+            let currentOffset;
+            if (elapsed <= phase1) {
+                // Разгон: от 0 до 1/3 пути, easeInQuad
+                let t = elapsed / phase1;
+                let eased = t * t;
+                currentOffset = initialOffset + totalDistance * (eased * 0.33);
+            } else if (elapsed <= phase1 + phase2) {
+                // Быстро: равномерно, 1/3 до 2/3 пути
+                let t = (elapsed - phase1) / phase2;
+                currentOffset = initialOffset + totalDistance * (0.33 + t * 0.34);
+            } else {
+                // Замедление: от 2/3 до конца, easeOutCubic
+                let t = (elapsed - phase1 - phase2) / phase3;
+                let eased = 1 - Math.pow(1 - t, 3);
+                currentOffset = initialOffset + totalDistance * (0.67 + eased * 0.33);
+            }
             container.style.transition = 'none';
             container.style.transform = `translateX(${currentOffset}px)`;
             if (elapsed < duration) {
                 requestAnimationFrame(animate);
             } else {
-                const centerSlot = slots[centerSlotIndex];
+                // В конце вычисляем индекс центрального слота по transform
+                const finalTransform = currentOffset;
+                const centerX = Math.abs(finalTransform) + viewportWidth / 2;
+                const slotIndex = Math.round(centerX / slotWidth - 0.5);
+                const centerSlot = slots[slotIndex];
                 if (centerSlot) centerSlot.classList.add('winning');
                 setTimeout(() => {
                     if (centerSlot) centerSlot.classList.remove('winning');
                     container.style.transition = 'none';
                     container.style.transform = `translateX(${finalOffset}px)`;
-                    // Получаем NFT из центрального слота (по data-атрибутам)
                     const nft = getNFTFromSlot(centerSlot);
                     resolve(nft);
                 }, 1000);
