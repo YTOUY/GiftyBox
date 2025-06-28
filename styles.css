@@ -713,6 +713,151 @@ body {
     filter: brightness(1.1);
 }
 
+/* Стили для профиля */
+.profile-section {
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.section-title {
+    color: #ffe7a0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+/* История операций */
+.history-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border-left: 4px solid #ffe7a0;
+}
+
+.history-item.sold {
+    border-left-color: #27ae60;
+}
+
+.history-item.withdrawn {
+    border-left-color: #e74c3c;
+}
+
+.history-item.opened {
+    border-left-color: #3498db;
+}
+
+.history-info {
+    flex: 1;
+}
+
+.history-action {
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.history-details {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.history-amount {
+    font-weight: 600;
+    color: #ffe7a0;
+}
+
+.history-amount.positive {
+    color: #27ae60;
+}
+
+.history-amount.negative {
+    color: #e74c3c;
+}
+
+/* Реферальная система */
+.referral-info {
+    text-align: center;
+}
+
+.referral-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffe7a0;
+}
+
+.referral-link-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#referral-link-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.btn-copy {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-copy:hover {
+    transform: translateY(-1px);
+}
+
+/* Стили для инвентаря - кликабельные NFT */
+.inventory-item {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inventory-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(255, 231, 160, 0.2);
+}
+
 /* Стили для детального просмотра NFT */
 #page-nft-detail {
     padding: 20px;

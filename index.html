@@ -109,12 +109,43 @@
                     <div id="profile-balance">Баланс: <span>1000</span> G-Coins</div>
                 </div>
             </div>
-            <div class="profile-nft-list" id="profile-nft-list">
-                <!-- NFT будут добавляться динамически -->
+            
+            <!-- Самые дорогие NFT -->
+            <div class="profile-section">
+                <h3 class="section-title">Мои лучшие NFT</h3>
+                <div class="profile-nft-list" id="profile-best-nfts">
+                    <!-- Самые дорогие NFT будут добавляться динамически -->
+                </div>
             </div>
-            <div class="profile-ref">Реферальная система: 5%</div>
-            <!-- Добавляю ссылку для приглашения -->
-            <a id="referral-link" href="#" target="_blank">Пригласить друга</a>
+            
+            <!-- История операций -->
+            <div class="profile-section">
+                <h3 class="section-title">История операций</h3>
+                <div class="history-list" id="profile-history">
+                    <!-- История будет добавляться динамически -->
+                </div>
+            </div>
+            
+            <!-- Реферальная система -->
+            <div class="profile-section">
+                <h3 class="section-title">Реферальная система</h3>
+                <div class="referral-info">
+                    <div class="referral-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Приглашено друзей:</span>
+                            <span class="stat-value" id="referral-count">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Заработано:</span>
+                            <span class="stat-value" id="referral-earned">0 GCoins</span>
+                        </div>
+                    </div>
+                    <div class="referral-link-container">
+                        <input type="text" id="referral-link-input" readonly value="https://giftybox.netlify.app?ref=user123">
+                        <button class="btn btn-copy" onclick="copyReferralLink()">Копировать</button>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Детальный просмотр NFT -->
@@ -184,6 +215,7 @@
             </button>
         </nav>
     </div>
+    <script src="nft-prices.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
