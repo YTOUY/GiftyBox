@@ -54,7 +54,7 @@ function startApp() {
         mainContent.style.display = 'block';
         gcoinsDisplay.textContent = gcoins;
         referralLink.href = `https://t.me/share?url=https://GiftyBox.netlify.app&text=Присоединяйся к GiftyBox!`;
-        populateCases();
+        updateInventory();
     }, 2000);
 }
 
@@ -153,35 +153,48 @@ const cases = {
     }
 };
 
-function populateCases() {
-    caseGrid.innerHTML = '';
-    Object.keys(cases).forEach(caseName => {
-        const caseDiv = document.createElement('div');
-        caseDiv.className = 'case';
-        caseDiv.innerHTML = `<div class="case-name">${caseName.charAt(0).toUpperCase() + caseName.slice(1)}</div>`;
-        caseDiv.dataset.case = caseName;
-        caseDiv.onclick = () => showCaseDetails(caseName);
-        caseGrid.appendChild(caseDiv);
-    });
+// Функция для перехода на страницу кейса
+function openCasePage(caseName) {
+    activeCase = caseName;
+    const caseData = cases[caseName];
+    
+    // Обновляем заголовок
+    document.getElementById('case-title').textContent = caseData.name;
+    
+    // Создаем слоты для рулетки
+    createRouletteSlots(caseName);
+    
+    // Показываем страницу кейса
+    showPage('case');
 }
 
-function showCaseDetails(caseName) {
-    const caseDiv = document.querySelector(`[data-case="${caseName}"]`);
-    if (caseDiv.classList.contains('active')) return;
-
-    caseGrid.querySelectorAll('.case').forEach(c => c.classList.remove('active'));
-    caseDiv.classList.add('active');
-    caseDiv.innerHTML = `
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[0].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[0].id}.gif" alt="${cases[caseName].nfts[0].label}"></div>
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[1].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[1].id}.gif" alt="${cases[caseName].nfts[1].label}"></div>
-        <div class="nft-slot" data-nft="${cases[caseName].nfts[2].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[2].id}.gif" alt="${cases[caseName].nfts[2].label}"></div>
-        <div class="pointer"></div>
-        <div class="action-buttons">
-            <button class="open-btn" onclick="openCase()">Открыть</button>
-            <button class="demo-btn" onclick="demoCase()">Демо-режим</button>
-        </div>
-    `;
-    activeCase = caseName;
+// Создание слотов для рулетки
+function createRouletteSlots(caseName) {
+    const container = document.getElementById('nft-slots-container');
+    container.innerHTML = '';
+    
+    const caseData = cases[caseName];
+    const nfts = caseData.nfts;
+    
+    // Создаем больше слотов для плавного вращения
+    const totalSlots = 20;
+    
+    for (let i = 0; i < totalSlots; i++) {
+        const nftIndex = i % nfts.length;
+        const nft = nfts[nftIndex];
+        
+        const slot = document.createElement('div');
+        slot.className = 'nft-slot';
+        slot.dataset.nftId = nft.id;
+        slot.dataset.nftIndex = nftIndex;
+        
+        const img = document.createElement('img');
+        img.src = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+        img.alt = nft.label;
+        
+        slot.appendChild(img);
+        container.appendChild(slot);
+    }
 }
 
 // Функция открытия кейса
