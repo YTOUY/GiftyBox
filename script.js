@@ -176,6 +176,9 @@ function createRouletteSlots(caseName) {
     const caseData = cases[caseName];
     const nfts = caseData.nfts;
     
+    console.log(`Создаем слоты для кейса: ${caseName}`);
+    console.log('NFT в кейсе:', nfts);
+    
     // Создаем больше слотов для плавного вращения
     const totalSlots = 20;
     
@@ -189,8 +192,47 @@ function createRouletteSlots(caseName) {
         slot.dataset.nftIndex = nftIndex;
         
         const img = document.createElement('img');
-        img.src = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+        
+        // Правильный путь к изображению
+        if (nft.gcoins) {
+            // Для G-Coins используем специальную иконку
+            img.src = 'assets/nft/gcoins.gif';
+        } else {
+            // Для NFT используем формат {rarity}-{id}.gif
+            img.src = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+        }
+        
+        console.log(`Загружаем изображение: ${img.src} для NFT: ${nft.label}`);
+        
         img.alt = nft.label;
+        
+        // Обработка ошибки загрузки изображения
+        img.onerror = function() {
+            console.warn(`Не удалось загрузить изображение: ${img.src}`);
+            // Показываем fallback текст
+            this.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.style.cssText = `
+                width: 80px;
+                height: 80px;
+                background: #ffe7a0;
+                color: #1a1f2a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                font-weight: bold;
+                font-size: 0.8rem;
+                text-align: center;
+            `;
+            fallback.textContent = nft.gcoins ? `${nft.gcoins} GCoins` : nft.label;
+            slot.appendChild(fallback);
+        };
+        
+        // Обработка успешной загрузки
+        img.onload = function() {
+            console.log(`Успешно загружено изображение: ${img.src}`);
+        };
         
         slot.appendChild(img);
         container.appendChild(slot);
@@ -273,8 +315,16 @@ function updateInventory() {
     inventory.forEach((nft, index) => {
         const item = document.createElement('div');
         item.className = 'inventory-item';
+        
+        let imgSrc;
+        if (nft.gcoins) {
+            imgSrc = 'assets/nft/gcoins.gif';
+        } else {
+            imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+        }
+        
         item.innerHTML = `
-            <img src="assets/nft/${nft.rarity}-${nft.id}.gif" alt="${nft.label}" class="inventory-nft-img">
+            <img src="${imgSrc}" alt="${nft.label}" class="inventory-nft-img">
             <div class="inventory-nft-name">${nft.label}</div>
             <div class="inventory-nft-rarity">${nft.rarity}</div>
         `;
@@ -319,9 +369,17 @@ function populateNFTSelects() {
 function showWinNotification(nft) {
     const notification = document.createElement('div');
     notification.className = 'win-notification';
+    
+    let imgSrc;
+    if (nft.gcoins) {
+        imgSrc = 'assets/nft/gcoins.gif';
+    } else {
+        imgSrc = `assets/nft/${nft.rarity}-${nft.id}.gif`;
+    }
+    
     notification.innerHTML = `
         <div class="win-content">
-            <img src="assets/nft/${nft.rarity}-${nft.id}.gif" alt="${nft.label}">
+            <img src="${imgSrc}" alt="${nft.label}">
             <h3>Поздравляем!</h3>
             <p>Вы получили: ${nft.label}</p>
         </div>
