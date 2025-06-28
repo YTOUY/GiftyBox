@@ -203,24 +203,12 @@ function createRouletteSlots(caseName) {
     console.log(`Создаем слоты для кейса: ${caseName}`);
     console.log('NFT в кейсе:', nfts);
     
-    // Создаем больше слотов для плавного вращения
-    const totalSlots = 30;
+    // Создаем бесконечную ленту - повторяем NFT много раз
+    const totalSlots = 50; // Больше слотов для плавности
     
-    // Создаем массив для случайного порядка
-    const shuffledNfts = [];
     for (let i = 0; i < totalSlots; i++) {
         const nftIndex = i % nfts.length;
-        shuffledNfts.push(nfts[nftIndex]);
-    }
-    
-    // Перемешиваем массив для случайного порядка
-    for (let i = shuffledNfts.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledNfts[i], shuffledNfts[j]] = [shuffledNfts[j], shuffledNfts[i]];
-    }
-    
-    for (let i = 0; i < totalSlots; i++) {
-        const nft = shuffledNfts[i];
+        const nft = nfts[nftIndex];
         
         const slot = document.createElement('div');
         slot.className = 'nft-slot';
@@ -274,7 +262,7 @@ function createRouletteSlots(caseName) {
         container.appendChild(slot);
     }
     
-    console.log(`Создано ${totalSlots} слотов для рулетки в случайном порядке`);
+    console.log(`Создано ${totalSlots} слотов для бесконечной ленты`);
     console.log('Контейнер слотов:', container);
 }
 
@@ -454,17 +442,16 @@ function spinRoulette(winningNFT) {
         console.log('Выигрышный NFT:', winningNFT);
         console.log('Количество слотов:', slots.length);
         
-        // Находим индекс выигрышного NFT
-        let winningIndex = -1;
+        // Находим все слоты с выигрышным NFT
+        const winningSlots = [];
         slots.forEach((slot, index) => {
             if (slot.dataset.nftId === winningNFT.id) {
-                winningIndex = index;
+                winningSlots.push(index);
             }
         });
         
-        if (winningIndex === -1) {
-            winningIndex = 0;
-        }
+        // Выбираем случайный выигрышный слот
+        const winningIndex = winningSlots[Math.floor(Math.random() * winningSlots.length)];
         
         console.log('Индекс выигрышного слота:', winningIndex);
         
@@ -483,8 +470,9 @@ function spinRoulette(winningNFT) {
         // Вычисляем конечную позицию (центрируем выигрышный слот)
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         
-        // Добавляем несколько полных оборотов для эффекта, но не слишком много
-        const totalDistance = -(slots.length * slotWidth * 2) + finalPosition;
+        // Добавляем несколько полных оборотов для эффекта
+        // Используем большее расстояние для более плавной анимации
+        const totalDistance = -(slots.length * slotWidth * 3) + finalPosition;
         
         console.log('Параметры анимации:', {
             slotWidth,
@@ -494,7 +482,7 @@ function spinRoulette(winningNFT) {
             totalDistance
         });
         
-        // Запускаем анимацию с меньшим расстоянием
+        // Запускаем анимацию
         container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         container.style.transform = `translateX(${totalDistance}px)`;
         

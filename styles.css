@@ -188,6 +188,28 @@ body {
     overflow: hidden;
 }
 
+/* Градиентные края для эффекта затухания */
+.case-roulette-container::before,
+.case-roulette-container::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: 30px;
+    width: 60px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.case-roulette-container::before {
+    left: 0;
+    background: linear-gradient(to right, #232b3a 0%, transparent 100%);
+}
+
+.case-roulette-container::after {
+    right: 0;
+    background: linear-gradient(to left, #232b3a 0%, transparent 100%);
+}
+
 /* Треугольный указатель направленный вниз */
 .pointer-down {
     position: absolute;
@@ -213,7 +235,8 @@ body {
     align-items: center;
     padding: 0 80px;
     will-change: transform;
-    min-width: 4000px;
+    min-width: 8000px;
+    transform: translateX(0);
 }
 
 /* Слоты NFT */
