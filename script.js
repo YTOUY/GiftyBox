@@ -617,6 +617,8 @@ function openUpgradeSelectNFT() {
                 upgradeSelectedNFT = nft;
                 closeModal('modal-upgrade-nft');
                 showNotification('Теперь выберите NFT, которое желаете получить');
+                drawUpgradeCircle();
+                updateUpgradeButtonState();
             };
             let imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.rarity}-${nft.id}.gif`;
             item.innerHTML = `<img src="${imgSrc}"><div class="nft-label">${cleanNFTName(nft.label)}</div><div class="nft-price">${getNFTPriceInGCoins(nft.id, true)} GCoins</div>`;
@@ -725,11 +727,13 @@ function drawUpgradeCircle(angle = 0) {
     ctx.fill();
     ctx.restore();
     ctx.restore();
-    // В центре выбранный NFT
+    // В центре целевое NFT (upgradeTargetNFT)
     const centerDiv = document.getElementById('upgrade-nft-center');
     if (centerDiv) {
-        if (upgradeSelectedNFT) {
-            let imgSrc = upgradeSelectedNFT.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${upgradeSelectedNFT.rarity}-${upgradeSelectedNFT.id}.gif`;
+        if (upgradeTargetNFT) {
+            let imgSrc = upgradeTargetNFT.id && upgradeTargetNFT.id.startsWith('gcoins')
+                ? 'assets/nft/gcoins.gif'
+                : `assets/nft/${upgradeTargetNFT.rarity || getRarityById(upgradeTargetNFT.id)}-${upgradeTargetNFT.id}.gif`;
             centerDiv.innerHTML = `<img src='${imgSrc}' alt='NFT'>`;
             centerDiv.style.display = '';
         } else {
