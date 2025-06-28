@@ -635,17 +635,21 @@ function openUpgradeSelectTarget() {
     const modal = document.getElementById('modal-upgrade-target');
     const list = document.getElementById('modal-upgrade-target-list');
     list.innerHTML = '';
-    // Все NFT, цена >= 1.8 * выбранного, сортировка по цене
+    // Все NFT, цена >= 1.8 * выбранного, сортировка по цене, исключая выбранный
     const selectedPrice = getNFTPriceInGCoins(upgradeSelectedNFT.id, true);
-    const allNFTs = Object.keys(cases).map(caseName => ({
-        ...cases[caseName].nfts.find(nft => nft.id === upgradeSelectedNFT.id),
-        price: getNFTPriceInGCoins(upgradeSelectedNFT.id, true)
-    }));
-    const eligible = allNFTs.filter(nft => nft.price >= Math.ceil(selectedPrice * 1.8)).sort((a, b) => a.price - b.price);
-    if (eligible.length === 0) {
+    const allNFTs = Object.keys(NFT_PRICES)
+        .filter(id => id !== upgradeSelectedNFT.id)
+        .map(id => ({
+            id,
+            price: getNFTPriceInGCoins(id, true),
+            rarity: getRarityById(id)
+        }))
+        .filter(nft => nft.price >= Math.ceil(selectedPrice * 1.8))
+        .sort((a, b) => a.price - b.price);
+    if (allNFTs.length === 0) {
         list.innerHTML = '<div style="color:#fff">Нет подходящих NFT для апгрейда</div>';
     } else {
-        eligible.forEach((nft, idx) => {
+        allNFTs.forEach((nft, idx) => {
             const item = document.createElement('div');
             item.className = 'modal-nft-item' + (upgradeTargetNFT && upgradeTargetNFT.id === nft.id ? ' selected' : '');
             item.onclick = () => {
@@ -655,7 +659,7 @@ function openUpgradeSelectTarget() {
                 upgradeChance = Math.floor(selectedPrice / nft.price * 100);
                 drawUpgradeCircle();
             };
-            let imgSrc = nft.id.startsWith('gcoins') ? 'assets/nft/gcoins.gif' : `assets/nft/${getRarityById(nft.id)}-${nft.id}.gif`;
+            let imgSrc = nft.id.startsWith('gcoins') ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.rarity}-${nft.id}.gif`;
             item.innerHTML = `<div class="nft-chance">Шанс: ${Math.floor(selectedPrice / nft.price * 100)}%</div><img src="${imgSrc}"><div class="nft-label">${cleanNFTName(nft.id)}</div><div class="nft-price">${nft.price} GCoins</div>`;
             list.appendChild(item);
         });
