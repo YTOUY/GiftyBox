@@ -375,20 +375,16 @@ async function openCase() {
     isSpinning = false;
 }
 
-// Функция демо режима
-function demoCase() {
+// Демо режим открытия кейса
+async function demoCase() {
     if (!activeCase || isSpinning) return;
-    
     isSpinning = true;
-    
-    // Получаем случайный NFT
-    const winningNFT = getRandomNFT(activeCase);
-    
-    // Запускаем анимацию рулетки
-    spinRoulette(winningNFT).then(() => {
-        isSpinning = false;
+    // Запускаем анимацию рулетки и получаем выигрышный NFT (по центру)
+    const winningNFT = await spinRoulette(activeCase);
+    if (winningNFT) {
         showWinNotification(winningNFT);
-    });
+    }
+    isSpinning = false;
 }
 
 // Получение случайного NFT по вероятности

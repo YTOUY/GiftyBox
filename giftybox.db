@@ -1,0 +1,55 @@
+-- Таблица пользователей
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    telegram_id TEXT UNIQUE,      -- Telegram user id
+    username TEXT,
+    gcoins INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица кейсов (типы кейсов)
+CREATE TABLE cases (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    cost INTEGER
+);
+
+-- Таблица открытий кейсов пользователями
+CREATE TABLE case_opens (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    case_id INTEGER,
+    opened_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(case_id) REFERENCES cases(id)
+);
+
+-- Таблица NFT (типы NFT)
+CREATE TABLE nfts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT,           -- например, 'light-sword'
+    label TEXT,
+    rarity TEXT,
+    stars INTEGER,
+    image_path TEXT
+);
+
+-- Таблица инвентаря пользователя (выигранные NFT)
+CREATE TABLE user_inventory (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    nft_id INTEGER,
+    won_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    case_open_id INTEGER, -- ссылка на открытие кейса, если нужно
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(nft_id) REFERENCES nfts(id),
+    FOREIGN KEY(case_open_id) REFERENCES case_opens(id)
+);
+
+-- Таблица статистики (количество открытых кейсов по пользователю)
+CREATE TABLE user_stats (
+    user_id INTEGER PRIMARY KEY,
+    total_cases_opened INTEGER DEFAULT 0,
+    last_opened_at DATETIME,
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
