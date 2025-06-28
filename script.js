@@ -257,7 +257,18 @@ function createRouletteSlots(caseName) {
     container._baseLength = baseNFTs.length;
 }
 
-// Анимация вращения рулетки с ускорением и плавным замедлением
+// Получить NFT из DOM-слота (теперь возвращает объект прямо из data-атрибутов)
+function getNFTFromSlot(slot) {
+    if (!slot) return null;
+    return {
+        id: slot.dataset.nftId.split('-')[0],
+        label: slot.dataset.nftLabel,
+        rarity: slot.dataset.nftRarity,
+        gcoins: slot.dataset.gcoins ? Number(slot.dataset.gcoins) : undefined
+    };
+}
+
+// Анимация вращения рулетки с очень быстрым стартом и плавным замедлением (7.5 сек)
 function spinRoulette(caseName) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
@@ -277,22 +288,27 @@ function spinRoulette(caseName) {
         const repeatCount = container._repeatCount || 7;
         const baseLength = container._baseLength || Math.floor(slots.length / repeatCount);
         const centerStart = Math.floor(repeatCount / 2) * baseLength;
-        const centerEnd = centerStart + baseLength;
-        // Выбираем случайный индекс центрального слота (под палкой)
-        const slotWidth = 136;
-        const viewportWidth = viewport.offsetWidth;
         const centerSlotIndex = centerStart + Math.floor(baseLength / 2);
         // Анимация
+        const slotWidth = 136;
+        const viewportWidth = viewport.offsetWidth;
         const initialOffset = (viewportWidth / 2) - (slotWidth / 2) - (centerStart * slotWidth);
         const finalOffset = (viewportWidth / 2) - (slotWidth / 2) - (centerSlotIndex * slotWidth);
-        const duration = 4000; // 4 сек — быстрее
+        const duration = 7500; // 7.5 сек
         const start = performance.now();
-        function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+        // Кастомная ease: в начале скорость в 10 раз выше, потом замедление
+        function customEase(t) {
+            // t: 0..1
+            // В начале быстро, потом плавно замедляется
+            // Формула: ускорение в начале, замедление в конце
+            // t^0.25 — очень быстрое начало, (1-t)^3 — плавное замедление
+            return 1 - Math.pow(1 - Math.pow(t, 0.25), 3);
+        }
         function animate(now) {
             let elapsed = now - start;
             if (elapsed > duration) elapsed = duration;
             const progress = elapsed / duration;
-            const eased = easeOutCubic(progress);
+            const eased = customEase(progress);
             const currentOffset = initialOffset + (finalOffset - initialOffset) * eased;
             container.style.transition = 'none';
             container.style.transform = `translateX(${currentOffset}px)`;
@@ -305,8 +321,8 @@ function spinRoulette(caseName) {
                     if (centerSlot) centerSlot.classList.remove('winning');
                     container.style.transition = 'none';
                     container.style.transform = `translateX(${finalOffset}px)`;
-                    // Получаем NFT из центрального слота
-                    const nft = getNFTFromSlot(centerSlot, caseName);
+                    // Получаем NFT из центрального слота (по data-атрибутам)
+                    const nft = getNFTFromSlot(centerSlot);
                     resolve(nft);
                 }, 1000);
             }
@@ -315,16 +331,6 @@ function spinRoulette(caseName) {
         container.style.transform = `translateX(${initialOffset}px)`;
         requestAnimationFrame(animate);
     });
-}
-
-// Получить NFT из DOM-слота
-function getNFTFromSlot(slot, caseName) {
-    if (!slot) return null;
-    const id = slot.dataset.nftId;
-    const caseData = cases[caseName];
-    if (!caseData) return null;
-    // Находим NFT по уникальному id
-    return caseData.nfts.find(nft => `${nft.id}-${nft.label}-${nft.rarity}` === id) || null;
 }
 
 // Открытие кейса: теперь ждет spinRoulette и добавляет именно тот NFT, который оказался по центру
