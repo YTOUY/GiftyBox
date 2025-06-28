@@ -207,43 +207,57 @@ body {
     background: linear-gradient(to left, #232b3a 0%, transparent 100%);
 }
 
-/* Треугольный указатель направленный вниз */
+/* Рамка кейса */
+.case-frame {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #444;
+    border-radius: 40px 40px 32px 32px/60px 60px 32px 32px;
+    box-shadow: 0 4px 24px #0003;
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+/* Видимая область для слотов */
+.slots-viewport {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Новый треугольник-указатель */
 .pointer-down {
     position: absolute;
-    top: -20px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-bottom: 30px solid #e74c3c; /* Красный цвет */
+    border-left: 32px solid transparent;
+    border-right: 32px solid transparent;
+    border-top: none;
+    border-bottom: 38px solid #e74c3c;
     z-index: 10;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-    animation: pulse 2s infinite;
-}
-
-/* Анимация пульсации для указателя */
-@keyframes pulse {
-    0% { transform: translateX(-50%) scale(1); }
-    50% { transform: translateX(-50%) scale(1.05); }
-    100% { transform: translateX(-50%) scale(1); }
+    /* Основание выше боковых углов */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
 /* Контейнер слотов NFT */
 #nft-slots-container {
     position: relative;
-    width: 100%;
-    height: 150px;
-    overflow: visible;
-    margin-top: 20px;
     display: flex;
     align-items: center;
-    padding: 0 80px;
-    will-change: transform;
     min-width: 20000px;
-    transform: translateX(0);
+    height: 150px;
     gap: 16px;
+    will-change: transform;
+    transition: transform 0.3s;
 }
 
 /* Слоты NFT */

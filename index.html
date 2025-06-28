@@ -63,10 +63,12 @@
         <div id="page-case" class="page">
             <h2 id="case-title" class="page-title"></h2>
             <div class="case-roulette-container">
-                <!-- Треугольный указатель (направлен вниз) -->
-                <div class="pointer-down"></div>
-                <!-- Слоты NFT -->
-                <div id="nft-slots-container"></div>
+                <div class="case-frame">
+                    <div class="pointer-down"></div>
+                    <div class="slots-viewport">
+                        <div id="nft-slots-container"></div>
+                    </div>
+                </div>
             </div>
             <div class="case-buttons">
                 <button class="btn btn-red" onclick="openCase()">Открыть</button>

@@ -432,92 +432,45 @@ function showWinNotification(nft) {
 function spinRoulette(winningNFT) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
-        
-        if (!container) {
-            console.error('Контейнер слотов не найден!');
+        const viewport = container.parentElement; // .slots-viewport
+        if (!container || !viewport) {
+            console.error('Контейнер слотов или viewport не найден!');
             resolve();
             return;
         }
-        
         const slots = container.querySelectorAll('.nft-slot');
-        
         if (slots.length === 0) {
             console.error('Слоты не найдены!');
             resolve();
             return;
         }
-        
-        console.log('Начинаем анимацию рулетки');
-        console.log('Выигрышный NFT:', winningNFT);
-        console.log('Количество слотов:', slots.length);
-        
-        // Создаем уникальный идентификатор для выигрышного NFT
+        // Уникальный id для поиска
         const winningUniqueId = `${winningNFT.id}-${winningNFT.label}-${winningNFT.rarity}`;
-        
-        // Находим все слоты с выигрышным NFT
         const winningSlots = [];
         slots.forEach((slot, index) => {
             if (slot.dataset.nftId === winningUniqueId) {
                 winningSlots.push(index);
             }
         });
-        
-        // Выбираем случайный выигрышный слот
         const winningIndex = winningSlots[Math.floor(Math.random() * winningSlots.length)];
-        
-        console.log('Индекс выигрышного слота:', winningIndex);
-        
-        // Сбрасываем предыдущие трансформации
+        // Сброс
         container.style.transition = 'none';
         container.style.transform = 'translateX(0)';
-        
-        // Принудительно перерисовываем
         container.offsetHeight;
-        
-        // Вычисляем размеры
-        const slotWidth = 136; // 120px + 16px gap
-        const containerWidth = container.parentElement.offsetWidth;
-        
-        // Треугольник находится по центру контейнера
-        const centerPosition = containerWidth / 2 - slotWidth / 2;
-        
-        // Вычисляем конечную позицию (центрируем выигрышный слот под треугольником)
+        // Центрируем относительно viewport
+        const slotWidth = 136;
+        const viewportWidth = viewport.offsetWidth;
+        const centerPosition = viewportWidth / 2 - slotWidth / 2;
         const finalPosition = centerPosition - (winningIndex * slotWidth);
-        
-        // Начинаем анимацию с позиции, где видно начало массива слотов
-        // Добавляем несколько полных оборотов для эффекта
-        const startPosition = centerPosition;
-        const totalDistance = finalPosition - startPosition - (slots.length * slotWidth * 2);
-        
-        console.log('Параметры анимации:', {
-            slotWidth,
-            containerWidth,
-            centerPosition,
-            startPosition,
-            finalPosition,
-            totalDistance
-        });
-        
-        // Запускаем анимацию
+        // Добавляем обороты
+        const totalDistance = finalPosition - centerPosition - (slots.length * slotWidth * 2);
         container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         container.style.transform = `translateX(${totalDistance}px)`;
-        
-        // После завершения анимации
         setTimeout(() => {
-            console.log('Анимация завершена');
-            
-            // Подсвечиваем выигрышный слот (который находится под треугольником)
             const centerSlot = slots[winningIndex];
-            if (centerSlot) {
-                centerSlot.classList.add('winning');
-                console.log('Подсвечиваем выигрышный слот под треугольником');
-            }
-            
+            if (centerSlot) centerSlot.classList.add('winning');
             setTimeout(() => {
-                if (centerSlot) {
-                    centerSlot.classList.remove('winning');
-                }
-                console.log('Анимация полностью завершена');
+                if (centerSlot) centerSlot.classList.remove('winning');
                 resolve();
             }, 1000);
         }, 7500);
