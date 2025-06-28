@@ -306,17 +306,11 @@ function spinRoulette(caseName) {
         let start = null;
         // Кастомная easeInOut: плавный разгон, быстрый центр, плавное замедление
         function customEase(t) {
-            // t: 0..1
-            // 0-0.25: easeInQuad (разгон)
-            // 0.25-0.7: почти линейно (быстро)
-            // 0.7-1: easeOutCubic (замедление)
             if (t < 0.25) {
                 return 2 * t * t;
             } else if (t < 0.7) {
-                // линейно, но чуть ускоряем
                 return 0.125 + (t - 0.25) * 1.5 * 0.55;
             } else {
-                // easeOutCubic
                 let tt = (t - 0.7) / 0.3;
                 return 0.95 + (1 - Math.pow(1 - tt, 3)) * 0.05;
             }
@@ -334,11 +328,20 @@ function spinRoulette(caseName) {
             if (elapsed < duration) {
                 requestAnimationFrame(animate);
             } else {
-                // В конце вычисляем индекс центрального слота по transform
-                const finalTransform = currentOffset;
-                const centerX = Math.abs(finalTransform) + viewportWidth / 2;
-                const slotIndex = Math.round(centerX / slotWidth - 0.5);
-                const centerSlot = slots[slotIndex];
+                // Координата палки — центр viewport
+                const pointerX = viewport.getBoundingClientRect().left + viewportWidth / 2;
+                // Находим слот, чья середина ближе всего к pointerX
+                let minDist = Infinity;
+                let centerSlot = null;
+                slots.forEach(slot => {
+                    const rect = slot.getBoundingClientRect();
+                    const slotCenter = rect.left + rect.width / 2;
+                    const dist = Math.abs(slotCenter - pointerX);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        centerSlot = slot;
+                    }
+                });
                 if (centerSlot) centerSlot.classList.add('winning');
                 setTimeout(() => {
                     if (centerSlot) centerSlot.classList.remove('winning');
