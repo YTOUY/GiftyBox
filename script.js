@@ -268,7 +268,7 @@ function getNFTFromSlot(slot) {
     };
 }
 
-// Анимация рулетки с плавным разгон-ускорением, быстрым центром и плавным замедлением
+// Плавная анимация рулетки (easeInOutCubic) и точное совпадение результата
 function spinRoulette(caseName) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
@@ -304,45 +304,46 @@ function spinRoulette(caseName) {
         // Длительность
         const duration = 7500;
         let start = null;
-        // Кастомная easeInOut: плавный разгон, быстрый центр, плавное замедление
-        function customEase(t) {
-            if (t < 0.25) {
-                return 2 * t * t;
-            } else if (t < 0.7) {
-                return 0.125 + (t - 0.25) * 1.5 * 0.55;
-            } else {
-                let tt = (t - 0.7) / 0.3;
-                return 0.95 + (1 - Math.pow(1 - tt, 3)) * 0.05;
-            }
+        // Плавная easeInOutCubic
+        function easeInOutCubic(t) {
+            return t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
         }
+        let lastCenterSlot = null;
         function animate(now) {
             if (!start) start = now;
             let elapsed = now - start;
             if (elapsed > duration) elapsed = duration;
             let t = elapsed / duration;
-            let eased = customEase(t);
+            let eased = easeInOutCubic(t);
             if (eased > 1) eased = 1;
             const currentOffset = initialOffset + totalDistance * eased;
             container.style.transition = 'none';
             container.style.transform = `translateX(${currentOffset}px)`;
+            // Координата палки — центр viewport
+            const pointerX = viewport.getBoundingClientRect().left + viewportWidth / 2;
+            // Находим слот, чья середина ближе всего к pointerX
+            let minDist = Infinity;
+            let centerSlot = null;
+            slots.forEach(slot => {
+                const rect = slot.getBoundingClientRect();
+                const slotCenter = rect.left + rect.width / 2;
+                const dist = Math.abs(slotCenter - pointerX);
+                if (dist < minDist) {
+                    minDist = dist;
+                    centerSlot = slot;
+                }
+            });
+            // Подсвечиваем только текущий центр
+            if (lastCenterSlot && lastCenterSlot !== centerSlot) {
+                lastCenterSlot.classList.remove('winning');
+            }
+            if (centerSlot) centerSlot.classList.add('winning');
+            lastCenterSlot = centerSlot;
             if (elapsed < duration) {
                 requestAnimationFrame(animate);
             } else {
-                // Координата палки — центр viewport
-                const pointerX = viewport.getBoundingClientRect().left + viewportWidth / 2;
-                // Находим слот, чья середина ближе всего к pointerX
-                let minDist = Infinity;
-                let centerSlot = null;
-                slots.forEach(slot => {
-                    const rect = slot.getBoundingClientRect();
-                    const slotCenter = rect.left + rect.width / 2;
-                    const dist = Math.abs(slotCenter - pointerX);
-                    if (dist < minDist) {
-                        minDist = dist;
-                        centerSlot = slot;
-                    }
-                });
-                if (centerSlot) centerSlot.classList.add('winning');
                 setTimeout(() => {
                     if (centerSlot) centerSlot.classList.remove('winning');
                     container.style.transition = 'none';
