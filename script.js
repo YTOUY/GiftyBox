@@ -593,6 +593,195 @@ function updateInventory() {
     });
 }
 
+// --- Апгрейд NFT ---
+let upgradeSelectedNFT = null;
+let upgradeTargetNFT = null;
+let upgradeChance = 0;
+let upgradeInProgress = false;
+
+// Открыть модалку выбора NFT для апгрейда
+function openUpgradeSelectNFT() {
+    if (upgradeInProgress) return;
+    const modal = document.getElementById('modal-upgrade-nft');
+    const list = document.getElementById('modal-upgrade-nft-list');
+    list.innerHTML = '';
+    // Только NFT из инвентаря, цена > 1 TON
+    const eligible = inventory.filter(nft => getNFTPriceInGCoins(nft.id, true) > 100);
+    if (eligible.length === 0) {
+        list.innerHTML = '<div style="color:#fff">Нет подходящих NFT</div>';
+    } else {
+        eligible.forEach((nft, idx) => {
+            const item = document.createElement('div');
+            item.className = 'modal-nft-item' + (upgradeSelectedNFT && upgradeSelectedNFT.id === nft.id ? ' selected' : '');
+            item.onclick = () => {
+                upgradeSelectedNFT = nft;
+                closeModal('modal-upgrade-nft');
+                showNotification('Теперь выберите NFT, которое желаете получить');
+            };
+            let imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.rarity}-${nft.id}.gif`;
+            item.innerHTML = `<img src="${imgSrc}"><div class="nft-label">${cleanNFTName(nft.label)}</div><div class="nft-price">${getNFTPriceInGCoins(nft.id, true)} GCoins</div>`;
+            list.appendChild(item);
+        });
+    }
+    modal.classList.remove('hidden');
+}
+
+// Открыть модалку выбора целевого NFT
+function openUpgradeSelectTarget() {
+    if (!upgradeSelectedNFT || upgradeInProgress) {
+        showNotification('Сначала выберите NFT для апгрейда!');
+        return;
+    }
+    const modal = document.getElementById('modal-upgrade-target');
+    const list = document.getElementById('modal-upgrade-target-list');
+    list.innerHTML = '';
+    // Все NFT, цена >= 1.8 * выбранного, сортировка по цене
+    const selectedPrice = getNFTPriceInGCoins(upgradeSelectedNFT.id, true);
+    const allNFTs = Object.keys(cases).map(caseName => ({
+        ...cases[caseName].nfts.find(nft => nft.id === upgradeSelectedNFT.id),
+        price: getNFTPriceInGCoins(upgradeSelectedNFT.id, true)
+    }));
+    const eligible = allNFTs.filter(nft => nft.price >= Math.ceil(selectedPrice * 1.8)).sort((a, b) => a.price - b.price);
+    if (eligible.length === 0) {
+        list.innerHTML = '<div style="color:#fff">Нет подходящих NFT для апгрейда</div>';
+    } else {
+        eligible.forEach((nft, idx) => {
+            const item = document.createElement('div');
+            item.className = 'modal-nft-item' + (upgradeTargetNFT && upgradeTargetNFT.id === nft.id ? ' selected' : '');
+            item.onclick = () => {
+                upgradeTargetNFT = nft;
+                closeModal('modal-upgrade-target');
+                // Рассчитать шанс
+                upgradeChance = Math.floor(selectedPrice / nft.price * 100);
+                drawUpgradeCircle();
+            };
+            let imgSrc = nft.id.startsWith('gcoins') ? 'assets/nft/gcoins.gif' : `assets/nft/${getRarityById(nft.id)}-${nft.id}.gif`;
+            item.innerHTML = `<div class="nft-chance">Шанс: ${Math.floor(selectedPrice / nft.price * 100)}%</div><img src="${imgSrc}"><div class="nft-label">${cleanNFTName(nft.id)}</div><div class="nft-price">${nft.price} GCoins</div>`;
+            list.appendChild(item);
+        });
+    }
+    modal.classList.remove('hidden');
+}
+
+// Получить редкость по id (для отображения гифки)
+function getRarityById(id) {
+    for (const caseName in cases) {
+        const found = cases[caseName].nfts.find(nft => nft.id === id);
+        if (found) return found.rarity;
+    }
+    return 'basic';
+}
+
+// Закрыть модалку
+function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+}
+
+// Отрисовка круга апгрейда
+function drawUpgradeCircle(angle = 0) {
+    const canvas = document.getElementById('upgrade-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Круг
+    ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.lineWidth = 32;
+    // Серый фон
+    ctx.strokeStyle = '#bbb';
+    ctx.beginPath();
+    ctx.arc(0, 0, 110, 0, 2*Math.PI);
+    ctx.stroke();
+    // Синяя дуга (шанс)
+    if (upgradeChance > 0) {
+        ctx.strokeStyle = '#2ecc71';
+        ctx.beginPath();
+        ctx.arc(0, 0, 110, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
+        ctx.stroke();
+    }
+    // Красный треугольник (указатель)
+    ctx.rotate(angle);
+    ctx.fillStyle = '#c0392b';
+    ctx.beginPath();
+    ctx.moveTo(0, -130);
+    ctx.lineTo(-18, -100);
+    ctx.lineTo(18, -100);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+}
+
+// Запуск анимации апгрейда
+function startUpgrade() {
+    if (!upgradeSelectedNFT || !upgradeTargetNFT || upgradeInProgress) {
+        showNotification('Выберите оба NFT для апгрейда!');
+        return;
+    }
+    upgradeInProgress = true;
+    let start = null;
+    const duration = 5000 + Math.random()*3000; // 5-8 сек
+    const totalAngle = 2*Math.PI;
+    // Вычисляем сектор успеха
+    const winStart = -Math.PI/2;
+    const winEnd = winStart + totalAngle * (upgradeChance/100);
+    // Случайный итоговый угол
+    const isWin = Math.random() < (upgradeChance/100);
+    let finalAngle;
+    if (isWin) {
+        finalAngle = winStart + Math.random()*(winEnd-winStart);
+    } else {
+        finalAngle = winEnd + Math.random()*(totalAngle-(winEnd-winStart));
+    }
+    // Анимация
+    function animate(now) {
+        if (!start) start = now;
+        let elapsed = now - start;
+        let t = Math.min(elapsed/duration, 1);
+        // easeInOutCubic
+        t = t<0.5 ? 4*t*t*t : 1-(-2*t+2)**3/2;
+        const angle = 8*Math.PI*t + finalAngle*t; // много оборотов + финальный
+        drawUpgradeCircle(angle);
+        if (elapsed < duration) {
+            requestAnimationFrame(animate);
+        } else {
+            drawUpgradeCircle(finalAngle);
+            setTimeout(() => finishUpgrade(isWin), 800);
+        }
+    }
+    animate(performance.now());
+}
+
+// Завершение апгрейда
+function finishUpgrade(isWin) {
+    upgradeInProgress = false;
+    if (isWin) {
+        // Удаляем старый NFT, добавляем новый
+        inventory = inventory.filter(nft => nft !== upgradeSelectedNFT);
+        inventory.push({
+            id: upgradeTargetNFT.id,
+            label: upgradeTargetNFT.id,
+            rarity: getRarityById(upgradeTargetNFT.id),
+            stars: 0,
+            gcoins: 0,
+            case_id: '',
+            created_at: new Date().toISOString()
+        });
+        showNotification('Апгрейд успешен! Новый NFT добавлен.');
+        addToHistory(`Апгрейд: ${cleanNFTName(upgradeSelectedNFT.label)} → ${cleanNFTName(upgradeTargetNFT.id)}`, 0, 'upgrade');
+    } else {
+        // Удаляем выбранный NFT
+        inventory = inventory.filter(nft => nft !== upgradeSelectedNFT);
+        showNotification('Неудача! NFT утерян.');
+        addToHistory(`Апгрейд неудачен: ${cleanNFTName(upgradeSelectedNFT.label)}`, 0, 'upgrade');
+    }
+    upgradeSelectedNFT = null;
+    upgradeTargetNFT = null;
+    upgradeChance = 0;
+    drawUpgradeCircle();
+    updateInventory();
+    updateProfileNFTs();
+}
+
 // Функция апгрейда NFT
 function upgradeNFT() {
     const currentSelect = document.getElementById('current-nft');

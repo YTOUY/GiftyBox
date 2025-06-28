@@ -83,20 +83,31 @@
         <!-- Апгрейды -->
         <div id="page-upgrades" class="page">
             <h2 class="page-title">Апгрейды</h2>
-            <div class="upgrade-circle"></div>
             <div class="upgrade-section">
-                <div>Подарок для апгрейда</div>
-                <div id="upgrade-current"></div>
+                <div class="upgrade-controls">
+                    <button class="btn btn-blue" id="btn-add-nft" onclick="openUpgradeSelectNFT()">Добавить NFT</button>
+                    <button class="btn btn-blue" id="btn-choose-target" onclick="openUpgradeSelectTarget()">Выбрать NFT</button>
+                </div>
+                <button class="btn btn-red" id="btn-upgrade" onclick="startUpgrade()">АПГРЕЙД</button>
             </div>
-            <div class="upgrade-section">
-                <div>Возможные апгрейды</div>
-                <div id="upgrade-options"></div>
+            <div class="upgrade-circle-container">
+                <canvas id="upgrade-canvas" width="320" height="320"></canvas>
             </div>
-            <!-- Добавляю селекты для апгрейда -->
-            <div class="upgrade-selects">
-                <select id="current-nft"></select>
-                <select id="target-nft"></select>
-                <button onclick="upgradeNFT()">Апгрейд</button>
+        </div>
+        <!-- Модальное окно выбора NFT для апгрейда -->
+        <div id="modal-upgrade-nft" class="modal hidden">
+            <div class="modal-content">
+                <h3>Выберите NFT для апгрейда</h3>
+                <div id="modal-upgrade-nft-list" class="modal-nft-list"></div>
+                <button class="btn btn-blue" onclick="closeModal('modal-upgrade-nft')">Закрыть</button>
+            </div>
+        </div>
+        <!-- Модальное окно выбора целевого NFT -->
+        <div id="modal-upgrade-target" class="modal hidden">
+            <div class="modal-content">
+                <h3>Выберите NFT, которое хотите получить</h3>
+                <div id="modal-upgrade-target-list" class="modal-nft-list"></div>
+                <button class="btn btn-blue" onclick="closeModal('modal-upgrade-target')">Закрыть</button>
             </div>
         </div>
         <!-- Профиль -->

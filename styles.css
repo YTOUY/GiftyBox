@@ -377,12 +377,25 @@ body {
     box-shadow: 0 4px 24px #0003;
 }
 .upgrade-section {
-    background: #232b3a;
-    border-radius: 16px;
-    padding: 20px;
-    margin: 16px;
-    min-width: 280px;
-    box-shadow: 0 2px 8px #0002;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.upgrade-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.upgrade-circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+#upgrade-canvas {
+    background: none;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Профиль */
@@ -1036,4 +1049,85 @@ body {
         padding: 12px 20px;
         font-size: 1rem;
     }
+}
+
+/* --- Модальные окна --- */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal.hidden { display: none; }
+.modal-content {
+    background: #232b3a;
+    border-radius: 18px;
+    padding: 30px 20px;
+    min-width: 300px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px #0005;
+    text-align: center;
+}
+.modal-nft-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+    margin: 20px 0;
+}
+.modal-nft-item {
+    background: #1a1f2a;
+    border-radius: 12px;
+    padding: 12px 10px 8px 10px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px #0003;
+    min-width: 90px;
+    max-width: 120px;
+    text-align: center;
+    border: 2px solid transparent;
+}
+.modal-nft-item.selected {
+    border: 2px solid #27ae60;
+    box-shadow: 0 4px 16px #27ae6040;
+    transform: scale(1.07);
+}
+.modal-nft-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+.modal-nft-item .nft-label {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.modal-nft-item .nft-price {
+    color: #ffe7a0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.modal-nft-item .nft-chance {
+    color: #27ae60;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+/* --- Кнопка апгрейда --- */
+#btn-upgrade {
+    margin-top: 20px;
+    width: 200px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .modal-content { min-width: 90vw; }
+    #upgrade-canvas { width: 220px; height: 220px; }
 }
