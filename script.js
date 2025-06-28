@@ -457,10 +457,11 @@ function spinRoulette(winningNFT) {
         container.style.transition = 'none';
         container.style.transform = 'translateX(0)';
         container.offsetHeight;
-        // Центрируем относительно viewport
+        // Центрируем выигрышный слот ровно по центру viewport (центральный из 3)
         const slotWidth = 136;
         const viewportWidth = viewport.offsetWidth;
-        const centerPosition = viewportWidth / 2 - slotWidth / 2;
+        const centerSlotIndex = Math.floor(viewportWidth / slotWidth / 2); // для 3 слотов = 1
+        const centerPosition = (viewportWidth / 2) - (slotWidth / 2);
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         // Добавляем обороты
         const totalDistance = finalPosition - centerPosition - (slots.length * slotWidth * 2);
