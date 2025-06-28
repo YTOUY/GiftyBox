@@ -2,6 +2,7 @@
 let gcoins = 1000;
 let inventory = [];
 let activeCase = null;
+let isSpinning = false;
 
 const loadingScreen = document.getElementById('loading-screen');
 const mainContent = document.getElementById('main-content');
@@ -61,92 +62,92 @@ startApp();
 
 const cases = {
     basic: {
-        name: "Basic",
+        name: "Basic Case",
         cost: 100,
         nfts: [
-            { id: "teddybear", label: "Мишка", stars: 15 },
-            { id: "heart", label: "Сердце", stars: 15 },
-            { id: "rose", label: "Роза", stars: 25 },
-            { id: "rocket", label: "Ракета", stars: 50 },
-            { id: "trophy", label: "Кубок", stars: 100 },
-            { id: "lunar-snake", label: "Lunar Snake" },
-            { id: "desk-calendar", label: "Desk Calendar" },
-            { id: "gcoins-50", label: "50 GCoins", gcoins: 50 }
+            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
+            { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
+            { id: "rose", label: "Роза", rarity: "basic", stars: 25 },
+            { id: "rocket", label: "Ракета", rarity: "basic", stars: 50 },
+            { id: "trophy", label: "Кубок", rarity: "basic", stars: 100 },
+            { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
+            { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
+            { id: "gcoins-50", label: "50 GCoins", rarity: "special", gcoins: 50 }
         ],
         probabilities: [0.18, 0.18, 0.15, 0.13, 0.10, 0.10, 0.10, 0.06]
     },
     standard: {
-        name: "Standard",
+        name: "Standard Case",
         cost: 250,
         nfts: [
-            { id: "teddybear", label: "Мишка", stars: 15 },
-            { id: "heart", label: "Сердце", stars: 15 },
-            { id: "lunar-snake", label: "Lunar Snake" },
-            { id: "desk-calendar", label: "Desk Calendar" },
-            { id: "b-day-candle", label: "B-Day Candle" },
-            { id: "jester-hat", label: "Jester Hat" },
-            { id: "evil-eye", label: "Evil Eye" },
-            { id: "gcoins-200", label: "200 GCoins", gcoins: 200 }
+            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
+            { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
+            { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
+            { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
+            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
+            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
+            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
+            { id: "gcoins-200", label: "200 GCoins", rarity: "special", gcoins: 200 }
         ],
         probabilities: [0.15, 0.15, 0.13, 0.13, 0.13, 0.12, 0.12, 0.07]
     },
     rare: {
-        name: "Rare",
+        name: "Rare Case",
         cost: 500,
         nfts: [
-            { id: "rose", label: "Роза", stars: 25 },
-            { id: "rocket", label: "Ракета", stars: 50 },
-            { id: "trophy", label: "Кубок", stars: 100 },
-            { id: "b-day-candle", label: "B-Day Candle" },
-            { id: "jester-hat", label: "Jester Hat" },
-            { id: "evil-eye", label: "Evil Eye" },
-            { id: "homemade-cake", label: "Homemade Cake" },
-            { id: "easter-egg", label: "Easter Egg" }
+            { id: "rose", label: "Роза", rarity: "basic", stars: 25 },
+            { id: "rocket", label: "Ракета", rarity: "basic", stars: 50 },
+            { id: "trophy", label: "Кубок", rarity: "basic", stars: 100 },
+            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
+            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
+            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
+            { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
+            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 }
         ],
         probabilities: [0.15, 0.14, 0.13, 0.13, 0.13, 0.12, 0.10, 0.10]
     },
     epic: {
-        name: "Epic",
+        name: "Epic Case",
         cost: 1000,
         nfts: [
-            { id: "b-day-candle", label: "B-Day Candle" },
-            { id: "jester-hat", label: "Jester Hat" },
-            { id: "evil-eye", label: "Evil Eye" },
-            { id: "homemade-cake", label: "Homemade Cake" },
-            { id: "easter-egg", label: "Easter Egg" },
-            { id: "light-sword", label: "Light Sword" },
-            { id: "eternal-candle", label: "Eternal Candle" },
-            { id: "trapped-heart", label: "Trapped Heart" }
+            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
+            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
+            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
+            { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
+            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
+            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
+            { id: "eternal-candle", label: "Eternal Candle", rarity: "epic", stars: 180 },
+            { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 }
         ],
         probabilities: [0.15, 0.14, 0.13, 0.13, 0.12, 0.12, 0.11, 0.10]
     },
     legendary: {
-        name: "Legendary",
+        name: "Legendary Case",
         cost: 2000,
         nfts: [
-            { id: "easter-egg", label: "Easter Egg" },
-            { id: "light-sword", label: "Light Sword" },
-            { id: "eternal-candle", label: "Eternal Candle" },
-            { id: "candy-cane", label: "Candy Cane" },
-            { id: "jelly-bunny", label: "Jelly Bunny" },
-            { id: "ginger-cookie", label: "Ginger Cookie" },
-            { id: "trapped-heart", label: "Trapped Heart" },
-            { id: "gcoins-2500", label: "2500 GCoins", gcoins: 2500 }
+            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
+            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
+            { id: "eternal-candle", label: "Eternal Candle", rarity: "epic", stars: 180 },
+            { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 },
+            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
+            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
+            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
+            { id: "gcoins-2500", label: "2500 GCoins", rarity: "special", gcoins: 2500 }
         ],
         probabilities: [0.14, 0.13, 0.13, 0.13, 0.12, 0.12, 0.10, 0.13]
     },
     mythic: {
-        name: "Mythic",
+        name: "Mythic Case",
         cost: 5000,
         nfts: [
-            { id: "light-sword", label: "Light Sword" },
-            { id: "jelly-bunny", label: "Jelly Bunny" },
-            { id: "ginger-cookie", label: "Ginger Cookie" },
-            { id: "trapped-heart", label: "Trapped Heart" },
-            { id: "diamond-ring", label: "Diamond Ring" },
-            { id: "neko-helmet", label: "Neko Helmet" },
-            { id: "durov-cap", label: "Durov's Cap" },
-            { id: "gcoins-7000", label: "7000 GCoins", gcoins: 7000 }
+            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
+            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
+            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
+            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
+            { id: "diamond-ring", label: "Diamond Ring", rarity: "mythic", stars: 500 },
+            { id: "neko-helmet", label: "Neko Helmet", rarity: "mythic", stars: 600 },
+            { id: "durov-cap", label: "Durov's Cap", rarity: "mythic", stars: 1000 },
+            { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 }
         ],
         probabilities: [0.18, 0.15, 0.15, 0.13, 0.01, 0.01, 0.01, 0.36]
     }
@@ -176,325 +177,221 @@ function showCaseDetails(caseName) {
         <div class="nft-slot" data-nft="${cases[caseName].nfts[2].id}"><img src="assets/nft/${caseName}-${cases[caseName].nfts[2].id}.gif" alt="${cases[caseName].nfts[2].label}"></div>
         <div class="pointer"></div>
         <div class="action-buttons">
-            <button class="open-btn" onclick="openCase('${caseName}')">Открыть</button>
-            <button class="demo-btn" onclick="demoCase('${caseName}')">Демо-режим</button>
+            <button class="open-btn" onclick="openCase()">Открыть</button>
+            <button class="demo-btn" onclick="demoCase()">Демо-режим</button>
         </div>
     `;
     activeCase = caseName;
 }
 
-async function openCase(caseName) {
-    const caseData = cases[caseName];
+// Функция открытия кейса
+async function openCase() {
+    if (!activeCase || isSpinning) return;
+    
+    const caseData = cases[activeCase];
     if (gcoins < caseData.cost) {
         alert('Недостаточно G-Coins!');
         return;
     }
-    const response = await fetch('/.netlify/functions/api', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'openCase', gcoins, case: caseName }),
+    
+    isSpinning = true;
+    
+    // Списываем G-Coins
+    gcoins -= caseData.cost;
+    gcoinsDisplay.textContent = gcoins;
+    
+    // Получаем случайный NFT
+    const winningNFT = getRandomNFT(activeCase);
+    
+    // Запускаем анимацию рулетки
+    await spinRoulette(winningNFT);
+    
+    // Добавляем NFT в инвентарь
+    inventory.push(winningNFT);
+    updateInventory();
+    
+    isSpinning = false;
+    
+    // Показываем уведомление о выигрыше
+    showWinNotification(winningNFT);
+}
+
+// Функция демо режима
+function demoCase() {
+    if (!activeCase || isSpinning) return;
+    
+    isSpinning = true;
+    
+    // Получаем случайный NFT
+    const winningNFT = getRandomNFT(activeCase);
+    
+    // Запускаем анимацию рулетки
+    spinRoulette(winningNFT).then(() => {
+        isSpinning = false;
+        showWinNotification(winningNFT);
     });
-    const data = await response.json();
-    if (data.success) {
-        gcoins = data.newGcoins;
-        inventory.push(data.nft);
-        gcoinsDisplay.textContent = gcoins;
-        updatePointer(caseName, data.nft);
-        updateInventory();
-    } else {
-        alert('Ошибка при открытии кейса!');
-    }
 }
 
-function demoCase(caseName) {
-    const nft = getRandomNFT(caseName);
-    updatePointer(caseName, nft);
-}
-
+// Получение случайного NFT по вероятности
 function getRandomNFT(caseName) {
     const caseData = cases[caseName];
-    const rand = Math.random();
+    const random = Math.random();
     let cumulative = 0;
-    for (let i = 0; i < caseData.nfts.length; i++) {
+    
+    for (let i = 0; i < caseData.probabilities.length; i++) {
         cumulative += caseData.probabilities[i];
-        if (rand <= cumulative) return caseData.nfts[i];
+        if (random <= cumulative) {
+            return caseData.nfts[i];
+        }
     }
-    return caseData.nfts[caseData.nfts.length - 1];
+    
+    return caseData.nfts[0]; // Fallback
 }
 
-function updatePointer(caseName, nft) {
-    const caseDiv = document.querySelector(`[data-case="${caseName}"].active`);
-    if (!caseDiv) return;
-    const pointer = caseDiv.querySelector('.pointer');
-    const slots = caseDiv.querySelectorAll('.nft-slot');
-    slots.forEach((slot, slotIndex) => {
-        if (slot.dataset.nft === nft.id) {
-            pointer.style.left = `${30 + slotIndex * 60}px`;
-        }
-    });
-}
-
+// Обновление инвентаря
 function updateInventory() {
-    inventoryList.innerHTML = inventory.map(nftId => {
-        // Определяем кейс и объект по id
-        let caseName = '';
-        let nftObj = null;
-        for (const [key, value] of Object.entries(cases)) {
-            const found = value.nfts.find(n => n.id === nftId || n.id === nftId.id);
-            if (found) {
-                caseName = key;
-                nftObj = found;
-                break;
-            }
-        }
-        if (!nftObj) return '';
-        if (nftObj.gcoins) {
-            return `<div class="inventory-item"><div class="nft-img" style="background:#ffe7a0;color:#232b3a;font-weight:bold;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">${nftObj.gcoins} GCoins</div><span>${nftObj.label}</span></div>`;
-        } else {
-            const imgSrc = `assets/nft/${caseName}-${nftObj.id}.gif`;
-            return `<div class="inventory-item"><img src="${imgSrc}" alt="${nftObj.label}" class="inventory-nft-img"><span>${nftObj.label}</span></div>`;
-        }
-    }).join('');
-}
-
-document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-        document.getElementById(btn.dataset.section + '-section').classList.add('active');
-        caseGrid.querySelectorAll('.case').forEach(c => c.classList.remove('active'));
-    });
-});
-
-function upgradeNFT() {
-    const currentNFT = document.getElementById('current-nft').value;
-    const targetNFT = document.getElementById('target-nft').value;
-    const cost = 250;
-    if (gcoins < cost) {
-        alert('Недостаточно G-Coins для апгрейда!');
+    inventoryList.innerHTML = '';
+    
+    if (inventory.length === 0) {
+        inventoryList.innerHTML = '<div class="empty-inventory">Инвентарь пуст</div>';
         return;
     }
-    if (Math.random() < 0.65) {
-        const index = inventory.indexOf(currentNFT);
-        if (index > -1) inventory[index] = targetNFT;
-        gcoins -= cost;
-        alert('Успешный апгрейд!');
-    } else {
-        gcoins -= cost;
-        alert('Неудача!');
-    }
-    gcoinsDisplay.textContent = gcoins;
-    updateInventory();
+    
+    inventory.forEach((nft, index) => {
+        const item = document.createElement('div');
+        item.className = 'inventory-item';
+        item.innerHTML = `
+            <img src="assets/nft/${nft.rarity}-${nft.id}.gif" alt="${nft.label}" class="inventory-nft-img">
+            <div class="inventory-nft-name">${nft.label}</div>
+            <div class="inventory-nft-rarity">${nft.rarity}</div>
+        `;
+        inventoryList.appendChild(item);
+    });
 }
 
+// Функция апгрейда NFT
+function upgradeNFT() {
+    const currentSelect = document.getElementById('current-nft');
+    const targetSelect = document.getElementById('target-nft');
+    
+    const currentNFT = currentSelect.value;
+    const targetNFT = targetSelect.value;
+    
+    if (!currentNFT || !targetNFT) {
+        alert('Выберите NFT для апгрейда');
+        return;
+    }
+    
+    // Здесь должна быть логика апгрейда
+    alert('Апгрейд выполнен!');
+}
+
+// Заполнение селектов для апгрейда
 function populateNFTSelects() {
     const currentSelect = document.getElementById('current-nft');
     const targetSelect = document.getElementById('target-nft');
-    Object.values(cases).forEach(caseData => {
-        caseData.nfts.forEach(nft => {
-            const option1 = document.createElement('option');
-            const option2 = document.createElement('option');
-            option1.value = nft.id;
-            option2.value = nft.id;
-            option1.textContent = nft.label;
-            option2.textContent = nft.label;
-            currentSelect.appendChild(option1);
-            targetSelect.appendChild(option2);
-        });
+    
+    currentSelect.innerHTML = '<option value="">Выберите NFT</option>';
+    targetSelect.innerHTML = '<option value="">Выберите цель</option>';
+    
+    inventory.forEach((nft, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = nft.label;
+        currentSelect.appendChild(option);
     });
 }
 
-populateNFTSelects();
+// Показ уведомления о выигрыше
+function showWinNotification(nft) {
+    const notification = document.createElement('div');
+    notification.className = 'win-notification';
+    notification.innerHTML = `
+        <div class="win-content">
+            <img src="assets/nft/${nft.rarity}-${nft.id}.gif" alt="${nft.label}">
+            <h3>Поздравляем!</h3>
+            <p>Вы получили: ${nft.label}</p>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
 
-// --- Инициализация переменных и функций до использования ---
-const pages = document.querySelectorAll('.page');
-const navBtns = document.querySelectorAll('.nav-btn');
-
-window.showPage = function(page) {
-    pages.forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + page).classList.add('active');
-    navBtns.forEach(btn => btn.classList.remove('active'));
-    const btn = document.querySelector('.nav-btn[data-page="' + page + '"]');
-    if (btn) btn.classList.add('active');
-};
-
-// --- caseData (оставить как в предыдущей версии) ---
-// ... caseData ...
-
-window.renderCases = function() {
-    const caseList = document.querySelector('.case-list');
-    caseList.innerHTML = '';
-    Object.entries(cases).forEach(([key, data]) => {
-        let nft = data.nfts[0];
-        let imgSrc;
-        if (nft.gcoins) {
-            imgSrc = "assets/nft/gcoins.gif"; // если есть иконка, иначе можно заменить на другую
-        } else {
-            imgSrc = `assets/nft/${key}-${nft.id}.gif`;
-        }
-        let imgTag = `<img src="${imgSrc}" alt="${nft.label}" class="case-sticker-img" style="border-radius:12px;">`;
-        const div = document.createElement('div');
-        div.className = `case-card case-${key}`;
-        div.innerHTML = `
-            <div class="case-sticker">${imgTag}</div>
-        `;
-        div.onclick = () => window.openCasePage(key);
-        caseList.appendChild(div);
-    });
-};
-
-let currentCase = null;
-
-window.openCasePage = function(caseKey) {
-    currentCase = caseKey;
-    document.getElementById('case-title').textContent = cases[caseKey].name;
-    window.showPage('case');
-    // Генерируем слоты
-    const slotsContainer = document.getElementById('nft-slots-container');
-    slotsContainer.innerHTML = '';
-    const nfts = cases[caseKey].nfts;
-    const slotWidth = 100;
-    const gap = 24;
-    // Дублируем массив для плавной анимации
-    const extendedNfts = [...nfts, ...nfts, ...nfts];
-    extendedNfts.forEach((nftObj, i) => {
-        const slot = document.createElement('div');
-        slot.className = 'nft-slot';
-        slot.style.left = (i * (slotWidth + gap)) + 'px';
-        let img;
-        if (nftObj.gcoins) {
-            img = document.createElement('div');
-            img.className = 'nft-img';
-            img.style.display = 'flex';
-            img.style.alignItems = 'center';
-            img.style.justifyContent = 'center';
-            img.style.background = '#ffe7a0';
-            img.style.color = '#232b3a';
-            img.style.fontWeight = 'bold';
-            img.style.fontSize = '1.2rem';
-            img.textContent = nftObj.gcoins + ' GCoins';
-        } else {
-            img = document.createElement('img');
-            img.src = `assets/nft/${caseKey}-${nftObj.id}.gif`;
-            img.alt = nftObj.label;
-            img.className = 'nft-img';
-        }
-        const name = document.createElement('div');
-        name.className = 'nft-name';
-        name.textContent = nftObj.label;
-        slot.appendChild(img);
-        slot.appendChild(name);
-        slotsContainer.appendChild(slot);
-    });
-    // Показываем содержимое кейса и шансы
-    const contentList = document.getElementById('case-content-list');
-    contentList.innerHTML = '<table class="case-content-table"><tr><th>Подарок</th><th>Шанс</th></tr>' +
-        nfts.map((nftObj, i) => `<tr><td>${nftObj.label}</td><td>${(cases[caseKey].probabilities[i]*100).toFixed(1)}%</td></tr>`).join('') + '</table>';
-};
-
-// Анимация вращения
-function animateRoulette(caseKey, callback) {
-    const nfts = cases[caseKey].nfts;
-    const slotsContainer = document.getElementById('nft-slots-container');
-    const slotWidth = 100;
-    const gap = 24;
-    const total = nfts.length * 3;
-    let resultIndex = getRandomIndexByProbability(cases[caseKey].probabilities) + nfts.length; // центральная копия
-    let targetLeft = (slotsContainer.offsetWidth/2 - slotWidth/2) - resultIndex * (slotWidth + gap);
-    let currentLeft = 0;
-    let spins = Math.floor(Math.random()*10)+15;
-    let speed = 32;
-    function spin() {
-        currentLeft -= speed;
-        Array.from(slotsContainer.children).forEach((slot, i) => {
-            slot.style.transform = `translateX(${currentLeft + i*(slotWidth+gap)}px)`;
-        });
-        if (spins > 0) {
-            spins--;
-            setTimeout(spin, 16);
-            if (spins < 7) speed -= 2;
-        } else {
-            // Плавная остановка
-            let step = (targetLeft - currentLeft)/8;
-            if (Math.abs(step) > 1) {
-                currentLeft += step;
-                Array.from(slotsContainer.children).forEach((slot, i) => {
-                    slot.style.transform = `translateX(${currentLeft + i*(slotWidth+gap)}px)`;
-                });
-                requestAnimationFrame(spin);
-            } else {
-                currentLeft = targetLeft;
-                Array.from(slotsContainer.children).forEach((slot, i) => {
-                    slot.style.transform = `translateX(${currentLeft + i*(slotWidth+gap)}px)`;
-                });
-                if (callback) callback(nfts[resultIndex % nfts.length]);
+// Анимация вращения рулетки
+function spinRoulette(winningNFT) {
+    return new Promise((resolve) => {
+        const container = document.getElementById('nft-slots-container');
+        const slots = container.querySelectorAll('.nft-slot');
+        
+        // Находим индекс выигрышного NFT
+        let winningIndex = -1;
+        slots.forEach((slot, index) => {
+            if (slot.dataset.nftId === winningNFT.id) {
+                winningIndex = index;
             }
+        });
+        
+        if (winningIndex === -1) {
+            winningIndex = 0;
         }
-    }
-    spin();
+        
+        // Вычисляем конечную позицию (центрируем выигрышный слот)
+        const slotWidth = 136; // 120px + 16px margin
+        const containerWidth = container.offsetWidth;
+        const centerPosition = containerWidth / 2 - slotWidth / 2;
+        const finalPosition = centerPosition - (winningIndex * slotWidth);
+        
+        // Добавляем несколько полных оборотов для эффекта
+        const totalDistance = -(slots.length * slotWidth) + finalPosition;
+        
+        // Анимация вращения
+        container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        container.style.transform = `translateX(${totalDistance}px)`;
+        
+        // После завершения анимации
+        setTimeout(() => {
+            // Подсвечиваем выигрышный слот
+            const centerSlot = slots[winningIndex];
+            centerSlot.classList.add('winning');
+            
+            setTimeout(() => {
+                centerSlot.classList.remove('winning');
+                resolve();
+            }, 1000);
+        }, 7500);
+    });
 }
 
-function getRandomIndexByProbability(probabilities) {
-    const rand = Math.random();
-    let cumulative = 0;
-    for (let i = 0; i < probabilities.length; i++) {
-        cumulative += probabilities[i];
-        if (rand <= cumulative) return i;
-    }
-    return probabilities.length - 1;
-}
-
-window.openCase = function() {
-    if (!currentCase) return;
-    animateRoulette(currentCase, function(wonNft) {
-        // Добавляем NFT в профиль
-        inventory.push(wonNft);
-        window.updateInventory();
-        alert('Поздравляем! Вы выиграли: ' + wonNft.replace(/-/g, ' '));
+// Обработчики событий
+document.addEventListener('DOMContentLoaded', () => {
+    // Инициализация
+    updateInventory();
+    populateNFTSelects();
+    
+    // Обработчик изменения размера окна
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     });
-};
-
-window.demoCase = function() {
-    if (!currentCase) return;
-    animateRoulette(currentCase, function(wonNft) {
-        // Просто показать, не добавлять в инвентарь
-        alert('В демо-режиме выпал: ' + wonNft.replace(/-/g, ' '));
-    });
-};
-
-window.updateInventory = function() {
-    const inventoryList = document.getElementById('inventory-list');
-    if (!inventory.length) {
-        inventoryList.innerHTML = '';
-        return;
-    }
-    inventoryList.innerHTML = inventory.map(nftId => {
-        // Определяем кейс и объект по id
-        let caseName = '';
-        let nftObj = null;
-        for (const [key, value] of Object.entries(cases)) {
-            const found = value.nfts.find(n => n.id === nftId || n.id === nftId.id);
-            if (found) {
-                caseName = key;
-                nftObj = found;
-                break;
-            }
-        }
-        if (!nftObj) return '';
-        if (nftObj.gcoins) {
-            return `<div class="inventory-item"><div class="nft-img" style="background:#ffe7a0;color:#232b3a;font-weight:bold;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">${nftObj.gcoins} GCoins</div><span>${nftObj.label}</span></div>`;
-        } else {
-            const imgSrc = `assets/nft/${caseName}-${nftObj.id}.gif`;
-            return `<div class="inventory-item"><img src="${imgSrc}" alt="${nftObj.label}" class="inventory-nft-img"><span>${nftObj.label}</span></div>`;
-        }
-    }).join('');
-};
-
-// --- Инициализация приложения ---
-window.renderCases();
-window.showPage('home');
-
-navBtns.forEach(btn => {
-    btn.onclick = () => {
-        window.showPage(btn.dataset.page);
-    };
 });
+
+// Функция переключения страниц
+function showPage(pageName) {
+    // Скрываем все страницы
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Показываем нужную страницу
+    document.getElementById(`page-${pageName}`).classList.add('active');
+    
+    // Обновляем активную кнопку в навигации
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+}
