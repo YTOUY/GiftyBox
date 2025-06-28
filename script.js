@@ -29,6 +29,227 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// TON Connect 2 интеграция
+let connector;
+let wallet = null;
+
+// Инициализация TON Connect
+async function initTonConnect() {
+    const manifestUrl = 'https://giftybox.netlify.app/tonconnect-manifest.json';
+    connector = new TonConnect.TonConnect({
+        manifestUrl: manifestUrl
+    });
+
+    // Подписываемся на изменения состояния кошелька
+    connector.onStatusChange(wallet => {
+        if (wallet) {
+            console.log('Кошелек подключен:', wallet);
+            updateWalletUI(wallet);
+        } else {
+            console.log('Кошелек отключен');
+            updateWalletUI(null);
+        }
+    });
+
+    // Проверяем, есть ли уже подключенный кошелек
+    const walletConnectionSource = {
+        jsBridgeKey: 'giftybox-wallet'
+    };
+    
+    const connectedWallet = await connector.connect(walletConnectionSource);
+    if (connectedWallet) {
+        updateWalletUI(connectedWallet);
+    }
+}
+
+// Обновление UI при подключении/отключении кошелька
+function updateWalletUI(walletInstance) {
+    wallet = walletInstance; // Сохраняем в глобальную переменную
+    const walletBtn = document.querySelector('.btn-wallet');
+    if (wallet) {
+        walletBtn.innerHTML = `
+            <img src="assets/ton-logo.svg" alt="TON" class="wallet-logo">
+            ${wallet.account.address.slice(0, 6)}...${wallet.account.address.slice(-4)}
+        `;
+        walletBtn.onclick = disconnectWallet;
+        walletBtn.style.background = 'linear-gradient(90deg, #27ae60, #2980b9)';
+        walletBtn.title = 'Отключить кошелек';
+        
+        // Показываем блок пополнения
+        document.querySelector('.profile-topup').style.display = 'block';
+    } else {
+        walletBtn.innerHTML = `
+            <img src="assets/ton-logo.svg" alt="TON" class="wallet-logo">
+            Подключить кошелек
+        `;
+        walletBtn.onclick = openWalletModal;
+        walletBtn.style.background = 'linear-gradient(90deg, #2980b9, #27ae60)';
+        walletBtn.title = 'Подключить TON-кошелек';
+        
+        // Скрываем блок пополнения
+        document.querySelector('.profile-topup').style.display = 'none';
+    }
+}
+
+// Подключение кошелька
+async function connectWallet() {
+    try {
+        const walletConnectionSource = {
+            universalUrl: 'https://app.tonkeeper.com/ton-connect'
+        };
+        
+        await connector.connect(walletConnectionSource);
+    } catch (error) {
+        console.error('Ошибка подключения кошелька:', error);
+        alert('Ошибка подключения кошелька. Попробуйте еще раз.');
+    }
+}
+
+// Отключение кошелька
+async function disconnectWallet() {
+    try {
+        await connector.disconnect();
+        updateWalletUI(null);
+    } catch (error) {
+        console.error('Ошибка отключения кошелька:', error);
+    }
+}
+
+// Получение баланса TON
+async function getTonBalance() {
+    if (!wallet) return 0;
+    
+    try {
+        const response = await fetch(`https://toncenter.com/api/v2/getAddressBalance?address=${wallet.account.address}`);
+        const data = await response.json();
+        return parseFloat(data.result) / 1000000000; // Конвертируем из нанотонов в TON
+    } catch (error) {
+        console.error('Ошибка получения баланса:', error);
+        return 0;
+    }
+}
+
+// Отправка транзакции пополнения
+async function sendTopupTransaction(amount) {
+    if (!wallet) {
+        alert('Сначала подключите кошелек!');
+        return false;
+    }
+
+    try {
+        // Адрес для пополнения (замените на реальный адрес проекта)
+        // СПОСОБЫ ПОЛУЧЕНИЯ АДРЕСА:
+        // 1. Через Tonkeeper: tonkeeper.com → Создать кошелек → Скопировать адрес
+        // 2. Через MyTonWallet: mytonwallet.org → Создать кошелек → Скопировать адрес  
+        // 3. Тестовый адрес (для демо): EQD4FPq-PRDieyQKkizFTRtSDyucUIqrj0v_zXJmqaDp6_0t
+        const destinationAddress = 'UQCm41jcpYUBSCfWhDcf8HCiRTUjv88wUtnMW5YQU7wr_bo9';
+        
+        const transaction = {
+            validUntil: Math.floor(Date.now() / 1000) + 600, // 10 минут
+            messages: [
+                {
+                    address: destinationAddress,
+                    amount: (amount * 1000000000).toString(), // Конвертируем TON в нанотоны
+                    stateInit: null,
+                    payload: 'Пополнение баланса GiftyBox'
+                }
+            ]
+        };
+
+        const result = await connector.sendTransaction(transaction);
+        console.log('Транзакция отправлена:', result);
+        
+        // Здесь можно добавить вызов API для обновления баланса в базе данных
+        await updateUserBalance(amount);
+        
+        return true;
+    } catch (error) {
+        console.error('Ошибка отправки транзакции:', error);
+        alert('Ошибка отправки транзакции. Попробуйте еще раз.');
+        return false;
+    }
+}
+
+// Обновление баланса пользователя в базе данных
+async function updateUserBalance(tonAmount) {
+    try {
+        const response = await fetch('/.netlify/functions/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'topup_balance',
+                user_id: currentUser.id,
+                ton_amount: tonAmount,
+                wallet_address: wallet.account.address
+            })
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            currentUser.balance = result.new_balance;
+            updateBalanceDisplay();
+            alert(`Баланс пополнен на ${tonAmount} TON!`);
+        } else {
+            alert('Ошибка обновления баланса в базе данных.');
+        }
+    } catch (error) {
+        console.error('Ошибка обновления баланса:', error);
+        alert('Ошибка обновления баланса в базе данных.');
+    }
+}
+
+// Открытие модалки кошелька
+function openWalletModal() {
+    document.getElementById('modal-wallet').classList.remove('hidden');
+}
+
+// Закрытие модалки
+function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+}
+
+// Калькулятор пополнения TON → GCoins
+function updateTopupCalc() {
+    const ton = parseFloat(document.getElementById('topup-ton').value) || 0;
+    const gcoins = Math.floor(ton * 100);
+    const bonus = ton >= 5 ? Math.floor(gcoins * 0.3) : 0;
+    const totalGcoins = gcoins + bonus;
+    
+    document.getElementById('topup-gcoins').textContent = totalGcoins;
+    document.getElementById('topup-bonus').textContent = bonus > 0 ? `+${bonus} GCoins бонус!` : '';
+}
+
+// Пополнение баланса через кошелек
+async function topupBalance() {
+    const ton = parseFloat(document.getElementById('topup-ton').value) || 0;
+    if (ton <= 0) {
+        alert('Введите сумму TON');
+        return;
+    }
+
+    if (!wallet) {
+        alert('Сначала подключите кошелек!');
+        return;
+    }
+
+    const balance = await getTonBalance();
+    if (balance < ton) {
+        alert(`Недостаточно TON в кошельке. Баланс: ${balance.toFixed(2)} TON`);
+        return;
+    }
+
+    const confirmed = confirm(`Отправить ${ton} TON для пополнения баланса?`);
+    if (confirmed) {
+        const success = await sendTopupTransaction(ton);
+        if (success) {
+            document.getElementById('topup-ton').value = '';
+            updateTopupCalc();
+        }
+    }
+}
+
 // --- Анимация звёзд на загрузочном экране ---
 function createStars(ctx, width, height, count = 50) {
     const stars = [];
@@ -678,11 +899,6 @@ function getRarityById(id) {
         if (found) return found.rarity;
     }
     return 'basic';
-}
-
-// Закрыть модалку
-function closeModal(id) {
-    document.getElementById(id).classList.add('hidden');
 }
 
 // Отрисовка круга апгрейда

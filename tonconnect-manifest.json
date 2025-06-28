@@ -1,0 +1,10 @@
+{
+    "url": "https://giftybox.netlify.app",
+    "name": "GiftyBox",
+    "iconUrl": "https://giftybox.netlify.app/assets/logo.png",
+    "termsOfUseUrl": "https://giftybox.netlify.app/terms",
+    "privacyPolicyUrl": "https://giftybox.netlify.app/privacy",
+    "features": [
+        "ton_addr"
+    ]
+} 

@@ -227,6 +227,74 @@ exports.handler = async (event, context) => {
                 case 'getUser':
                     return await handleGetUser(userId, headers);
                 
+                case 'topup_balance':
+                    try {
+                        const { user_id, ton_amount, wallet_address } = JSON.parse(event.body);
+                        
+                        // Конвертируем TON в GCoins (1 TON = 100 GCoins)
+                        const gcoins = Math.floor(ton_amount * 100);
+                        // Бонус +30% при пополнении от 5 TON
+                        const bonus = ton_amount >= 5 ? Math.floor(gcoins * 0.3) : 0;
+                        const totalGcoins = gcoins + bonus;
+                        
+                        // Получаем текущий баланс пользователя
+                        const { data: userData, error: userError } = await supabase
+                            .from('users')
+                            .select('balance')
+                            .eq('id', user_id)
+                            .single();
+                        
+                        if (userError) throw userError;
+                        
+                        const newBalance = userData.balance + totalGcoins;
+                        
+                        // Обновляем баланс пользователя
+                        const { error: updateError } = await supabase
+                            .from('users')
+                            .update({ balance: newBalance })
+                            .eq('id', user_id);
+                        
+                        if (updateError) throw updateError;
+                        
+                        // Добавляем запись в историю операций
+                        const { error: historyError } = await supabase
+                            .from('user_operations')
+                            .insert({
+                                user_id: user_id,
+                                operation_type: 'topup',
+                                amount: totalGcoins,
+                                details: JSON.stringify({
+                                    ton_amount: ton_amount,
+                                    wallet_address: wallet_address,
+                                    bonus: bonus
+                                }),
+                                created_at: new Date().toISOString()
+                            });
+                        
+                        if (historyError) throw historyError;
+                        
+                        return {
+                            statusCode: 200,
+                            headers,
+                            body: JSON.stringify({
+                                success: true,
+                                new_balance: newBalance,
+                                gcoins_added: totalGcoins,
+                                bonus: bonus
+                            })
+                        };
+                    } catch (error) {
+                        console.error('Ошибка пополнения баланса:', error);
+                        return {
+                            statusCode: 500,
+                            headers,
+                            body: JSON.stringify({
+                                success: false,
+                                error: error.message
+                            })
+                        };
+                    }
+                
                 default:
                     return {
                         statusCode: 400,

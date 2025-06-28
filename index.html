@@ -114,6 +114,21 @@
         <!-- Профиль -->
         <div id="page-profile" class="page">
             <h2 class="page-title">Профиль</h2>
+            <div class="profile-wallet-row">
+                <button class="btn btn-wallet" onclick="openWalletModal()">
+                    <img src="assets/ton-logo.svg" alt="TON" class="wallet-logo"> Подключить кошелек
+                </button>
+                <div class="profile-topup">
+                    <label>Пополнить баланс:</label>
+                    <div class="topup-row">
+                        <input type="number" min="0" step="0.01" id="topup-ton" placeholder="TON" oninput="updateTopupCalc()">
+                        <span class="topup-eq">=</span>
+                        <span id="topup-gcoins">0</span> GCoins
+                    </div>
+                    <div id="topup-bonus" class="topup-bonus"></div>
+                    <button class="btn btn-blue" onclick="topupBalance()">Пополнить</button>
+                </div>
+            </div>
             <div class="profile-card">
                 <div class="profile-avatar"><img src="assets/nft/mythic-neko-helmet.gif" alt="Avatar"></div>
                 <div class="profile-info">
@@ -227,7 +242,29 @@
             </button>
         </nav>
     </div>
+    <!-- Модалка выбора кошелька -->
+    <div id="modal-wallet" class="modal hidden">
+        <div class="modal-content wallet-modal-content">
+            <h3>Подключить TON-кошелек</h3>
+            <ul class="wallet-benefits">
+                <li>Безопасное хранение цифровых активов (TON, токены, NFT)</li>
+                <li>Контроль Web3-идентичности</li>
+                <li>Быстрые и удобные крипто-транзакции</li>
+            </ul>
+            <div class="wallets-list">
+                <button onclick="connectWallet()" class="wallet-link"><img src="assets/wallets/tonkeeper.svg" alt="Tonkeeper">Tonkeeper</button>
+                <button onclick="connectWallet()" class="wallet-link"><img src="assets/wallets/mytonwallet.svg" alt="MyTonWallet">MyTonWallet</button>
+                <button onclick="connectWallet()" class="wallet-link"><img src="assets/wallets/openmask.svg" alt="OpenMask">OpenMask</button>
+                <button onclick="connectWallet()" class="wallet-link"><img src="assets/wallets/tonhub.svg" alt="Tonhub">Tonhub</button>
+                <button onclick="connectWallet()" class="wallet-link"><img src="assets/wallets/tonsafe.svg" alt="TonSafe">TonSafe</button>
+                <button onclick="connectWallet()" class="wallet-link"><img src="assets/wallets/tonspace.svg" alt="TonSpace">TonSpace</button>
+                <a href="https://ton.org/en/wallets?locale=en&filters[wallet_features][slug][$in]=dapp-auth&pagination[limit]=-1" target="_blank" class="wallet-link wallet-link-all">Все кошельки TON</a>
+            </div>
+            <button class="btn btn-blue" onclick="closeModal('modal-wallet')">Закрыть</button>
+        </div>
+    </div>
     <script src="nft-prices.js"></script>
+    <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
