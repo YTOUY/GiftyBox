@@ -205,13 +205,8 @@ function createRouletteSlots(caseName) {
     console.log('Создаем слоты для кейса:', caseName);
     console.log('NFT в кейсе:', caseData.nfts);
     
-    // Создаем массив всех NFT с учетом их количества
-    const allNFTs = [];
-    caseData.nfts.forEach(nft => {
-        for (let i = 0; i < nft.count; i++) {
-            allNFTs.push(nft);
-        }
-    });
+    // Используем существующий массив NFT (они уже повторяются в данных)
+    const allNFTs = [...caseData.nfts];
     
     // Перемешиваем массив для случайного порядка
     for (let i = allNFTs.length - 1; i > 0; i--) {
@@ -221,14 +216,17 @@ function createRouletteSlots(caseName) {
     
     // Создаем больше слотов для бесконечной ленты
     const totalSlots = 100; // Увеличиваем количество слотов
-    const slotWidth = 136; // 120px + 16px margin
     
     for (let i = 0; i < totalSlots; i++) {
         const nft = allNFTs[i % allNFTs.length];
         const slot = document.createElement('div');
         slot.className = 'nft-slot';
-        slot.dataset.nftId = nft.id;
+        
+        // Создаем уникальный идентификатор для каждого NFT
+        const uniqueId = `${nft.id}-${nft.label}-${nft.rarity}`;
+        slot.dataset.nftId = uniqueId;
         slot.dataset.nftRarity = nft.rarity;
+        slot.dataset.nftLabel = nft.label;
         
         let imgSrc;
         if (nft.gcoins) {
@@ -430,10 +428,13 @@ function spinRoulette(winningNFT) {
         console.log('Выигрышный NFT:', winningNFT);
         console.log('Количество слотов:', slots.length);
         
+        // Создаем уникальный идентификатор для выигрышного NFT
+        const winningUniqueId = `${winningNFT.id}-${winningNFT.label}-${winningNFT.rarity}`;
+        
         // Находим все слоты с выигрышным NFT
         const winningSlots = [];
         slots.forEach((slot, index) => {
-            if (slot.dataset.nftId === winningNFT.id) {
+            if (slot.dataset.nftId === winningUniqueId) {
                 winningSlots.push(index);
             }
         });
