@@ -393,9 +393,10 @@ body {
     margin-top: 30px;
 }
 #upgrade-canvas {
-    background: none;
-    display: block;
-    margin: 0 auto;
+    background: radial-gradient(circle at 50% 50%, #232b3a 60%, #1a1f2a 100%);
+    border-radius: 50%;
+    box-shadow: 0 8px 32px #0007, 0 0 0 8px #232b3a;
+    margin-bottom: 20px;
 }
 
 /* Профиль */
@@ -1079,21 +1080,19 @@ body {
     margin: 20px 0;
 }
 .modal-nft-item {
-    background: #1a1f2a;
-    border-radius: 12px;
-    padding: 12px 10px 8px 10px;
+    background: linear-gradient(135deg, #232b3a 60%, #2c232a 100%);
+    border: 2px solid transparent;
+    box-shadow: 0 2px 12px #0005;
+    transition: border 0.2s, box-shadow 0.2s, transform 0.2s;
     cursor: pointer;
-    transition: box-shadow 0.2s, transform 0.2s;
-    box-shadow: 0 2px 8px #0003;
     min-width: 90px;
     max-width: 120px;
     text-align: center;
-    border: 2px solid transparent;
 }
 .modal-nft-item.selected {
     border: 2px solid #27ae60;
-    box-shadow: 0 4px 16px #27ae6040;
-    transform: scale(1.07);
+    box-shadow: 0 4px 24px #27ae6040;
+    transform: scale(1.08);
 }
 .modal-nft-item img {
     width: 60px;
@@ -1120,11 +1119,76 @@ body {
 }
 
 /* --- Кнопка апгрейда --- */
-#btn-upgrade {
-    margin-top: 20px;
-    width: 200px;
-    font-size: 1.2rem;
+#btn-upgrade, .btn-upgrade-glow {
+    background: linear-gradient(90deg, #27ae60, #2980b9);
+    color: #fff;
+    font-size: 1.3rem;
     font-weight: 700;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 24px #27ae6040;
+    transition: box-shadow 0.2s, transform 0.2s;
+    animation: pulse 1.2s infinite alternate;
+}
+@keyframes pulse {
+    from { box-shadow: 0 4px 24px #27ae6040; }
+    to   { box-shadow: 0 8px 32px #27ae60a0; transform: scale(1.04);}
+}
+
+#btn-upgrade:disabled {
+    opacity: 0.5;
+    animation: none;
+    cursor: not-allowed;
+}
+
+/* --- Треугольник-указатель с glow --- */
+.upgrade-pointer-glow {
+    filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 6px #c0392b);
+}
+
+/* --- Центр круга: NFT --- */
+.upgrade-nft-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 96px;
+    height: 96px;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.04);
+    box-shadow: 0 2px 12px #0005;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.upgrade-nft-center img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #2226;
+}
+
+/* --- Цены и шансы --- */
+.nft-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.nft-price::after {
+    content: url('data:image/svg+xml;utf8,<svg width="16" height="16" fill="gold" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="orange" stroke-width="2" fill="yellow"/></svg>');
+    display: inline-block;
+    margin-left: 2px;
+}
+.nft-chance {
+    color: #27ae60;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
 }
 
 @media (max-width: 600px) {

@@ -624,6 +624,7 @@ function openUpgradeSelectNFT() {
         });
     }
     modal.classList.remove('hidden');
+    updateUpgradeButtonState();
 }
 
 // Открыть модалку выбора целевого NFT
@@ -665,6 +666,7 @@ function openUpgradeSelectTarget() {
         });
     }
     modal.classList.remove('hidden');
+    updateUpgradeButtonState();
 }
 
 // Получить редкость по id (для отображения гифки)
@@ -696,15 +698,24 @@ function drawUpgradeCircle(angle = 0) {
     ctx.beginPath();
     ctx.arc(0, 0, 110, 0, 2*Math.PI);
     ctx.stroke();
-    // Синяя дуга (шанс)
+    // Градиентная дуга (шанс)
     if (upgradeChance > 0) {
-        ctx.strokeStyle = '#2ecc71';
+        const grad = ctx.createLinearGradient(110, 0, -110, 0);
+        grad.addColorStop(0, '#27ae60');
+        grad.addColorStop(1, '#2980b9');
+        ctx.strokeStyle = grad;
         ctx.beginPath();
         ctx.arc(0, 0, 110, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
+        ctx.shadowColor = '#27ae60';
+        ctx.shadowBlur = 16;
         ctx.stroke();
+        ctx.shadowBlur = 0;
     }
-    // Красный треугольник (указатель)
+    // Красный треугольник (указатель) с glow
+    ctx.save();
     ctx.rotate(angle);
+    ctx.shadowColor = '#fff';
+    ctx.shadowBlur = 12;
     ctx.fillStyle = '#c0392b';
     ctx.beginPath();
     ctx.moveTo(0, -130);
@@ -713,6 +724,19 @@ function drawUpgradeCircle(angle = 0) {
     ctx.closePath();
     ctx.fill();
     ctx.restore();
+    ctx.restore();
+    // В центре выбранный NFT
+    const centerDiv = document.getElementById('upgrade-nft-center');
+    if (centerDiv) {
+        if (upgradeSelectedNFT) {
+            let imgSrc = upgradeSelectedNFT.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${upgradeSelectedNFT.rarity}-${upgradeSelectedNFT.id}.gif`;
+            centerDiv.innerHTML = `<img src='${imgSrc}' alt='NFT'>`;
+            centerDiv.style.display = '';
+        } else {
+            centerDiv.innerHTML = '';
+            centerDiv.style.display = 'none';
+        }
+    }
 }
 
 // Запуск анимации апгрейда
@@ -772,11 +796,13 @@ function finishUpgrade(isWin) {
         });
         showNotification('Апгрейд успешен! Новый NFT добавлен.');
         addToHistory(`Апгрейд: ${cleanNFTName(upgradeSelectedNFT.label)} → ${cleanNFTName(upgradeTargetNFT.id)}`, 0, 'upgrade');
+        showConfetti();
     } else {
         // Удаляем выбранный NFT
         inventory = inventory.filter(nft => nft !== upgradeSelectedNFT);
         showNotification('Неудача! NFT утерян.');
         addToHistory(`Апгрейд неудачен: ${cleanNFTName(upgradeSelectedNFT.label)}`, 0, 'upgrade');
+        showFlash();
     }
     upgradeSelectedNFT = null;
     upgradeTargetNFT = null;
@@ -784,6 +810,7 @@ function finishUpgrade(isWin) {
     drawUpgradeCircle();
     updateInventory();
     updateProfileNFTs();
+    updateUpgradeButtonState();
 }
 
 // Функция апгрейда NFT
@@ -1128,4 +1155,90 @@ function showNotification(message) {
     setTimeout(() => {
         notification.remove();
     }, 3000);
+}
+
+function updateUpgradeButtonState() {
+    const btn = document.getElementById('btn-upgrade');
+    if (!btn) return;
+    if (upgradeSelectedNFT && upgradeTargetNFT && !upgradeInProgress) {
+        btn.classList.add('btn-upgrade-glow');
+        btn.disabled = false;
+    } else {
+        btn.classList.remove('btn-upgrade-glow');
+        btn.disabled = true;
+    }
+}
+
+// Анимация конфетти
+function showConfetti() {
+    const confettiCanvas = document.createElement('canvas');
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+    confettiCanvas.style.position = 'fixed';
+    confettiCanvas.style.left = '0';
+    confettiCanvas.style.top = '0';
+    confettiCanvas.style.pointerEvents = 'none';
+    confettiCanvas.style.zIndex = '3000';
+    document.body.appendChild(confettiCanvas);
+    const ctx = confettiCanvas.getContext('2d');
+    const confetti = [];
+    const colors = ['#ffe7a0','#27ae60','#2980b9','#e74c3c','#fff','#f39c12'];
+    for (let i = 0; i < 80; i++) {
+        confetti.push({
+            x: Math.random()*confettiCanvas.width,
+            y: -20-Math.random()*100,
+            r: 6+Math.random()*8,
+            d: 2+Math.random()*4,
+            color: colors[Math.floor(Math.random()*colors.length)],
+            tilt: Math.random()*10-5,
+            tiltAngle: 0,
+            tiltAngleInc: 0.05+Math.random()*0.07
+        });
+    }
+    let frame = 0;
+    function draw() {
+        ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+        confetti.forEach(c => {
+            ctx.beginPath();
+            ctx.ellipse(c.x, c.y, c.r, c.r/2, c.tilt, 0, 2*Math.PI);
+            ctx.fillStyle = c.color;
+            ctx.fill();
+        });
+    }
+    function update() {
+        frame++;
+        confetti.forEach(c => {
+            c.y += c.d + Math.sin(frame/10);
+            c.x += Math.sin(frame/15 + c.tilt)*2;
+            c.tilt += c.tiltAngleInc;
+        });
+    }
+    function animate() {
+        draw();
+        update();
+        if (frame < 90) {
+            requestAnimationFrame(animate);
+        } else {
+            confettiCanvas.remove();
+        }
+    }
+    animate();
+}
+
+// Вспышка при неудаче
+function showFlash() {
+    const flash = document.createElement('div');
+    flash.style.position = 'fixed';
+    flash.style.left = '0';
+    flash.style.top = '0';
+    flash.style.width = '100vw';
+    flash.style.height = '100vh';
+    flash.style.background = 'radial-gradient(circle at 50% 50%, #fff 0%, #fff8 40%, transparent 80%)';
+    flash.style.zIndex = '3000';
+    flash.style.pointerEvents = 'none';
+    flash.style.opacity = '1';
+    flash.style.transition = 'opacity 0.7s';
+    document.body.appendChild(flash);
+    setTimeout(() => { flash.style.opacity = '0'; }, 80);
+    setTimeout(() => { flash.remove(); }, 800);
 }
