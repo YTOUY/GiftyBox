@@ -420,7 +420,7 @@ function showWinNotification(nft) {
     }, 3000);
 }
 
-// Анимация вращения рулетки
+// Анимация вращения рулетки с ускорением и плавным замедлением
 function spinRoulette(winningNFT) {
     return new Promise((resolve) => {
         const container = document.getElementById('nft-slots-container');
@@ -450,31 +450,48 @@ function spinRoulette(winningNFT) {
             }
         }
         const winningIndex = winningSlots[Math.floor(Math.random() * winningSlots.length)];
-        // Сброс
-        container.style.transition = 'none';
         // Центрируем центральную копию
         const slotWidth = 136;
         const viewportWidth = viewport.offsetWidth;
         const centerPosition = (viewportWidth / 2) - (slotWidth / 2);
-        // Ставим контейнер так, чтобы первый слот центральной копии был на своём месте
         const initialOffset = centerPosition - (centerStart * slotWidth);
-        container.style.transform = `translateX(${initialOffset}px)`;
-        container.offsetHeight;
-        // Анимируем к выигрышному слоту
         const finalOffset = centerPosition - (winningIndex * slotWidth);
-        container.style.transition = 'transform 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        container.style.transform = `translateX(${finalOffset}px)`;
-        setTimeout(() => {
-            const centerSlot = slots[winningIndex];
-            if (centerSlot) centerSlot.classList.add('winning');
-            // После анимации мгновенно возвращаем контейнер в центр (без анимации)
-            setTimeout(() => {
-                if (centerSlot) centerSlot.classList.remove('winning');
-                container.style.transition = 'none';
-                container.style.transform = `translateX(${finalOffset}px)`;
-                resolve();
-            }, 1000);
-        }, 7500);
+        // Анимация через requestAnimationFrame
+        const duration = 7500; // 7.5 сек
+        const start = performance.now();
+        let lastOffset = initialOffset;
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+        function animate(now) {
+            let elapsed = now - start;
+            if (elapsed > duration) elapsed = duration;
+            const progress = elapsed / duration;
+            // Быстрое начало, плавное замедление
+            const eased = easeOutCubic(progress);
+            const currentOffset = initialOffset + (finalOffset - initialOffset) * eased;
+            container.style.transition = 'none';
+            container.style.transform = `translateX(${currentOffset}px)`;
+            lastOffset = currentOffset;
+            if (elapsed < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                // Подсветка выигрышного слота
+                const centerSlot = slots[winningIndex];
+                if (centerSlot) centerSlot.classList.add('winning');
+                setTimeout(() => {
+                    if (centerSlot) centerSlot.classList.remove('winning');
+                    // После анимации мгновенно фиксируем позицию
+                    container.style.transition = 'none';
+                    container.style.transform = `translateX(${finalOffset}px)`;
+                    resolve();
+                }, 1000);
+            }
+        }
+        // Ставим контейнер в начальное положение
+        container.style.transition = 'none';
+        container.style.transform = `translateX(${initialOffset}px)`;
+        requestAnimationFrame(animate);
     });
 }
 
