@@ -477,15 +477,17 @@ function spinRoulette(winningNFT) {
         // Вычисляем размеры
         const slotWidth = 136; // 120px + 16px gap
         const containerWidth = container.parentElement.offsetWidth;
+        
+        // Треугольник находится по центру контейнера
         const centerPosition = containerWidth / 2 - slotWidth / 2;
         
-        // Вычисляем конечную позицию (центрируем выигрышный слот)
+        // Вычисляем конечную позицию (центрируем выигрышный слот под треугольником)
         const finalPosition = centerPosition - (winningIndex * slotWidth);
         
-        // Используем циклическую анимацию - слоты повторяются
-        // Начинаем с позиции, где видно начало массива слотов
+        // Начинаем анимацию с позиции, где видно начало массива слотов
+        // Добавляем несколько полных оборотов для эффекта
         const startPosition = centerPosition;
-        const totalDistance = finalPosition - startPosition;
+        const totalDistance = finalPosition - startPosition - (slots.length * slotWidth * 2);
         
         console.log('Параметры анимации:', {
             slotWidth,
@@ -504,11 +506,11 @@ function spinRoulette(winningNFT) {
         setTimeout(() => {
             console.log('Анимация завершена');
             
-            // Подсвечиваем выигрышный слот
+            // Подсвечиваем выигрышный слот (который находится под треугольником)
             const centerSlot = slots[winningIndex];
             if (centerSlot) {
                 centerSlot.classList.add('winning');
-                console.log('Подсвечиваем выигрышный слот');
+                console.log('Подсвечиваем выигрышный слот под треугольником');
             }
             
             setTimeout(() => {

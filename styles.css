@@ -210,15 +210,24 @@ body {
 /* Треугольный указатель направленный вниз */
 .pointer-down {
     position: absolute;
-    top: -15px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 25px solid #232b3a;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 30px solid #e74c3c; /* Красный цвет */
     z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    animation: pulse 2s infinite;
+}
+
+/* Анимация пульсации для указателя */
+@keyframes pulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.05); }
+    100% { transform: translateX(-50%) scale(1); }
 }
 
 /* Контейнер слотов NFT */
@@ -294,9 +303,26 @@ body {
 .nft-slot-rarity.mythic { background: #e74c3c; color: #fff; }
 
 .nft-slot.winning {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #ffe7a0;
+    transform: scale(1.15);
+    box-shadow: 0 0 30px #e74c3c, 0 0 50px #e74c3c;
     z-index: 10;
+    animation: winningGlow 1s ease-in-out;
+}
+
+/* Анимация свечения для выигрышного слота */
+@keyframes winningGlow {
+    0% { 
+        transform: scale(1.15);
+        box-shadow: 0 0 30px #e74c3c, 0 0 50px #e74c3c;
+    }
+    50% { 
+        transform: scale(1.2);
+        box-shadow: 0 0 40px #e74c3c, 0 0 60px #e74c3c, 0 0 80px #e74c3c;
+    }
+    100% { 
+        transform: scale(1.15);
+        box-shadow: 0 0 30px #e74c3c, 0 0 50px #e74c3c;
+    }
 }
 
 .case-buttons {
@@ -552,6 +578,13 @@ body {
     .case-roulette-container::before,
     .case-roulette-container::after {
         width: 40px;
+    }
+    
+    .pointer-down {
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 25px solid #e74c3c;
+        top: -15px;
     }
 }
 
