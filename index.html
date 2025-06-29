@@ -14,217 +14,127 @@
         <canvas id="star-canvas"></canvas>
         <h1>GiftyBox - выигрывай подарки</h1>
     </div>
-    <!-- Основное приложение -->
-    <div id="main-content" class="hidden">
-        <!-- Баланс -->
-        <div id="gcoins" class="gcoins-display">1000</div>
-        <!-- Главная -->
-        <div id="page-home" class="page active">
-            <h2 class="page-title">Кейсы</h2>
-            <div class="case-grid">
-                <div class="case-card case-basic" onclick="openCasePage('basic')">
-                    <div class="case-gif">
-                        <img src="assets/nft/basic-heart.gif" alt="Basic Case">
+    <!-- Новый layout под референс -->
+    <div id="app">
+        <!-- Верхняя панель -->
+        <header class="top-bar">
+            <div class="logo"><img src="assets/nft/basic-teddybear.gif" alt="logo"/></div>
+            <button class="btn-wallet" id="btn-connect-wallet">Connect wallet</button>
+            <div class="balance-row">
+                <span id="main-balance">0.00</span>
+                <img src="assets/ton-logo.svg" class="ton-logo"/>
+            </div>
+            <div class="profile-avatar-mini"><img src="assets/nft/mythic-neko-helmet.gif" alt="avatar"/></div>
+        </header>
+        <!-- Страницы -->
+        <main>
+            <!-- Main -->
+            <section id="page-main" class="page active">
+                <div class="promo-block giveaways">GIVEAWAYS<br><span>Contrary to popular belief</span></div>
+                <div class="promo-block promo">FOLLOW THE PROMOTIONS!<br><span>Follow on our telegram!</span></div>
+                <div class="main-cards">
+                    <div class="main-card cases" onclick="showPage('cases')">
+                        <div class="main-card-img"></div>
+                        <div class="main-card-title">Play & Earn!<br><b>CASES</b></div>
                     </div>
-                    <div class="case-name">Basic Case</div>
-                </div>
-                <div class="case-card case-standard" onclick="openCasePage('standard')">
-                    <div class="case-gif">
-                        <img src="assets/nft/basic-rocket.gif" alt="Standard Case">
+                    <div class="main-card upgrade" onclick="showPage('upgrade')">
+                        <div class="main-card-img"></div>
+                        <div class="main-card-title">Upgrade your gifts!<br><b>UPGRADE</b></div>
                     </div>
-                    <div class="case-name">Standard Case</div>
-                </div>
-                <div class="case-card case-rare" onclick="openCasePage('rare')">
-                    <div class="case-gif">
-                        <img src="assets/nft/basic-trophy.gif" alt="Rare Case">
+                    <div class="main-card coming-soon">
+                        <div class="main-card-img"></div>
+                        <div class="main-card-title">COMING SOON</div>
+                        <div class="main-card-timer">08 DAYS 04 HOURS 17 MIN 47 SEC</div>
                     </div>
-                    <div class="case-name">Rare Case</div>
                 </div>
-                <div class="case-card case-epic" onclick="openCasePage('epic')">
-                    <div class="case-gif">
-                        <img src="assets/nft/epic-light-sword.gif" alt="Epic Case">
-                    </div>
-                    <div class="case-name">Epic Case</div>
+            </section>
+            <!-- Cases -->
+            <section id="page-cases" class="page">
+                <div class="cases-balance-row">
+                    <!-- Горизонтальный список баланса по кейсам -->
                 </div>
-                <div class="case-card case-legendary" onclick="openCasePage('legendary')">
-                    <div class="case-gif">
-                        <img src="assets/nft/mythic-neko-helmet.gif" alt="Legendary Case">
-                    </div>
-                    <div class="case-name">Legendary Case</div>
+                <div class="cases-list">
+                    <div class="case-card free-spins">FREE SPINS<br><span>Open now</span></div>
+                    <!-- Кейсы с TON, HOT, NEW -->
+                    <div class="case-card hot">Durov Duck <span class="case-price">0.50 <img src='assets/ton-logo.svg'/></span></div>
+                    <div class="case-card new">HB STAGE <span class="case-price">1.00 <img src='assets/ton-logo.svg'/></span></div>
+                    <div class="case-card">Mexico Vibes <span class="case-price">2.00 <img src='assets/ton-logo.svg'/></span></div>
                 </div>
-                <div class="case-card case-mythic" onclick="openCasePage('mythic')">
-                    <div class="case-gif">
-                        <img src="assets/nft/mythic-durov-cap.gif" alt="Mythic Case">
-                    </div>
-                    <div class="case-name">Mythic Case</div>
+            </section>
+            <!-- Deposit -->
+            <section id="page-deposit" class="page">
+                <div class="deposit-block">
+                    <button class="btn-wallet" id="btn-connect-wallet-2">Connect wallet</button>
+                    <div class="deposit-balance">0.00 <img src="assets/ton-logo.svg"/></div>
+                    <button class="btn btn-blue">Deposit</button>
                 </div>
-            </div>
-        </div>
-        <!-- Страница кейса -->
-        <div id="page-case" class="page">
-            <h2 id="case-title" class="page-title"></h2>
-            <div class="case-roulette-container">
-                <div class="slots-viewport">
-                    <div id="nft-slots-container"></div>
-                    <div class="center-indicator"></div>
-                </div>
-            </div>
-            <div class="case-buttons">
-                <button class="btn btn-red" onclick="openCase()">Открыть</button>
-                <button class="btn btn-blue" onclick="demoCase()">Демо режим</button>
-            </div>
-            <div id="case-content-list"></div>
-        </div>
-        <!-- Инвентарь -->
-        <div id="page-inventory" class="page">
-            <h2 class="page-title">Мои подарки</h2>
-            <div id="inventory-list"></div>
-        </div>
-        <!-- Апгрейды -->
-        <div id="page-upgrades" class="page">
-            <h2 class="page-title">Апгрейды</h2>
-            <div class="upgrade-section">
-                <div class="upgrade-controls">
-                    <button class="btn btn-blue" id="btn-add-nft" onclick="openUpgradeSelectNFT()">Добавить NFT</button>
-                    <button class="btn btn-blue" id="btn-choose-target" onclick="openUpgradeSelectTarget()">Выбрать NFT</button>
-                </div>
-                <button class="btn btn-red" id="btn-upgrade" onclick="startUpgrade()">АПГРЕЙД</button>
-            </div>
-            <div class="upgrade-circle-container" style="position:relative;">
-                <div id="upgrade-nft-center" class="upgrade-nft-center" style="display:none;"></div>
-                <canvas id="upgrade-canvas" width="320" height="320"></canvas>
-            </div>
-        </div>
-        <!-- Модальное окно выбора NFT для апгрейда -->
-        <div id="modal-upgrade-nft" class="modal hidden">
-            <div class="modal-content">
-                <h3>Выберите NFT для апгрейда</h3>
-                <div id="modal-upgrade-nft-list" class="modal-nft-list"></div>
-                <button class="btn btn-blue" onclick="closeModal('modal-upgrade-nft')">Закрыть</button>
-            </div>
-        </div>
-        <!-- Модальное окно выбора целевого NFT -->
-        <div id="modal-upgrade-target" class="modal hidden">
-            <div class="modal-content">
-                <h3>Выберите NFT, которое хотите получить</h3>
-                <div id="modal-upgrade-target-list" class="modal-nft-list"></div>
-                <button class="btn btn-blue" onclick="closeModal('modal-upgrade-target')">Закрыть</button>
-            </div>
-        </div>
-        <!-- Профиль -->
-        <div id="page-profile" class="page">
-            <h2 class="page-title">Профиль</h2>
-            <div class="profile-card">
-                <div class="profile-avatar"><img src="assets/nft/mythic-neko-helmet.gif" alt="Avatar"></div>
-                <div class="profile-info">
-                    <div id="profile-username">@username</div>
-                    <div id="profile-balance">Баланс: <span>1000</span> G-Coins</div>
-                </div>
-            </div>
-            
-            <!-- Самые дорогие NFT -->
-            <div class="profile-section">
-                <h3 class="section-title">Мои лучшие NFT</h3>
-                <div class="profile-nft-list" id="profile-best-nfts">
-                    <!-- Самые дорогие NFT будут добавляться динамически -->
-                </div>
-            </div>
-            
-            <!-- История операций -->
-            <div class="profile-section">
-                <h3 class="section-title">История операций</h3>
-                <div class="history-list" id="profile-history">
-                    <!-- История будет добавляться динамически -->
-                </div>
-            </div>
-            
-            <!-- Реферальная система -->
-            <div class="profile-section">
-                <h3 class="section-title">Реферальная система</h3>
-                <div class="referral-info">
-                    <div class="referral-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Приглашено друзей:</span>
-                            <span class="stat-value" id="referral-count">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Заработано:</span>
-                            <span class="stat-value" id="referral-earned">0 GCoins</span>
+                <div id="ton-connect-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <h3>Connect your TON wallet</h3>
+                        <div class="qr-code"></div>
+                        <div class="wallets-list">
+                            <!-- Список кошельков -->
                         </div>
                     </div>
-                    <div class="referral-link-container">
-                        <input type="text" id="referral-link-input" readonly value="https://giftybox.netlify.app?ref=user123">
-                        <button class="btn btn-copy" onclick="copyReferralLink()">Копировать</button>
+                </div>
+            </section>
+            <!-- Upgrade -->
+            <section id="page-upgrade" class="page">
+                <div class="upgrade-history-row">
+                    <!-- История апгрейдов -->
+                </div>
+                <div class="upgrade-switch">
+                    <button class="tab active">Gifts</button>
+                    <button class="tab">TONs</button>
+                </div>
+                <div class="upgrade-circle">
+                    <div class="upgrade-center">UPGRADE<br><span>Select prize</span></div>
+                </div>
+                <div class="upgrade-inventory-row">
+                    <!-- Инвентарь для апгрейда -->
+                </div>
+            </section>
+            <!-- Profile -->
+            <section id="page-profile" class="page">
+                <div class="profile-header">
+                    <div class="profile-avatar"><img src="assets/nft/mythic-neko-helmet.gif" alt="avatar"></div>
+                    <div class="profile-nick">ЕЩКЕРЕЕ<br><span class="profile-id">#4704</span></div>
+                </div>
+                <div class="profile-balance-row">
+                    <span>Balance</span>
+                    <span>0.00 <img src="assets/ton-logo.svg"/></span>
+                    <button class="btn btn-blue">Deposit</button>
+                </div>
+                <button class="btn-wallet">Connect wallet</button>
+                <button class="btn btn-blue">Referral program</button>
+                <button class="btn btn-grey">Support</button>
+                <div class="profile-inventory">
+                    <div class="empty-inventory">There is nothing in your inventory<br><button class="btn btn-blue">Open case</button></div>
+                </div>
+            </section>
+            <!-- Referral -->
+            <section id="page-referral" class="page">
+                <div class="referral-block">
+                    <div class="referral-header">10% YOUR PROFIT</div>
+                    <button class="btn btn-blue">Invite a friend</button>
+                    <button class="btn btn-blue">Copy link</button>
+                    <div class="referral-balance-row">Referral balance: 0.00 <img src="assets/ton-logo.svg"/> <button class="btn btn-blue">Withdraw</button></div>
+                    <div class="referral-stats-row">
+                        <div>Invited<br>0</div>
+                        <div>Active referrals<br>0</div>
+                        <div>Deposits<br>0.00 <img src="assets/ton-logo.svg"/></div>
+                        <div>Your profit for all time<br>0.00 <img src="assets/ton-logo.svg"/></div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Детальный просмотр NFT -->
-        <div id="page-nft-detail" class="page">
-            <div class="nft-detail-header">
-                <button class="back-btn" onclick="goBack()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 12H5M12 19L5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <h2 id="nft-detail-title" class="page-title">NFT</h2>
-            </div>
-            <div class="nft-detail-content">
-                <div class="nft-detail-image">
-                    <img id="nft-detail-img" src="" alt="NFT">
-                </div>
-                <div class="nft-detail-info">
-                    <h3 id="nft-detail-name">Название NFT</h3>
-                    <div class="nft-detail-rarity" id="nft-detail-rarity">Редкость</div>
-                </div>
-                <div class="nft-detail-actions">
-                    <button class="btn btn-sell" id="nft-sell-btn" onclick="sellNFT()">
-                        Продать за <span id="nft-sell-price">0</span> GCoins
-                    </button>
-                    <button class="btn btn-withdraw" onclick="withdrawNFT()">
-                        Вывести
-                    </button>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
         <!-- Нижнее меню -->
         <nav class="bottom-nav">
-            <button class="nav-btn" data-page="home" onclick="showPage('home')">
-                <span class="nav-icon"> <!-- Домик -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="4" y="10" width="16" height="10" fill="white"/>
-                        <polygon points="12,3 2,12 22,12" fill="white"/>
-                    </svg>
-                </span>
-                <span>Главная</span>
-            </button>
-            <button class="nav-btn" data-page="inventory" onclick="showPage('inventory')">
-                <span class="nav-icon"> <!-- Подарок -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="4" y="8" width="16" height="12" fill="white"/>
-                        <rect x="8" y="4" width="8" height="4" fill="white"/>
-                    </svg>
-                </span>
-                <span>Инвентарь</span>
-            </button>
-            <button class="nav-btn" data-page="upgrades" onclick="showPage('upgrades')">
-                <span class="nav-icon"> <!-- Стрелка вверх -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="12,4 4,20 20,20" fill="white"/>
-                    </svg>
-                </span>
-                <span>Апгрейды</span>
-            </button>
-            <button class="nav-btn" data-page="profile" onclick="showPage('profile')">
-                <span class="nav-icon"> <!-- Человек -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="8" r="4" fill="white"/>
-                        <rect x="6" y="14" width="12" height="6" fill="white"/>
-                    </svg>
-                </span>
-                <span>Профиль</span>
-            </button>
+            <button class="nav-btn" data-page="main" onclick="showPage('main')"><span class="nav-icon"></span><span>Main</span></button>
+            <button class="nav-btn" data-page="cases" onclick="showPage('cases')"><span class="nav-icon"></span><span>Cases</span></button>
+            <button class="nav-btn" data-page="deposit" onclick="showPage('deposit')"><span class="nav-icon"></span><span>Deposit</span></button>
+            <button class="nav-btn" data-page="upgrade" onclick="showPage('upgrade')"><span class="nav-icon"></span><span>Upgrade</span></button>
+            <button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span class="nav-icon"></span><span>Profile</span></button>
         </nav>
     </div>
     <!-- Контейнер для TON Connect UI -->

@@ -944,33 +944,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Функция переключения страниц
-function showPage(pageName) {
+function showPage(page) {
     // Скрываем все страницы
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
     
     // Показываем нужную страницу
-    const targetPage = document.getElementById(`page-${pageName}`);
+    const targetPage = document.getElementById(`page-${page}`);
     if (targetPage) {
         targetPage.classList.add('active');
     }
     
     // Обновляем активную кнопку в навигации (если есть)
-    const navButtons = document.querySelectorAll('.nav-btn');
-    if (navButtons.length > 0) {
-        navButtons.forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        const activeButton = document.querySelector(`[data-page="${pageName}"]`);
-        if (activeButton) {
-            activeButton.classList.add('active');
-        }
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(b => b.classList.remove('active'));
+    
+    const activeButton = document.querySelector(`[data-page="${page}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
     }
     
     // Специальная обработка для страницы профиля
-    if (pageName === 'profile') {
+    if (page === 'profile') {
         updateProfileNFTs();
         updateProfileHistory();
         updateReferralStats();
@@ -1196,21 +1191,22 @@ function goBack() {
 }
 
 // Показ уведомления
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'win-notification';
-    notification.innerHTML = `
-        <div class="win-content">
-            <h3>Уведомление</h3>
-            <p>${message}</p>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
+function showNotification(msg) {
+    let n = document.createElement('div');
+    n.className = 'notification';
+    n.textContent = msg;
+    n.style.position = 'fixed';
+    n.style.bottom = '90px';
+    n.style.left = '50%';
+    n.style.transform = 'translateX(-50%)';
+    n.style.background = '#3a8fff';
+    n.style.color = '#fff';
+    n.style.padding = '14px 32px';
+    n.style.borderRadius = '14px';
+    n.style.fontWeight = '700';
+    n.style.zIndex = '9999';
+    document.body.appendChild(n);
+    setTimeout(() => n.remove(), 2000);
 }
 
 function updateUpgradeButtonState() {

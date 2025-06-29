@@ -1306,3 +1306,240 @@ body {
     color: #fff;
     font-weight: 700;
 }
+
+/* --- DARK MODERN THEME --- */
+body {
+    background: #181f2a;
+    color: #fff;
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #232b3a;
+    padding: 12px 18px;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 2px 16px #0002;
+}
+.logo img { width: 38px; height: 38px; border-radius: 12px; }
+.btn-wallet {
+    background: #3a8fff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0 8px;
+    transition: background 0.15s;
+}
+.btn-wallet:hover { background: #2563c9; }
+.balance-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #7ecbff;
+}
+.ton-logo { width: 20px; height: 20px; vertical-align: middle; }
+.profile-avatar-mini img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #3a8fff; }
+
+/* --- PROMO BLOCKS --- */
+.promo-block {
+    border-radius: 16px;
+    margin: 18px 18px 0 18px;
+    padding: 18px 18px 12px 18px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 2px 12px #0002;
+}
+.promo-block.giveaways { background: linear-gradient(90deg, #7ecbff 60%, #ffe7a0 100%); color: #232b3a; }
+.promo-block.promo { background: linear-gradient(90deg, #3a8fff 60%, #7ecbff 100%); color: #fff; }
+
+/* --- MAIN CARDS --- */
+.main-cards {
+    display: flex;
+    gap: 18px;
+    margin: 24px 18px 0 18px;
+}
+.main-card {
+    flex: 1;
+    background: #232b3a;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0003;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+}
+.main-card:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 8px 32px #0005; }
+.main-card-img { width: 80px; height: 80px; margin-bottom: 12px; background: #2226; border-radius: 12px; }
+.main-card-title { text-align: center; font-size: 1.1rem; font-weight: 600; color: #ffe7a0; }
+.main-card.coming-soon { background: linear-gradient(135deg, #a259ff 60%, #ff6f91 100%); color: #fff; }
+.main-card-timer { font-size: 0.9rem; margin-top: 8px; color: #fff; }
+
+/* --- CASES --- */
+.cases-balance-row {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 18px 0 18px;
+}
+.cases-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    padding: 18px;
+}
+.case-card {
+    background: #232b3a;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px #0003;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.case-card:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 8px 32px #0005; }
+.case-card .case-price { display: flex; align-items: center; gap: 4px; font-size: 1rem; font-weight: 700; color: #7ecbff; margin-top: 8px; }
+.case-card.hot::after {
+    content: 'HOT';
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #ff4d4f;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 2px 10px;
+}
+.case-card.new::after {
+    content: 'NEW';
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #3a8fff;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 2px 10px;
+}
+.case-card.free-spins {
+    background: linear-gradient(135deg, #ffb347 60%, #ff6f91 100%);
+    color: #232b3a;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* --- DEPOSIT --- */
+.deposit-block {
+    background: #232b3a;
+    border-radius: 18px;
+    margin: 32px auto;
+    max-width: 340px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 24px #0003;
+}
+.deposit-balance { font-size: 1.3rem; font-weight: 700; color: #7ecbff; margin: 18px 0; }
+
+/* --- MODAL TON CONNECT --- */
+.modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000a; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal.hidden { display: none; }
+.modal-content { background: #232b3a; border-radius: 18px; padding: 32px 24px; min-width: 340px; box-shadow: 0 4px 24px #0003; }
+.qr-code { width: 180px; height: 180px; background: #fff; margin: 0 auto 18px auto; border-radius: 16px; }
+.wallets-list { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+.wallets-list img { width: 38px; height: 38px; border-radius: 10px; background: #fff; }
+
+/* --- UPGRADE --- */
+.upgrade-history-row { display: flex; gap: 8px; overflow-x: auto; padding: 12px 18px 0 18px; }
+.upgrade-switch { display: flex; gap: 8px; justify-content: center; margin: 18px 0; }
+.upgrade-switch .tab { background: #232b3a; color: #fff; border: none; border-radius: 10px; padding: 8px 18px; font-weight: 600; font-size: 1rem; cursor: pointer; }
+.upgrade-switch .tab.active { background: #3a8fff; color: #fff; }
+.upgrade-circle { background: #232b3a; border-radius: 50%; width: 220px; height: 220px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px #0003; font-size: 1.2rem; font-weight: 700; color: #7ecbff; }
+.upgrade-center { text-align: center; }
+.upgrade-inventory-row { display: flex; gap: 8px; overflow-x: auto; padding: 12px 18px 0 18px; }
+
+/* --- PROFILE --- */
+.profile-header { display: flex; align-items: center; gap: 18px; margin: 32px 18px 0 18px; }
+.profile-avatar img { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #3a8fff; }
+.profile-nick { font-size: 1.2rem; font-weight: 700; color: #fff; }
+.profile-id { font-size: 0.9rem; color: #7ecbff; }
+.profile-balance-row { display: flex; align-items: center; gap: 12px; margin: 18px 18px 0 18px; font-size: 1.1rem; font-weight: 600; }
+.profile-inventory { margin: 32px 18px; }
+.empty-inventory { text-align: center; color: #7ecbff; font-size: 1.1rem; }
+
+/* --- REFERRAL --- */
+.referral-block { background: #232b3a; border-radius: 18px; margin: 32px auto; max-width: 420px; padding: 32px 24px; box-shadow: 0 4px 24px #0003; }
+.referral-header { font-size: 1.3rem; font-weight: 700; color: #ff4d4f; margin-bottom: 18px; }
+.referral-balance-row { display: flex; align-items: center; gap: 8px; margin: 18px 0; font-size: 1.1rem; font-weight: 600; color: #7ecbff; }
+.referral-stats-row { display: flex; gap: 18px; justify-content: space-between; margin-top: 18px; font-size: 0.95rem; color: #fff; }
+
+/* --- BOTTOM NAV --- */
+.bottom-nav {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 64px;
+    background: #232b3a;
+    box-shadow: 0 -2px 16px #0002;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    border-radius: 18px 18px 0 0;
+}
+.nav-btn {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    padding: 0 8px;
+    transition: color 0.15s;
+}
+.nav-btn.active, .nav-btn:focus { color: #7ecbff; }
+.nav-icon { width: 28px; height: 28px; margin-bottom: 2px; }
+
+/* --- BUTTONS --- */
+.btn { font-size: 1.1rem; font-weight: 600; border: none; border-radius: 12px; padding: 12px 28px; margin: 8px 12px; cursor: pointer; transition: background 0.15s, box-shadow 0.15s; box-shadow: 0 2px 8px #0002; }
+.btn-blue { background: #3a8fff; color: #fff; }
+.btn-blue:hover { background: #2563c9; }
+.btn-grey { background: #232b3a; color: #fff; }
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar { width: 8px; background: #232b3a; }
+::-webkit-scrollbar-thumb { background: #3a8fff; border-radius: 8px; }
+
+/* --- MEDIA --- */
+@media (max-width: 900px) {
+    .main-cards { flex-direction: column; }
+    .cases-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+    .modal-content { min-width: 90vw; }
+    .upgrade-circle { width: 140px; height: 140px; }
+    .profile-header { flex-direction: column; gap: 8px; }
+}
