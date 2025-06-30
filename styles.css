@@ -50,37 +50,31 @@ body {
     width: 100%;
     max-width: 98vw;
     min-width: 140px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    background: linear-gradient(135deg, #232b3a 60%, #2c232a 100%);
+    position: relative;
     border-radius: 18px;
     box-shadow: 0 4px 24px #0003;
     cursor: pointer;
-    position: relative;
-    padding: 0;
-    transition: transform 0.15s, box-shadow 0.15s;
     overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    background: none;
 }
 .case-card-grid:hover {
     transform: translateY(-4px) scale(1.04);
     box-shadow: 0 8px 32px #0005;
 }
 .case-img-grid {
+    position: absolute;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 18px;
+    z-index: 1;
     background: #2226;
     display: block;
-    position: absolute;
-    left: 0; top: 0;
-    z-index: 1;
-}
-.case-card-title, .case-card-price-block {
-    position: relative;
-    z-index: 2;
 }
 .case-card-info-overlay {
     position: absolute;
@@ -101,12 +95,14 @@ body {
     text-align: center;
     margin: 0 0 2px 0;
     line-height: 1.1;
+    z-index: 2;
 }
 .case-card-price-block {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
+    z-index: 2;
 }
 .case-card-price {
     font-size: 1.1rem;
