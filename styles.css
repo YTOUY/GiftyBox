@@ -1639,3 +1639,10 @@ body {
     color: #2563c9;
     margin-top: 2px;
 }
+
+.case-img-grid {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
