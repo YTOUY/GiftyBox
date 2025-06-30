@@ -678,16 +678,10 @@ function openCasePage(caseId) {
     const spinBtn = document.getElementById('btn-spin-detail');
     const demoBtn = document.getElementById('btn-demo-detail');
     if (spinBtn) {
-        spinBtn.onclick = () => {
-            showPage('case-opening');
-            initializeSpinner(caseId);
-        };
+        spinBtn.onclick = () => handleSpin(caseId, false);
     }
     if (demoBtn) {
-        demoBtn.onclick = () => {
-            showPage('case-opening');
-            initializeSpinner(caseId, true);
-        };
+        demoBtn.onclick = () => handleSpin(caseId, true);
     }
     // Множители и fast можно синхронизировать по желанию
     // Показываем страницу кейса
@@ -1983,4 +1977,108 @@ async function demoCase() {
     }
     
     caseState.isSpinning = false;
+}
+
+// Получить выбранный множитель
+function getSelectedMultiplier() {
+    const multBtn = document.querySelector('.case-spin-controls .btn-mult.active');
+    if (!multBtn) return 1;
+    return parseInt(multBtn.dataset.mult.replace('x', '')) || 1;
+}
+
+// Проверить fast
+function isFastSpin() {
+    const fastCheckbox = document.getElementById('fast-spin-detail');
+    return fastCheckbox && fastCheckbox.checked;
+}
+
+// Плавная бесконечная анимация рулетки с мультиспином
+function spinRouletteMulti(caseId, count, fast = false) {
+    return new Promise((resolve) => {
+        const container = document.getElementById('spinner-items');
+        if (!container) return resolve([]);
+        const caseData = cases[caseId];
+        if (!caseData) return resolve([]);
+        // Генерируем длинную ленту призов
+        const nfts = [];
+        for (let i = 0; i < 60; i++) {
+            nfts.push(...caseData.nfts.sort(() => Math.random() - 0.5));
+        }
+        container.innerHTML = '';
+        nfts.forEach(nft => {
+            const item = document.createElement('div');
+            item.className = 'spinner-item';
+            const imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.id}.gif`;
+            item.innerHTML = `<img src="${imgSrc}" alt="${nft.label}"><div class="spinner-label">${nft.label}</div>`;
+            container.appendChild(item);
+        });
+        // Размеры
+        const itemWidth = 96;
+        const totalItems = nfts.length;
+        const visibleCount = 5;
+        const containerWidth = itemWidth * totalItems;
+        container.style.width = containerWidth + 'px';
+        // Выбираем случайные призы для мультиспина
+        const winIndexes = [];
+        while (winIndexes.length < count) {
+            const idx = Math.floor(Math.random() * (totalItems - visibleCount*2)) + visibleCount;
+            if (!winIndexes.includes(idx)) winIndexes.push(idx);
+        }
+        winIndexes.sort((a, b) => a - b);
+        // Длительность
+        const duration = fast ? (3000 + Math.random()*1000) : (7000 + Math.random()*2000);
+        let start = null;
+        let finished = false;
+        // Анимация
+        function animate(now) {
+            if (!start) start = now;
+            let elapsed = now - start;
+            if (elapsed > duration) elapsed = duration;
+            // Плавная скорость
+            let t = elapsed / duration;
+            let ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+            // Смещение: крутим "бесконечно", а в конце останавливаем на первом выигрыше
+            const totalShift = (totalItems - visibleCount - winIndexes[0]) * itemWidth;
+            const baseShift = (itemWidth * totalItems * 2) + totalShift; // 2 круга
+            const currentShift = baseShift * (1 - ease);
+            container.style.transform = `translateX(-${currentShift}px)`;
+            if (elapsed < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                finished = true;
+                // Подсветить выигрышные
+                const result = [];
+                for (let i = 0; i < count; i++) {
+                    const idx = winIndexes[i];
+                    const slot = container.children[idx];
+                    if (slot) slot.classList.add('winning');
+                    result.push(caseData.nfts.find(nft => nft.label === nfts[idx].label));
+                }
+                setTimeout(() => resolve(result), 800);
+            }
+        }
+        requestAnimationFrame(animate);
+    });
+}
+
+// Открытие кейса с мультиспином
+function handleSpin(caseId, isDemo = false) {
+    // Блокируем кнопки
+    const controls = document.getElementById('case-detail-spin-controls');
+    if (controls) controls.classList.add('disabled');
+    // Получаем множитель и fast
+    const mult = getSelectedMultiplier();
+    const fast = isFastSpin();
+    spinRouletteMulti(caseId, mult, fast).then(prizes => {
+        // После прокрутки разблокируем кнопки
+        if (controls) controls.classList.remove('disabled');
+        // Показываем окно с призами (реализуй showWinModalMulti)
+        showWinModalMulti(prizes);
+    });
+}
+
+// Модалка с несколькими призами
+function showWinModalMulti(prizes) {
+    // Здесь реализуй красивое окно с призами (аналогично скрину)
+    alert('Ваши призы: ' + prizes.map(p => p ? p.label : '').join(', '));
 }
