@@ -2441,3 +2441,30 @@ async function initializeApp() {
     grantGcoinsForLexaaZova(user);
     // ... остальная инициализация ...
 }
+
+// ... existing code ...
+// --- Кейс-рулетка с добавлением в инвентарь и списанием баланса ---
+function handleCaseSpin(caseId, count = 1, fast = false) {
+    const caseData = cases[caseId];
+    if (!caseData) return;
+    const cost = caseData.cost * count;
+    if (window.gcoins < cost) {
+        showNotification('Недостаточно Gcoins!');
+        return;
+    }
+    // Списываем баланс
+    window.gcoins -= cost;
+    if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+    // Запускаем анимацию
+    spinCaseRoulette(caseId, count, fast).then(prizes => {
+        // Добавляем призы в инвентарь
+        if (!window.inventory) window.inventory = [];
+        prizes.forEach(prize => {
+            window.inventory.push(prize);
+        });
+        if (typeof updateInventory === 'function') updateInventory();
+        // Показываем модалку с выигрышем
+        showWinModalMulti(prizes);
+    });
+}
+// ... existing code ...
