@@ -1632,26 +1632,24 @@ function openCase(caseId) {
     initializeSpinner(caseId);
 }
 
-// Загрузка возможных призов
+// --- Исправленная функция загрузки возможных призов ---
 function loadPossibleItems() {
     const itemsGrid = document.getElementById('possible-items');
     itemsGrid.innerHTML = '';
-    
-    // Получаем все NFT для этого кейса и сортируем по цене (от дорогих к дешевым)
-    const items = caseState.current.items.sort((a, b) => b.price - a.price);
-    
+    if (!caseState.current || !caseState.current.nfts) return;
+    const items = [...caseState.current.nfts].sort((a, b) => (b.gcoins || 0) - (a.gcoins || 0));
     items.forEach(item => {
-        const itemCard = document.createElement('div');
-        itemCard.className = 'item-card';
-        itemCard.innerHTML = `
-            <img src="assets/nft/${item.rarity}-${item.id}.gif" alt="${item.name}">
-            <div class="item-name">${item.name}</div>
-            <div class="item-price">
-                ${item.price.toFixed(2)}
-                <img src="assets/ton-logo.svg"/>
+        const imgSrc = item.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${item.id}.gif`;
+        const price = item.gcoins ? `${item.gcoins}` : '';
+        itemsGrid.innerHTML += `
+            <div class="item-card">
+                <img src="${imgSrc}" alt="${item.label}">
+                <div class="item-name">${item.label}</div>
+                <div class="item-price">
+                    ${price ? price + ' <img src=\'assets/icons/gcoin.png\' alt=\'Gcoin\' style=\'width:20px;height:20px;vertical-align:middle;\'>' : ''}
+                </div>
             </div>
         `;
-        itemsGrid.appendChild(itemCard);
     });
 }
 
@@ -1689,6 +1687,23 @@ function initializeSpinner(caseId, isDemo = false) {
         setTimeout(() => demoCase(caseId), 100);
     }
 }
+
+// --- Исправить обновление цены кейса ---
+function updateCasePriceDisplay() {
+    const casePrice = document.getElementById('case-price');
+    if (casePrice && caseState.current) {
+        casePrice.innerHTML = `${caseState.current.cost} <img src='assets/icons/gcoin.png' alt='Gcoin' style='width:20px;height:20px;vertical-align:middle;'>`;
+    }
+}
+
+// Вызовите updateCasePriceDisplay после выбора кейса и при инициализации спиннера:
+// Например, в openCasePage и initializeSpinner:
+// ...
+if (casePrice) {
+    casePrice.innerHTML = `${caseData.cost} <img src='assets/icons/gcoin.png' alt='Gcoin' style='width:20px;height:20px;vertical-align:middle;'>`;
+}
+// ...
+// и аналогично для других мест, где выводится цена.
 
 // Функция спина рулетки
 async function spinRoulette() {
@@ -2351,8 +2366,11 @@ function finishUpgrade(isWin) {
     }
     upgradeSelectedNFT = null;
     upgradeTargetNFT = null;
-    updateUpgradeUI();
-    if (typeof updateInventory === 'function') updateInventory();
+    upgradeChance = 0;
+    drawUpgradeCircle();
+    updateInventory();
+    updateProfileNFTs();
+    updateUpgradeButtonState();
 }
 
 // Инициализация апгрейда при заходе на страницу

@@ -2759,3 +2759,20 @@ body.modal-open::after {
     height: 90px;
     object-fit: contain;
 }
+
+.spin-area, .roulette-box, .case-spinner, .spinner-container {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+}
+
+@media (max-width: 600px) {
+    .spin-area, .roulette-box, .case-spinner, .spinner-container {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+    }
+    .spin-area {
+        min-height: 120px;
+        max-height: 180px;
+        height: 120px;
+    }
+}

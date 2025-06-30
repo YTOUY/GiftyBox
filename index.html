@@ -64,7 +64,7 @@
             <button class="btn-wallet" id="btn-connect-wallet">Connect wallet</button>
             <div class="balance-row">
                 <span id="main-balance">0.00</span>
-                <img src="assets/ton-logo.svg" class="ton-logo"/>
+                <img src="assets/icons/gcoin.png" class="ton-logo"/>
             </div>
             <div class="profile-avatar-mini"><img src="assets/nft/mythic-neko-helmet.gif" alt="avatar"/></div>
         </header>
@@ -99,8 +99,7 @@
                     <div id="case-detail-avatar" class="case-detail-avatar"></div>
                     <h2 id="case-detail-title" class="case-detail-title"></h2>
                     <div class="case-detail-price">
-                        <span id="case-detail-price">0.00</span>
-                        <img src="assets/ton-logo.svg" class="ton-logo"/>
+                        <span id="case-detail-price">0.00 <img src="assets/icons/gcoin.png" class="ton-logo"/></span>
                     </div>
                 </div>
                 <!-- БЛОК КНОПОК ПОД ЦЕНОЙ -->
@@ -128,7 +127,7 @@
             <section id="page-deposit" class="page">
                 <div class="deposit-block">
                     <button class="btn-wallet" id="btn-connect-wallet-2">Connect wallet</button>
-                    <div class="deposit-balance">0.00 <img src="assets/ton-logo.svg"/></div>
+                    <div class="deposit-balance">0.00 <img src="assets/icons/gcoin.png"/></div>
                     <button class="btn btn-blue">Deposit</button>
                 </div>
                 <div id="ton-connect-modal" class="modal hidden">
@@ -144,7 +143,7 @@
             <!-- Upgrade -->
             <section id="page-upgrade" class="page">
                 <div class="upgrade-header">
-                    <span class="upgrade-price" id="upgrade-price">0.00 TON</span>
+                    <span class="upgrade-price" id="upgrade-price">0.00 <img src="assets/icons/gcoin.png"/></span>
                     <span class="upgrade-chance" id="upgrade-chance">0%</span>
                 </div>
                 <div class="upgrade-circle">
@@ -164,8 +163,7 @@
                     <div class="profile-info">
                         <div class="profile-nick" id="profile-name"></div>
                         <div class="profile-balance">
-                            <span id="profile-balance">0.00</span>
-                            <img src="assets/ton-logo.svg"/>
+                            <span id="profile-balance">0.00 <img src="assets/icons/gcoin.png"/></span>
                         </div>
                     </div>
                 </div>
@@ -197,8 +195,7 @@
                 <div class="case-header">
                     <div class="case-name" id="case-name"></div>
                     <div class="case-price">
-                        <span id="case-price">0.00</span>
-                        <img src="assets/ton-logo.svg" class="ton-logo"/>
+                        <span id="case-price">0.00 <img src="assets/icons/gcoin.png" class="ton-logo"/></span>
                     </div>
                 </div>
                 <div class="case-items">
@@ -210,19 +207,35 @@
         <!-- Нижнее меню -->
         <nav class="bottom-nav">
             <button class="nav-btn" data-page="main" onclick="showPage('main')">
-                <span class="nav-icon"><img src="assets/icons/main.svg" alt="Main" width="28" height="28"></span><span>Main</span>
+                <span class="nav-icon"><img src="assets/icons/main.png" alt="Main" width="28" height="28"></span><span>Main</span>
             </button>
             <button class="nav-btn" data-page="cases" onclick="showPage('cases')">
-                <span class="nav-icon"><img src="assets/icons/cases.svg" alt="Cases" width="28" height="28"></span><span>Cases</span>
+                <span class="nav-icon"><img src="assets/icons/cases.png" alt="Cases" width="28" height="28"></span><span>Cases</span>
             </button>
             <button class="nav-btn" data-page="deposit" onclick="showPage('deposit')">
-                <span class="nav-icon"><img src="assets/icons/deposit.svg" alt="Deposit" width="28" height="28"></span><span>Deposit</span>
+                <span class="nav-icon"><img src="assets/icons/deposit.png" alt="Deposit" width="28" height="28"></span><span>Deposit</span>
             </button>
             <button class="nav-btn" data-page="upgrade" onclick="showPage('upgrade')">
-                <span class="nav-icon"><img src="assets/icons/upgrade.svg" alt="Upgrade" width="28" height="28"></span><span>Upgrade</span>
+                <span class="nav-icon"><img src="assets/icons/upgrade.png" alt="Upgrade" width="28" height="28"></span><span>Upgrade</span>
             </button>
             <button class="nav-btn" data-page="profile" onclick="showPage('profile')">
-                <span class="nav-icon"><img src="assets/icons/profile.svg" alt="Profile" width="28" height="28"></span><span>Profile</span>
+                <span class="nav-icon"><img src="assets/icons/profile.png" alt="Profile" width="28" height="28"></span><span>Profile</span>
+            </button>
+            <!-- Дополнительные кнопки -->
+            <button class="nav-btn" onclick="window.open('https://t.me/Ytouy_Official', '_blank')">
+                <span class="nav-icon"><img src="assets/icons/telegram.png" alt="Telegram" width="28" height="28"></span><span>Telegram</span>
+            </button>
+            <button class="nav-btn" onclick="alert('Настройки!')">
+                <span class="nav-icon"><img src="assets/icons/settings.png" alt="Settings" width="28" height="28"></span><span>Settings</span>
+            </button>
+            <button class="nav-btn" onclick="alert('Выход!')">
+                <span class="nav-icon"><img src="assets/icons/logout.png" alt="Logout" width="28" height="28"></span><span>Logout</span>
+            </button>
+            <button class="nav-btn" onclick="alert('Информация!')">
+                <span class="nav-icon"><img src="assets/icons/info.png" alt="Info" width="28" height="28"></span><span>Info</span>
+            </button>
+            <button class="nav-btn" onclick="alert('Уведомления!')">
+                <span class="nav-icon"><img src="assets/icons/notification.png" alt="Notification" width="28" height="28"></span><span>Notification</span>
             </button>
         </nav>
     </div>
