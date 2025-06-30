@@ -1232,33 +1232,20 @@ function showPage(page) {
     // Скрываем все страницы
     const pages = document.querySelectorAll('.page');
     pages.forEach(p => p.classList.remove('active'));
-    
     // Показываем нужную страницу
     const targetPage = document.getElementById(`page-${page}`);
     if (targetPage) {
         targetPage.classList.add('active');
     }
-    
     // Обновляем активную кнопку в навигации (если есть)
     const navBtns = document.querySelectorAll('.nav-btn');
     navBtns.forEach(b => b.classList.remove('active'));
-    
     const activeButton = document.querySelector(`[data-page="${page}"]`);
     if (activeButton) {
         activeButton.classList.add('active');
     }
-    
-    // Рендер кейсов при открытии страницы кейсов
-    if (page === 'cases') {
-        if (typeof renderCasesGrid === 'function') renderCasesGrid();
-    }
-    
-    // Специальная обработка для страницы профиля
-    if (page === 'profile') {
-        updateProfileNFTs();
-        updateProfileHistory();
-        updateReferralStats();
-    }
+    // Скроллим страницу вверх при смене режима
+    window.scrollTo(0, 0);
 }
 
 // Обновление NFT в профиле (самые дорогие)
