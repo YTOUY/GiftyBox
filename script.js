@@ -624,20 +624,38 @@ function cleanNFTName(label) {
 // Функция для перехода на страницу кейса
 function openCasePage(caseId) {
     caseState.current = cases[caseId];
-    if (!caseState.current) return;
+    if (!caseState.current) {
+        console.error('Case not found:', caseId);
+        return;
+    }
     
     // Аватарка
     const avatar = document.getElementById('case-detail-avatar');
-    avatar.innerHTML = `<img src="${caseState.current.image}" alt="${caseState.current.name}">`;
+    if (!avatar) {
+        console.error('Avatar element not found');
+        return;
+    }
+    avatar.innerHTML = `<img src="${caseState.current.image}" alt="${caseState.current.name}" onerror="this.src='assets/cases/default.png'">`;
     
     // Название
-    document.getElementById('case-detail-title').textContent = caseState.current.name;
+    const titleElement = document.getElementById('case-detail-title');
+    if (titleElement) {
+        titleElement.textContent = caseState.current.name;
+    }
     
     // Цена
-    document.getElementById('case-detail-price').textContent = caseState.current.cost;
+    const priceElement = document.getElementById('case-detail-price');
+    if (priceElement) {
+        priceElement.textContent = caseState.current.cost;
+    }
     
     // Призы
     const prizesGrid = document.getElementById('case-detail-prizes-grid');
+    if (!prizesGrid) {
+        console.error('Prizes grid element not found');
+        return;
+    }
+    
     let nfts = [...caseState.current.nfts];
     nfts.sort((a, b) => (b.gcoins || 0) - (a.gcoins || 0));
     
@@ -649,15 +667,33 @@ function openCasePage(caseId) {
         
         prizesGrid.innerHTML += `
             <div class="case-detail-prize">
-                <img src="${imgSrc}" alt="${label}">
+                <img src="${imgSrc}" alt="${label}" onerror="this.src='assets/nft/default.gif'">
                 <div class="prize-label">${label}</div>
                 ${gcoins}
             </div>
         `;
     });
     
+    // Добавляем обработчики для кнопок
+    const openButton = document.querySelector('.btn-open-case');
+    const demoButton = document.querySelector('.btn-demo-case');
+    
+    if (openButton) {
+        openButton.onclick = () => {
+            showPage('case-opening');
+            initializeSpinner(caseId);
+        };
+    }
+    
+    if (demoButton) {
+        demoButton.onclick = () => {
+            showPage('case-opening');
+            initializeSpinner(caseId, true);
+        };
+    }
+    
     // Показываем страницу кейса
-    showPage('case');
+    showPage('case-detail');
 }
 
 // Создание слотов для рулетки
@@ -878,11 +914,18 @@ function getRandomNFT(caseName) {
 
 // Обновление инвентаря
 function updateInventory() {
+    const inventoryList = document.getElementById('inventory-list');
+    if (!inventoryList) {
+        console.error('Inventory list element not found');
+        return;
+    }
+    
     inventoryList.innerHTML = '';
-    if (inventory.length === 0) {
+    if (!inventory || inventory.length === 0) {
         inventoryList.innerHTML = '<div class="empty-inventory">Инвентарь пуст</div>';
         return;
     }
+    
     inventory.forEach((nft, index) => {
         const item = document.createElement('div');
         item.className = 'inventory-item';
@@ -896,7 +939,7 @@ function updateInventory() {
         }
         let displayName = cleanNFTName(nft.label);
         item.innerHTML = `
-            <img src="${imgSrc}" alt="${displayName}" class="inventory-nft-img">
+            <img src="${imgSrc}" alt="${displayName}" class="inventory-nft-img" onerror="this.src='assets/nft/default.gif'">
             <div class="inventory-nft-name">${displayName}</div>
             <div class="inventory-nft-rarity">${nft.rarity}</div>
         `;
@@ -1556,35 +1599,31 @@ function showFlash() {
 
 // Функция для рендера кейсов на главной странице (по 2 в ряд, сортировка по цене)
 function renderCasesGrid() {
-    const casesArray = Object.entries(cases)
-        .map(([id, data]) => ({ id, ...data }))
-        .sort((a, b) => a.cost - b.cost);
-    const container = document.getElementById('cases-list-grid');
-    container.innerHTML = '';
-    for (let i = 0; i < casesArray.length; i += 2) {
-        const row = document.createElement('div');
-        row.className = 'cases-row';
-        for (let j = i; j < i + 2 && j < casesArray.length; j++) {
-            const c = casesArray[j];
-            const card = document.createElement('div');
-            card.className = 'case-card-grid';
-            card.innerHTML = `
-                <img src="${c.image}" alt="${c.name}" class="case-img-grid">
-                <div class="case-card-info-overlay">
-                    <div class="case-card-title">${c.name}</div>
-                    <div class="case-card-price-block">
-                        <span class="case-card-price">${c.cost}</span>
-                        <span class="case-card-gcoins">Gcoins</span>
-                    </div>
+    const grid = document.getElementById('cases-list-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    Object.keys(cases).forEach(caseId => {
+        const caseData = cases[caseId];
+        const card = document.createElement('div');
+        card.className = 'case-card';
+        card.onclick = () => openCasePage(caseId);
+        
+        card.innerHTML = `
+            <div class="case-image">
+                <img src="${caseData.image}" alt="${caseData.name}" onerror="this.src='assets/cases/default.png'">
+            </div>
+            <div class="case-info">
+                <div class="case-name">${caseData.name}</div>
+                <div class="case-price">
+                    <span>${caseData.cost}</span>
+                    <img src="assets/ton-logo.svg" class="ton-logo"/>
                 </div>
-            `;
-            card.onclick = () => openCasePage(c.id);
-            row.appendChild(card);
-        }
-        container.appendChild(row);
-    }
+            </div>
+        `;
+        grid.appendChild(card);
+    });
 }
-// Для вызова: renderCasesGrid();
 
 // Функция открытия кейса
 function openCase(caseId) {
@@ -1603,7 +1642,7 @@ function openCase(caseId) {
     loadPossibleItems();
     
     // Инициализируем спиннер
-    initializeSpinner();
+    initializeSpinner(caseId);
 }
 
 // Загрузка возможных призов
@@ -1630,29 +1669,38 @@ function loadPossibleItems() {
 }
 
 // Инициализация спиннера
-function initializeSpinner() {
-    const spinnerItems = document.getElementById('spinner-items');
-    if (!spinnerItems || !caseState.current) return;
+function initializeSpinner(caseId, isDemo = false) {
+    const caseData = cases[caseId];
+    if (!caseData) return;
     
-    // Очищаем спиннер
-    spinnerItems.innerHTML = '';
-    spinnerItems.style.transform = 'translateX(0)';
+    // Обновляем информацию о кейсе
+    const caseAvatar = document.getElementById('case-avatar');
+    const caseName = document.getElementById('case-name');
+    const casePrice = document.getElementById('case-price');
     
-    // Генерируем случайные предметы для спина
-    const items = [];
-    for (let i = 0; i < 50; i++) {
-        const randomNft = caseState.current.nfts[Math.floor(Math.random() * caseState.current.nfts.length)];
-        items.push(randomNft);
+    if (caseAvatar) caseAvatar.src = caseData.image;
+    if (caseName) caseName.textContent = caseData.name;
+    if (casePrice) casePrice.textContent = caseData.cost;
+    
+    // Создаем слоты для рулетки
+    createRouletteSlots(caseId);
+    
+    // Обновляем обработчики кнопок
+    const spinButton = document.getElementById('btn-spin-case');
+    const demoButton = document.getElementById('btn-demo-case');
+    
+    if (spinButton) {
+        spinButton.onclick = () => openCase(caseId);
     }
     
-    // Добавляем предметы в спиннер
-    items.forEach(nft => {
-        const imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.id}.gif`;
-        const spinnerItem = document.createElement('div');
-        spinnerItem.className = 'spinner-item';
-        spinnerItem.innerHTML = `<img src="${imgSrc}" alt="${nft.label}">`;
-        spinnerItems.appendChild(spinnerItem);
-    });
+    if (demoButton) {
+        demoButton.onclick = () => demoCase(caseId);
+    }
+    
+    // Если это демо, сразу запускаем демо-спин
+    if (isDemo) {
+        setTimeout(() => demoCase(caseId), 100);
+    }
 }
 
 // Функция спина рулетки
@@ -1684,46 +1732,14 @@ async function spinRoulette() {
     });
 }
 
-// Функция открытия кейса
-async function openCase() {
-    if (!caseState.current || caseState.isSpinning) return;
-    
-    const cost = caseState.current.cost * (caseState.multiplier || 1);
-    if (window.gcoins < cost) {
-        alert('Недостаточно Gcoins!');
-        return;
-    }
-    
-    caseState.isSpinning = true;
-    
-    // Списываем баланс
-    window.gcoins -= cost;
-    updateBalanceDisplays();
-    
-    // Инициализируем спиннер
-    initializeSpinner();
-    
-    // Запускаем спин и получаем выигрыш
-    const winningNFT = await spinRoulette();
-    
-    if (winningNFT) {
-        // Показываем выигрыш
-        setTimeout(() => {
-            showWinModal([winningNFT]);
-        }, 5500);
-    }
-    
-    caseState.isSpinning = false;
-}
-
 // Функция демо-спина
-async function demoCase() {
+async function demoCase(caseId) {
     if (!caseState.current || caseState.isSpinning) return;
     
     caseState.isSpinning = true;
     
     // Инициализируем спиннер
-    initializeSpinner();
+    initializeSpinner(caseId, true);
     
     // Запускаем спин и получаем выигрыш
     const winningNFT = await spinRoulette();

@@ -2211,3 +2211,157 @@ body.modal-open::after {
     width: 14px;
     height: 14px;
 }
+
+/* Case Detail Page */
+#page-case-detail {
+    padding: 20px;
+}
+
+.case-detail-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.case-detail-avatar {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.case-detail-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.case-detail-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.case-detail-price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.case-detail-price img.ton-logo {
+    width: 20px;
+    height: 20px;
+}
+
+.case-detail-prizes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.case-detail-prize {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.case-detail-prize:hover {
+    transform: translateY(-5px);
+}
+
+.case-detail-prize img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+.case-detail-prize .prize-label {
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.case-detail-prize .prize-gcoins {
+    font-size: 11px;
+    color: #ffd700;
+}
+
+.case-detail-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.case-detail-controls button {
+    min-width: 120px;
+}
+
+/* Cases Grid */
+.cases-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.case-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.case-card:hover {
+    transform: translateY(-5px);
+}
+
+.case-image {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.case-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.case-info {
+    padding: 10px;
+}
+
+.case-name {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.case-price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #ffd700;
+}
+
+.case-price img.ton-logo {
+    width: 14px;
+    height: 14px;
+}

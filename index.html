@@ -51,6 +51,22 @@
                     <!-- Кейсы будут рендериться динамически через JS -->
                 </div>
             </section>
+            <!-- Case Detail -->
+            <section id="page-case-detail" class="page">
+                <div class="case-detail-header">
+                    <div id="case-detail-avatar" class="case-detail-avatar"></div>
+                    <h2 id="case-detail-title" class="case-detail-title"></h2>
+                    <div class="case-detail-price">
+                        <span id="case-detail-price">0.00</span>
+                        <img src="assets/ton-logo.svg" class="ton-logo"/>
+                    </div>
+                </div>
+                <div id="case-detail-prizes-grid" class="case-detail-prizes"></div>
+                <div class="case-detail-controls">
+                    <button class="btn btn-blue btn-open-case">Открыть кейс</button>
+                    <button class="btn btn-grey btn-demo-case">Демо</button>
+                </div>
+            </section>
             <!-- Deposit -->
             <section id="page-deposit" class="page">
                 <div class="deposit-block">
@@ -100,52 +116,8 @@
                     <button class="btn btn-blue" onclick="showPage('deposit')">Пополнить</button>
                     <button class="btn btn-grey" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/giftybox_support')">Поддержка</button>
                 </div>
-                <div class="profile-inventory">
+                <div id="inventory-list" class="profile-inventory">
                     <div class="empty-inventory">В вашем инвентаре пока ничего нет<br><button class="btn btn-blue" onclick="showPage('cases')">Открыть кейс</button></div>
-                </div>
-            </section>
-            <!-- Referral -->
-            <section id="page-referral" class="page">
-                <div class="referral-block">
-                    <div class="referral-header">10% YOUR PROFIT</div>
-                    <button class="btn btn-blue">Invite a friend</button>
-                    <button class="btn btn-blue">Copy link</button>
-                    <div class="referral-balance-row">Referral balance: 0.00 <img src="assets/ton-logo.svg"/> <button class="btn btn-blue">Withdraw</button></div>
-                    <div class="referral-stats-row">
-                        <div>Invited<br>0</div>
-                        <div>Active referrals<br>0</div>
-                        <div>Deposits<br>0.00 <img src="assets/ton-logo.svg"/></div>
-                        <div>Your profit for all time<br>0.00 <img src="assets/ton-logo.svg"/></div>
-                    </div>
-                </div>
-            </section>
-            <!-- Case -->
-            <section id="page-case" class="page">
-                <div class="case-roulette">
-                    <div class="roulette-items" id="roulette-items">
-                        <!-- Items will be added dynamically -->
-                    </div>
-                    <div class="roulette-pointer"></div>
-                </div>
-                
-                <div class="case-controls">
-                    <button class="btn-spin" id="btn-spin">Spin</button>
-                    <button class="btn-demo" id="btn-demo">Demo spin</button>
-                    
-                    <div class="spin-options">
-                        <label class="fast-option">
-                            <input type="checkbox" id="fast-spin">
-                            <span>Fast</span>
-                        </label>
-                        
-                        <div class="multiplier-options">
-                            <button class="btn-mult active" data-mult="x1">x1</button>
-                            <button class="btn-mult" data-mult="x2">x2</button>
-                            <button class="btn-mult" data-mult="x3">x3</button>
-                            <button class="btn-mult" data-mult="x4">x4</button>
-                            <button class="btn-mult" data-mult="x5">x5</button>
-                        </div>
-                    </div>
                 </div>
             </section>
             <!-- Case Opening -->
@@ -168,8 +140,8 @@
                 
                 <div class="case-controls">
                     <div class="spin-buttons">
-                        <button class="btn btn-blue btn-spin" id="btn-spin">Spin</button>
-                        <button class="btn btn-grey btn-demo" id="btn-demo">Demo spin</button>
+                        <button class="btn btn-blue btn-spin" id="btn-spin-case">Spin</button>
+                        <button class="btn btn-grey btn-demo" id="btn-demo-case">Demo spin</button>
                     </div>
                     <div class="spin-options">
                         <label class="fast-option">
@@ -178,7 +150,7 @@
                             <span class="checkmark"></span>
                         </label>
                         <div class="multiplier-options">
-                            <button class="btn-mult" data-mult="x1">x1</button>
+                            <button class="btn-mult active" data-mult="x1">x1</button>
                             <button class="btn-mult" data-mult="x2">x2</button>
                             <button class="btn-mult" data-mult="x3">x3</button>
                             <button class="btn-mult" data-mult="x4">x4</button>
