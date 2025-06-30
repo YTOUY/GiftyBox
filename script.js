@@ -1179,6 +1179,11 @@ function showPage(page) {
         activeButton.classList.add('active');
     }
     
+    // Рендер кейсов при открытии страницы кейсов
+    if (page === 'cases') {
+        if (typeof renderCasesGrid === 'function') renderCasesGrid();
+    }
+    
     // Специальная обработка для страницы профиля
     if (page === 'profile') {
         updateProfileNFTs();
