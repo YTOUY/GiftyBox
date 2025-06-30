@@ -1992,17 +1992,18 @@ function isFastSpin() {
     return fastCheckbox && fastCheckbox.checked;
 }
 
-// Плавная бесконечная анимация рулетки с мультиспином
+// Бесконечная анимация рулетки с плавной остановкой
 function spinRouletteMulti(caseId, count, fast = false) {
     return new Promise((resolve) => {
         const container = document.getElementById('spinner-items');
         if (!container) return resolve([]);
         const caseData = cases[caseId];
         if (!caseData) return resolve([]);
-        // Генерируем длинную ленту призов
-        const nfts = [];
-        for (let i = 0; i < 60; i++) {
-            nfts.push(...caseData.nfts.sort(() => Math.random() - 0.5));
+        // Генерируем ленту призов (длинную, чтобы хватило на все циклы)
+        const baseNFTs = [...caseData.nfts];
+        let nfts = [];
+        for (let i = 0; i < 40; i++) {
+            nfts = nfts.concat(baseNFTs.sort(() => Math.random() - 0.5));
         }
         container.innerHTML = '';
         nfts.forEach(nft => {
@@ -2013,11 +2014,9 @@ function spinRouletteMulti(caseId, count, fast = false) {
             container.appendChild(item);
         });
         // Размеры
-        const itemWidth = 96;
+        const itemWidth = 64; // должен совпадать с CSS
         const totalItems = nfts.length;
         const visibleCount = 5;
-        const containerWidth = itemWidth * totalItems;
-        container.style.width = containerWidth + 'px';
         // Выбираем случайные призы для мультиспина
         const winIndexes = [];
         while (winIndexes.length < count) {
@@ -2029,6 +2028,14 @@ function spinRouletteMulti(caseId, count, fast = false) {
         const duration = fast ? (3000 + Math.random()*1000) : (7000 + Math.random()*2000);
         let start = null;
         let finished = false;
+        // Начальная позиция (нулевой сдвиг)
+        let currentShift = 0;
+        // Сколько "кругов" сделать (визуально)
+        const rounds = fast ? 6 : 16;
+        // Итоговый индекс для остановки (первый выигрышный)
+        const stopIndex = winIndexes[0];
+        // Итоговый сдвиг
+        const stopShift = (rounds * baseNFTs.length + stopIndex) * itemWidth;
         // Анимация
         function animate(now) {
             if (!start) start = now;
@@ -2037,10 +2044,8 @@ function spinRouletteMulti(caseId, count, fast = false) {
             // Плавная скорость
             let t = elapsed / duration;
             let ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-            // Смещение: крутим "бесконечно", а в конце останавливаем на первом выигрыше
-            const totalShift = (totalItems - visibleCount - winIndexes[0]) * itemWidth;
-            const baseShift = (itemWidth * totalItems * 2) + totalShift; // 2 круга
-            const currentShift = baseShift * (1 - ease);
+            // Смещение: крутим "бесконечно" влево, а в конце останавливаем на нужном призе
+            currentShift = stopShift * ease;
             container.style.transform = `translateX(-${currentShift}px)`;
             if (elapsed < duration) {
                 requestAnimationFrame(animate);
@@ -2049,10 +2054,10 @@ function spinRouletteMulti(caseId, count, fast = false) {
                 // Подсветить выигрышные
                 const result = [];
                 for (let i = 0; i < count; i++) {
-                    const idx = winIndexes[i];
+                    const idx = stopIndex + i;
                     const slot = container.children[idx];
                     if (slot) slot.classList.add('winning');
-                    result.push(caseData.nfts.find(nft => nft.label === nfts[idx].label));
+                    result.push(nfts[idx]);
                 }
                 setTimeout(() => resolve(result), 800);
             }
