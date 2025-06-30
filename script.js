@@ -2468,3 +2468,31 @@ function handleCaseSpin(caseId, count = 1, fast = false) {
     });
 }
 // ... existing code ...
+
+// Анимация прокрутки призов (кейс)
+function spinCase(prizes, winIndex) {
+    const spinner = document.getElementById('spinner-items');
+    if (!spinner) return;
+    // Очищаем
+    spinner.innerHTML = '';
+    // Рендерим призы
+    prizes.forEach((prize, i) => {
+        const div = document.createElement('div');
+        div.className = 'prize-item';
+        const img = document.createElement('img');
+        img.src = prize.img;
+        img.alt = prize.label || '';
+        div.appendChild(img);
+        spinner.appendChild(div);
+    });
+    // Рассчитываем сдвиг
+    const itemWidth = 120 + 24; // prize + margin
+    const centerIndex = Math.floor(prizes.length / 2);
+    const offset = (winIndex - centerIndex) * itemWidth;
+    spinner.style.transition = 'none';
+    spinner.style.transform = `translateX(0px)`;
+    setTimeout(() => {
+        spinner.style.transition = 'transform 1.5s cubic-bezier(.4,2.3,.3,1)';
+        spinner.style.transform = `translateX(-${offset}px)`;
+    }, 50);
+}
