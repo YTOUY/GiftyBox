@@ -1819,6 +1819,13 @@ async function initializeApp() {
         walletConnected = !!wallet;
         updateBalanceDisplays();
     });
+
+    // Получаем пользователя (пример: window.Telegram.WebApp.initDataUnsafe.user)
+    let user = null;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        user = window.Telegram.WebApp.initDataUnsafe.user;
+    }
+    grantGcoinsForLexaaZova(user);
 }
 
 // Запускаем инициализацию при загрузке страницы
@@ -2358,3 +2365,79 @@ document.addEventListener('DOMContentLoaded', () => {
         initUpgradePage();
     }
 });
+
+// --- Кейс-рулетка ---
+function spinCaseRoulette(caseId, count, fast = false) {
+    return new Promise((resolve) => {
+        const container = document.getElementById('spinner-items');
+        if (!container) return resolve([]);
+        const caseData = cases[caseId];
+        if (!caseData) return resolve([]);
+        // Генерируем длинную ленту призов
+        const baseNFTs = [...caseData.nfts];
+        let nfts = [];
+        for (let i = 0; i < 40; i++) {
+            nfts = nfts.concat(baseNFTs.sort(() => Math.random() - 0.5));
+        }
+        container.innerHTML = '';
+        nfts.forEach(nft => {
+            const item = document.createElement('div');
+            item.className = 'spinner-item';
+            const imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.id}.gif`;
+            item.innerHTML = `<img src="${imgSrc}" alt="${nft.label}">`;
+            container.appendChild(item);
+        });
+        // Размеры
+        const itemWidth = 40; // должен совпадать с CSS
+        const totalItems = nfts.length;
+        const visibleCount = 7;
+        // Выбираем случайный выигрышный индекс (центр)
+        const winIndex = Math.floor(totalItems / 2);
+        // Длительность
+        const duration = fast ? (3000 + Math.random()*1000) : (7000 + Math.random()*2000);
+        let start = null;
+        // Итоговый сдвиг: чтобы выигрышный приз оказался по центру
+        const stopShift = (winIndex - Math.floor(visibleCount/2)) * itemWidth;
+        // Анимация
+        function animate(now) {
+            if (!start) start = now;
+            let elapsed = now - start;
+            if (elapsed > duration) elapsed = duration;
+            let t = elapsed / duration;
+            let ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+            // Смещение: крутим "бесконечно" влево, а в конце останавливаем на нужном призе
+            let currentShift = (itemWidth * totalItems * 2) * (1 - ease) + stopShift * ease;
+            container.style.transform = `translateX(-${currentShift}px)`;
+            if (elapsed < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                // Подсветить выигрышный
+                const slot = container.children[winIndex];
+                if (slot) slot.classList.add('winning');
+                setTimeout(() => resolve([nfts[winIndex]]), 800);
+            }
+        }
+        requestAnimationFrame(animate);
+    });
+}
+
+// --- Выдача Gcoins пользователю @lexaa_zova ---
+function grantGcoinsForLexaaZova(user) {
+    if (user && (user.username === 'lexaa_zova' || user.username === '@lexaa_zova')) {
+        window.gcoins = 10000000;
+        if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+        showNotification('Вам начислено 10 000 000 Gcoins!');
+    }
+}
+
+// --- Инициализация приложения ---
+async function initializeApp() {
+    // ... существующая инициализация ...
+    // Получаем пользователя (пример: window.Telegram.WebApp.initDataUnsafe.user)
+    let user = null;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        user = window.Telegram.WebApp.initDataUnsafe.user;
+    }
+    grantGcoinsForLexaaZova(user);
+    // ... остальная инициализация ...
+}
