@@ -1531,10 +1531,12 @@ function renderCasesGrid() {
             card.className = 'case-card-grid';
             card.innerHTML = `
                 <img src="${c.image}" alt="${c.name}" class="case-img-grid">
-                <div class="case-card-title">${c.name}</div>
-                <div class="case-card-price-block">
-                    <span class="case-card-price">${c.cost}</span>
-                    <span class="case-card-gcoins">Gcoins</span>
+                <div class="case-card-info-overlay">
+                    <div class="case-card-title">${c.name}</div>
+                    <div class="case-card-price-block">
+                        <span class="case-card-price">${c.cost}</span>
+                        <span class="case-card-gcoins">Gcoins</span>
+                    </div>
                 </div>
             `;
             card.onclick = () => openCasePage(c.id);
