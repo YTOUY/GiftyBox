@@ -138,6 +138,50 @@
                 <div class="case-detail-prizes-title">Возможные подарки</div>
                 <div class="case-detail-prizes-grid" id="case-detail-prizes-grid"></div>
             </section>
+            <!-- Case Opening -->
+            <section id="page-case-opening" class="page">
+                <div class="case-header">
+                    <img src="" alt="Case" id="case-avatar" class="case-avatar">
+                    <div class="case-name" id="case-name"></div>
+                    <div class="case-price">
+                        <span id="case-price">0.00</span>
+                        <img src="assets/ton-logo.svg" class="ton-logo"/>
+                    </div>
+                </div>
+                
+                <div class="case-spinner">
+                    <div class="spinner-container">
+                        <div class="spinner-items" id="spinner-items"></div>
+                        <div class="spinner-pointer"></div>
+                    </div>
+                </div>
+                
+                <div class="case-controls">
+                    <div class="spin-buttons">
+                        <button class="btn btn-blue btn-spin" id="btn-spin">Spin</button>
+                        <button class="btn btn-grey btn-demo" id="btn-demo">Demo spin</button>
+                    </div>
+                    <div class="spin-options">
+                        <label class="fast-option">
+                            <span>Fast</span>
+                            <input type="checkbox" id="fast-spin">
+                            <span class="checkmark"></span>
+                        </label>
+                        <div class="multiplier-options">
+                            <button class="btn-mult" data-mult="x1">x1</button>
+                            <button class="btn-mult" data-mult="x2">x2</button>
+                            <button class="btn-mult" data-mult="x3">x3</button>
+                            <button class="btn-mult" data-mult="x4">x4</button>
+                            <button class="btn-mult" data-mult="x5">x5</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="case-items">
+                    <h3>Возможные призы</h3>
+                    <div class="items-grid" id="possible-items"></div>
+                </div>
+            </section>
         </main>
         <!-- Нижнее меню -->
         <nav class="bottom-nav">
