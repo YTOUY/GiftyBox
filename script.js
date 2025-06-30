@@ -674,24 +674,22 @@ function openCasePage(caseId) {
         `;
     });
     
-    // Добавляем обработчики для кнопок
-    const openButton = document.querySelector('.btn-open-case');
-    const demoButton = document.querySelector('.btn-demo-case');
-    
-    if (openButton) {
-        openButton.onclick = () => {
+    // Обработчики для новых кнопок под ценой
+    const spinBtn = document.getElementById('btn-spin-detail');
+    const demoBtn = document.getElementById('btn-demo-detail');
+    if (spinBtn) {
+        spinBtn.onclick = () => {
             showPage('case-opening');
             initializeSpinner(caseId);
         };
     }
-    
-    if (demoButton) {
-        demoButton.onclick = () => {
+    if (demoBtn) {
+        demoBtn.onclick = () => {
             showPage('case-opening');
             initializeSpinner(caseId, true);
         };
     }
-    
+    // Множители и fast можно синхронизировать по желанию
     // Показываем страницу кейса
     showPage('case-detail');
 }
