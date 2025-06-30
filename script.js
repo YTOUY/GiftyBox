@@ -265,119 +265,320 @@ async function openCaseWithSupabase(caseName) {
 }
 
 const cases = {
-    basic: {
-        name: "Basic Case",
+    'free-spins': {
+        name: 'Free Spins',
+        cost: 0,
+        image: 'assets/cases/free-spins.png',
+        nfts: [
+            { id: 'empty', label: 'Пусто', type: 'empty' },
+            { id: 'gcoins-1', label: '1 Gc', gcoins: 1 },
+            { id: 'gcoins-2', label: '2 Gc', gcoins: 2 },
+            { id: 'gcoins-3', label: '3 Gc', gcoins: 3 },
+            { id: 'gcoins-5', label: '5 Gc', gcoins: 5 },
+            { id: 'gcoins-10', label: '10 Gc', gcoins: 10 }
+        ],
+        probabilities: [0.99, 0.002, 0.002, 0.002, 0.002, 0.002]
+    },
+    'lunar-luck': {
+        name: 'Lunar Luck',
+        cost: 50,
+        image: 'assets/cases/lunar-luck.png',
+        nfts: [
+            { id: 'gcoins-10', label: '10 Gc', gcoins: 10 },
+            { id: 'gcoins-15', label: '15 Gc', gcoins: 15 },
+            { id: 'gcoins-20', label: '20 Gc', gcoins: 20 },
+            { id: 'gcoins-25', label: '25 Gc', gcoins: 25 },
+            { id: 'gcoins-30', label: '30 Gc', gcoins: 30 },
+            { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
+            { id: 'lunar-snake', label: 'Lunar Snake', rarity: 'basic' },
+            { id: 'pet-snake', label: 'Pet Snake', rarity: 'basic' },
+            { id: 'snake-box', label: 'Snake Box', rarity: 'basic' },
+            { id: 'sakura-flower', label: 'Sakura Flower', rarity: 'basic' },
+            { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' },
+            { id: 'snow-mittens', label: 'Snow Mittens', rarity: 'basic' },
+            { id: 'light-sword', label: 'Light Sword', rarity: 'epic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'heartbeat': {
+        name: 'Heartbeat',
         cost: 100,
         nfts: [
-            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
-            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
-            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
-            { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
-            { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
-            { id: "rose", label: "Роза", rarity: "basic", stars: 25 },
-            { id: "rocket", label: "Ракета", rarity: "basic", stars: 50 },
-            { id: "trophy", label: "Кубок", rarity: "basic", stars: 100 },
-            { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
-            { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
-            { id: "gcoins-50", label: "50 GCoins", rarity: "special", gcoins: 50 },
-            { id: "gcoins-50", label: "50 GCoins", rarity: "special", gcoins: 50 }
+            { id: 'gcoins-20', label: '20 Gc', gcoins: 20 },
+            { id: 'gcoins-30', label: '30 Gc', gcoins: 30 },
+            { id: 'gcoins-40', label: '40 Gc', gcoins: 40 },
+            { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
+            { id: 'gcoins-60', label: '60 Gc', gcoins: 60 },
+            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
+            { id: 'heart-locket', label: 'Heart Locket', rarity: 'basic' },
+            { id: 'trapped-heart', label: 'Trapped Heart', rarity: 'basic' },
+            { id: 'cookie-heart', label: 'Cookie Heart', rarity: 'basic' },
+            { id: 'eternal-rose', label: 'Eternal Rose', rarity: 'basic' },
+            { id: 'bow-tie', label: 'Bow Tie', rarity: 'basic' },
+            { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' },
+            { id: 'restless-jar', label: 'Restless Jar', rarity: 'basic' }
         ],
-        probabilities: [0.15, 0.15, 0.15, 0.12, 0.12, 0.10, 0.08, 0.06, 0.05, 0.04, 0.04, 0.04]
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
     },
-    standard: {
-        name: "Standard Case",
-        cost: 250,
+    'sweet-tooth': {
+        name: 'Sweet Tooth',
+        cost: 200,
         nfts: [
-            { id: "teddybear", label: "Мишка", rarity: "basic", stars: 15 },
-            { id: "heart", label: "Сердце", rarity: "basic", stars: 15 },
-            { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
-            { id: "lunar-snake", label: "Lunar Snake", rarity: "basic", stars: 75 },
-            { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
-            { id: "desk-calendar", label: "Desk Calendar", rarity: "standard", stars: 30 },
-            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
-            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
-            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
-            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
-            { id: "gcoins-200", label: "200 GCoins", rarity: "special", gcoins: 200 },
-            { id: "gcoins-200", label: "200 GCoins", rarity: "special", gcoins: 200 }
+            { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
+            { id: 'gcoins-70', label: '70 Gc', gcoins: 70 },
+            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
+            { id: 'gcoins-120', label: '120 Gc', gcoins: 120 },
+            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
+            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
+            { id: 'jelly-bunny', label: 'Jelly Bunny', rarity: 'basic' },
+            { id: 'ginger-cookie', label: 'Ginger Cookie', rarity: 'basic' },
+            { id: 'candy-cane', label: 'Candy Cane', rarity: 'basic' },
+            { id: 'lol-pop', label: 'Lol Pop', rarity: 'basic' },
+            { id: 'mad-pumpkin', label: 'Mad Pumpkin', rarity: 'basic' },
+            { id: 'holiday-drink', label: 'Holiday Drink', rarity: 'basic' },
+            { id: 'big-year', label: 'Big Year', rarity: 'basic' }
         ],
-        probabilities: [0.12, 0.12, 0.10, 0.10, 0.10, 0.10, 0.09, 0.09, 0.08, 0.05, 0.03, 0.03]
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
     },
-    rare: {
-        name: "Rare Case",
+    'magic-night': {
+        name: 'Magic Night',
+        cost: 300,
+        nfts: [
+            { id: 'gcoins-70', label: '70 Gc', gcoins: 70 },
+            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
+            { id: 'gcoins-120', label: '120 Gc', gcoins: 120 },
+            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
+            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
+            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
+            { id: 'eternal-candle', label: 'Eternal Candle', rarity: 'basic' },
+            { id: 'magic-potion', label: 'Magic Potion', rarity: 'basic' },
+            { id: 'crystal-ball', label: 'Crystal Ball', rarity: 'basic' },
+            { id: 'hypno-lollipop', label: 'Hypno Lollipop', rarity: 'basic' },
+            { id: 'witch-hat', label: 'Witch Hat', rarity: 'basic' },
+            { id: 'voodoo-doll', label: 'Voodoo Doll', rarity: 'basic' },
+            { id: 'hex-pot', label: 'Hex Pot', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'winter-wonders': {
+        name: 'Winter Wonders',
         cost: 500,
         nfts: [
-            { id: "rose", label: "Роза", rarity: "basic", stars: 25 },
-            { id: "rocket", label: "Ракета", rarity: "basic", stars: 50 },
-            { id: "trophy", label: "Кубок", rarity: "basic", stars: 100 },
-            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
-            { id: "b-day-candle", label: "B-Day Candle", rarity: "standard", stars: 40 },
-            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
-            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
-            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
-            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
-            { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
-            { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
-            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 }
+            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
+            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
+            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
+            { id: 'gcoins-250', label: '250 Gc', gcoins: 250 },
+            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
+            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
+            { id: 'snow-globe', label: 'Snow Globe', rarity: 'basic' },
+            { id: 'snow-mittens', label: 'Snow Mittens', rarity: 'basic' },
+            { id: 'sleigh-bell', label: 'Sleigh Bell', rarity: 'basic' },
+            { id: 'winter-wreath', label: 'Winter Wreath', rarity: 'basic' },
+            { id: 'santa-hat', label: 'Santa Hat', rarity: 'basic' },
+            { id: 'jingle-bells', label: 'Jingle Bells', rarity: 'basic' },
+            { id: 'desk-calendar', label: 'Desk Calendar', rarity: 'basic' }
         ],
-        probabilities: [0.10, 0.10, 0.08, 0.09, 0.09, 0.09, 0.09, 0.08, 0.08, 0.07, 0.07, 0.06]
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
     },
-    epic: {
-        name: "Epic Case",
+    'party-box': {
+        name: 'Party Box',
+        cost: 700,
+        nfts: [
+            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
+            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
+            { id: 'gcoins-250', label: '250 Gc', gcoins: 250 },
+            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
+            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
+            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
+            { id: 'party-sparkler', label: 'Party Sparkler', rarity: 'basic' },
+            { id: 'jester-hat', label: 'Jester Hat', rarity: 'basic' },
+            { id: 'b-day-candle', label: 'B Day Candle', rarity: 'basic' },
+            { id: 'plush-pepe', label: 'Plush Pepe', rarity: 'basic' },
+            { id: 'top-hat', label: 'Top Hat', rarity: 'basic' },
+            { id: 'flying-broom', label: 'Flying Broom', rarity: 'basic' },
+            { id: 'record-player', label: 'Record Player', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'lucky-charms': {
+        name: 'Lucky Charms',
         cost: 1000,
         nfts: [
-            { id: "jester-hat", label: "Jester Hat", rarity: "standard", stars: 45 },
-            { id: "evil-eye", label: "Evil Eye", rarity: "rare", stars: 80 },
-            { id: "homemade-cake", label: "Homemade Cake", rarity: "rare", stars: 90 },
-            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
-            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
-            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
-            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
-            { id: "eternal-candle", label: "Eternal Candle", rarity: "epic", stars: 180 },
-            { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 },
-            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
-            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
-            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 }
+            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
+            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
+            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
+            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
+            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
+            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
+            { id: 'evil-eye', label: 'Evil Eye', rarity: 'basic' },
+            { id: 'sharp-tongue', label: 'Sharp Tongue', rarity: 'basic' },
+            { id: 'star-notepad', label: 'Star Notepad', rarity: 'basic' },
+            { id: 'ion-gem', label: 'Ion Gem', rarity: 'basic' },
+            { id: 'scared-cat', label: 'Scared Cat', rarity: 'basic' },
+            { id: 'kissed-frog', label: 'Kissed Frog', rarity: 'basic' },
+            { id: 'electric-skull', label: 'Electric Skull', rarity: 'basic' }
         ],
-        probabilities: [0.08, 0.08, 0.08, 0.08, 0.08, 0.10, 0.10, 0.09, 0.09, 0.08, 0.08, 0.06]
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
     },
-    legendary: {
-        name: "Legendary Case",
+    'heroic-legends': {
+        name: 'Heroic Legends',
+        cost: 1500,
+        nfts: [
+            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
+            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
+            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
+            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
+            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
+            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
+            { id: 'heroic-helmet', label: 'Heroic Helmet', rarity: 'basic' },
+            { id: 'durov-cap', label: 'Durov s Cap', rarity: 'basic' },
+            { id: 'top-hat', label: 'Top Hat', rarity: 'basic' },
+            { id: 'mini-oscar', label: 'Mini Oscar', rarity: 'basic' },
+            { id: 'swiss-watch', label: 'Swiss Watch', rarity: 'basic' },
+            { id: 'vintage-cigar', label: 'Vintage Cigar', rarity: 'basic' },
+            { id: 'gem-signet', label: 'Gem Signet', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'flower-power': {
+        name: 'Flower Power',
         cost: 2000,
         nfts: [
-            { id: "easter-egg", label: "Easter Egg", rarity: "rare", stars: 95 },
-            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
-            { id: "eternal-candle", label: "Eternal Candle", rarity: "epic", stars: 180 },
-            { id: "candy-cane", label: "Candy Cane", rarity: "epic", stars: 200 },
-            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
-            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
-            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
-            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
-            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
-            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
-            { id: "gcoins-2500", label: "2500 GCoins", rarity: "special", gcoins: 2500 },
-            { id: "gcoins-2500", label: "2500 GCoins", rarity: "special", gcoins: 2500 }
+            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
+            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
+            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
+            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
+            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
+            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
+            { id: 'skull-flower', label: 'Skull Flower', rarity: 'basic' },
+            { id: 'sakura-flower', label: 'Sakura Flower', rarity: 'basic' },
+            { id: 'eternal-rose', label: 'Eternal Rose', rarity: 'basic' },
+            { id: 'lush-bouquet', label: 'Lush Bouquet', rarity: 'basic' },
+            { id: 'berry-box', label: 'Berry Box', rarity: 'basic' },
+            { id: 'perfume-bottle', label: 'Perfume Bottle', rarity: 'basic' },
+            { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' }
         ],
-        probabilities: [0.08, 0.08, 0.08, 0.08, 0.10, 0.10, 0.10, 0.10, 0.09, 0.09, 0.05, 0.05]
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
     },
-    mythic: {
-        name: "Mythic Case",
+    'riches-rings': {
+        name: 'Riches & Rings',
+        cost: 3000,
+        nfts: [
+            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
+            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
+            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
+            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
+            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
+            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
+            { id: 'diamond-ring', label: 'Diamond Ring', rarity: 'basic' },
+            { id: 'signet-ring', label: 'Signet Ring', rarity: 'basic' },
+            { id: 'bonded-ring', label: 'Bonded Ring', rarity: 'basic' },
+            { id: 'nail-bracelet', label: 'Nail Bracelet', rarity: 'basic' },
+            { id: 'gem-signet', label: 'Gem Signet', rarity: 'basic' },
+            { id: 'bow-tie', label: 'Bow Tie', rarity: 'basic' },
+            { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'tech-treasures': {
+        name: 'Tech Treasures',
         cost: 5000,
         nfts: [
-            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
-            { id: "light-sword", label: "Light Sword", rarity: "epic", stars: 150 },
-            { id: "jelly-bunny", label: "Jelly Bunny", rarity: "legendary", stars: 300 },
-            { id: "ginger-cookie", label: "Ginger Cookie", rarity: "legendary", stars: 350 },
-            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
-            { id: "cookie-heart", label: "Cookie Heart", rarity: "legendary", stars: 400 },
-            { id: "diamond-ring", label: "Diamond Ring", rarity: "mythic", stars: 500 },
-            { id: "neko-helmet", label: "Neko Helmet", rarity: "mythic", stars: 600 },
-            { id: "durov-cap", label: "Durov's Cap", rarity: "mythic", stars: 1000 },
-            { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 },
-            { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 },
-            { id: "gcoins-7000", label: "7000 GCoins", rarity: "special", gcoins: 7000 }
+            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
+            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
+            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
+            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
+            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
+            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
+            { id: 'tama-gadget', label: 'Tama Gadget', rarity: 'basic' },
+            { id: 'vintage-cigar', label: 'Vintage Cigar', rarity: 'basic' },
+            { id: 'swiss-watch', label: 'Swiss Watch', rarity: 'basic' },
+            { id: 'record-player', label: 'Record Player', rarity: 'basic' },
+            { id: 'crystal-ball', label: 'Crystal Ball', rarity: 'basic' },
+            { id: 'electric-skull', label: 'Electric Skull', rarity: 'basic' },
+            { id: 'hypno-lollipop', label: 'Hypno Lollipop', rarity: 'basic' }
         ],
-        probabilities: [0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.01, 0.01, 0.01, 0.12, 0.12, 0.12]
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'spooky-box': {
+        name: 'Spooky Box',
+        cost: 7000,
+        nfts: [
+            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
+            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
+            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
+            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
+            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
+            { id: 'gcoins-7000', label: '7000 Gc', gcoins: 7000 },
+            { id: 'voodoo-doll', label: 'Voodoo Doll', rarity: 'basic' },
+            { id: 'mad-pumpkin', label: 'Mad Pumpkin', rarity: 'basic' },
+            { id: 'witch-hat', label: 'Witch Hat', rarity: 'basic' },
+            { id: 'scared-cat', label: 'Scared Cat', rarity: 'basic' },
+            { id: 'evil-eye', label: 'Evil Eye', rarity: 'basic' },
+            { id: 'hex-pot', label: 'Hex Pot', rarity: 'basic' },
+            { id: 'trapped-heart', label: 'Trapped Heart', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'animal-parade': {
+        name: 'Animal Parade',
+        cost: 8000,
+        nfts: [
+            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
+            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
+            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
+            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
+            { id: 'gcoins-7000', label: '7000 Gc', gcoins: 7000 },
+            { id: 'gcoins-8000', label: '8000 Gc', gcoins: 8000 },
+            { id: 'plush-pepe', label: 'Plush Pepe', rarity: 'basic' },
+            { id: 'scared-cat', label: 'Scared Cat', rarity: 'basic' },
+            { id: 'toy-bear', label: 'Toy Bear', rarity: 'basic' },
+            { id: 'durov-duck', label: 'Durov Duck', rarity: 'basic' },
+            { id: 'jelly-bunny', label: 'Jelly Bunny', rarity: 'basic' },
+            { id: 'pet-snake', label: 'Pet Snake', rarity: 'basic' },
+            { id: 'flying-broom', label: 'Flying Broom', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'cosmic-fortune': {
+        name: 'Cosmic Fortune',
+        cost: 9000,
+        nfts: [
+            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
+            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
+            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
+            { id: 'gcoins-7000', label: '7000 Gc', gcoins: 7000 },
+            { id: 'gcoins-8000', label: '8000 Gc', gcoins: 8000 },
+            { id: 'gcoins-9000', label: '9000 Gc', gcoins: 9000 },
+            { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' },
+            { id: 'ion-gem', label: 'Ion Gem', rarity: 'basic' },
+            { id: 'gem-signet', label: 'Gem Signet', rarity: 'basic' },
+            { id: 'crystal-ball', label: 'Crystal Ball', rarity: 'basic' },
+            { id: 'magic-potion', label: 'Magic Potion', rarity: 'basic' },
+            { id: 'eternal-candle', label: 'Eternal Candle', rarity: 'basic' },
+            { id: 'big-year', label: 'Big Year', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+    },
+    'golden-year': {
+        name: 'Golden Year',
+        cost: 10000,
+        nfts: [
+            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
+            { id: 'gcoins-4000', label: '4000 Gc', gcoins: 4000 },
+            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
+            { id: 'gcoins-6000', label: '6000 Gc', gcoins: 6000 },
+            { id: 'gcoins-8000', label: '8000 Gc', gcoins: 8000 },
+            { id: 'gcoins-10000', label: '10000 Gc', gcoins: 10000 },
+            { id: 'big-year', label: 'Big Year', rarity: 'basic' },
+            { id: 'bow-tie', label: 'Bow Tie', rarity: 'basic' },
+            { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' },
+            { id: 'heroic-helmet', label: 'Heroic Helmet', rarity: 'basic' },
+            { id: 'diamond-ring', label: 'Diamond Ring', rarity: 'basic' },
+            { id: 'swiss-watch', label: 'Swiss Watch', rarity: 'basic' },
+            { id: 'durov-cap', label: 'Durov s Cap', rarity: 'basic' }
+        ],
+        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
     }
 };
 
@@ -1294,3 +1495,31 @@ function showFlash() {
     setTimeout(() => { flash.style.opacity = '0'; }, 80);
     setTimeout(() => { flash.remove(); }, 800);
 }
+
+// Функция для рендера кейсов на главной странице (по 2 в ряд, сортировка по цене)
+function renderCasesGrid() {
+    const casesArray = Object.entries(cases)
+        .map(([id, data]) => ({ id, ...data }))
+        .sort((a, b) => a.cost - b.cost);
+    const container = document.getElementById('cases-list-grid');
+    container.innerHTML = '';
+    for (let i = 0; i < casesArray.length; i += 2) {
+        const row = document.createElement('div');
+        row.className = 'cases-row';
+        for (let j = i; j < i + 2 && j < casesArray.length; j++) {
+            const c = casesArray[j];
+            const card = document.createElement('div');
+            card.className = 'case-card-grid';
+            card.innerHTML = `
+                <img src="${c.image}" alt="${c.name}" class="case-img-grid">
+                <button class="case-btn-grid" onclick="openCasePage('${c.id}')">
+                    <span class="case-btn-title">${c.name}</span>
+                    <span class="case-btn-price">${c.cost} Gc</span>
+                </button>
+            `;
+            row.appendChild(card);
+        }
+        container.appendChild(row);
+    }
+}
+// Для вызова: renderCasesGrid();
