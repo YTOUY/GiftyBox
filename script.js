@@ -1244,8 +1244,10 @@ function showPage(page) {
     if (activeButton) {
         activeButton.classList.add('active');
     }
-    // Скроллим страницу вверх при смене режима
-    window.scrollTo(0, 0);
+    // Если открываем кейсы — рендерим их
+    if (page === 'cases' && typeof renderCasesGrid === 'function') {
+        renderCasesGrid();
+    }
 }
 
 // Обновление NFT в профиле (самые дорогие)

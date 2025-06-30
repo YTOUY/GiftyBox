@@ -2810,3 +2810,22 @@ body.modal-open::after {
         height: 28px !important;
     }
 }
+
+.deposit-balance img,
+.upgrade-header img,
+.profile-balance img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.profile-header {
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: center;
+}
+.profile-info {
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 4px !important;
+}
