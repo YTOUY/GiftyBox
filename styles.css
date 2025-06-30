@@ -48,8 +48,8 @@ body {
 .case-card-grid {
     aspect-ratio: 1/1;
     width: 100%;
-    max-width: 98vw;
-    min-width: 140px;
+    max-width: 122vw;
+    min-width: 175px;
     position: relative;
     border-radius: 18px;
     box-shadow: 0 4px 24px #0003;
@@ -80,22 +80,28 @@ body {
     position: absolute;
     left: 0; right: 0; bottom: 0;
     width: 100%;
-    background: linear-gradient(0deg, rgba(24,31,42,0.92) 80%, rgba(24,31,42,0.2) 100%);
-    padding: 18px 0 10px 0;
+    background: linear-gradient(0deg, rgba(24,31,42,0.65) 90%, rgba(24,31,42,0.01) 100%);
+    padding: 7px 0 4px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 0 0 18px 18px;
     z-index: 2;
+    min-height: 44px;
+    max-height: 48px;
+    justify-content: flex-end;
 }
 .case-card-title {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     font-weight: 700;
     color: #ffe7a0;
     text-align: center;
-    margin: 0 0 2px 0;
+    margin: 0 0 1px 0;
     line-height: 1.1;
     z-index: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .case-card-price-block {
     display: flex;
