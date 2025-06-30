@@ -940,14 +940,8 @@ function updateInventory() {
 }
 
 // --- Апгрейд NFT ---
-let upgradeSelectedNFT = null;
-let upgradeTargetNFT = null;
-let upgradeChance = 0;
-let upgradeInProgress = false;
-
 // Открыть модалку выбора NFT для апгрейда
 function openUpgradeSelectNFT() {
-    if (upgradeInProgress) return;
     const modal = document.getElementById('modal-upgrade-nft');
     const list = document.getElementById('modal-upgrade-nft-list');
     list.innerHTML = '';
@@ -977,7 +971,7 @@ function openUpgradeSelectNFT() {
 
 // Открыть модалку выбора целевого NFT
 function openUpgradeSelectTarget() {
-    if (!upgradeSelectedNFT || upgradeInProgress) {
+    if (!upgradeSelectedNFT) {
         showNotification('Сначала выберите NFT для апгрейда!');
         return;
     }
@@ -1086,7 +1080,7 @@ function drawUpgradeCircle(angle = 0) {
 
 // Запуск анимации апгрейда
 function startUpgrade() {
-    if (!upgradeSelectedNFT || !upgradeTargetNFT || upgradeInProgress) {
+    if (!upgradeSelectedNFT || !upgradeTargetNFT) {
         showNotification('Выберите оба NFT для апгрейда!');
         return;
     }
@@ -1117,8 +1111,9 @@ function startUpgrade() {
         if (elapsed < duration) {
             requestAnimationFrame(animate);
         } else {
-            drawUpgradeCircle(finalAngle);
-            setTimeout(() => finishUpgrade(isWin), 800);
+            setTimeout(() => {
+                finishUpgrade(isWin);
+            }, 800);
         }
     }
     animate(performance.now());
@@ -2094,11 +2089,6 @@ function showWinModalMulti(prizes) {
 }
 
 // --- UPGRADE LOGIC ---
-let upgradeSelectedNFT = null;
-let upgradeTargetNFT = null;
-let upgradeChance = 0;
-let upgradeInProgress = false;
-
 // Модальное окно выбора NFT
 function showNFTSelectModal(nfts, onSelect, title = 'Выберите NFT') {
     let modal = document.getElementById('modal-nft-select');
