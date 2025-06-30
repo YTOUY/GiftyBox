@@ -610,13 +610,30 @@ function cleanNFTName(label) {
 function openCasePage(caseName) {
     activeCase = caseName;
     const caseData = cases[caseName];
-    
-    // Обновляем заголовок
-    document.getElementById('case-title').textContent = caseData.name;
-    
-    // Создаем слоты для рулетки
-    createRouletteSlots(caseName);
-    
+    // Аватарка
+    const avatar = document.getElementById('case-detail-avatar');
+    avatar.innerHTML = `<img src="${caseData.image}" alt="${caseData.name}">`;
+    // Название
+    document.getElementById('case-detail-title').textContent = caseData.name;
+    // Цена
+    document.getElementById('case-detail-price').textContent = caseData.cost;
+    // Призы (сортировка по gcoins, если есть, иначе по label)
+    const prizesGrid = document.getElementById('case-detail-prizes-grid');
+    let nfts = [...caseData.nfts];
+    nfts.sort((a, b) => (b.gcoins || 0) - (a.gcoins || 0) || (b.label > a.label ? 1 : -1));
+    prizesGrid.innerHTML = '';
+    nfts.forEach(nft => {
+        let imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.rarity || 'basic'}-${nft.id}.gif`;
+        let label = cleanNFTName(nft.label);
+        let gcoins = nft.gcoins ? `<span class='prize-gcoins'>${nft.gcoins} Gc</span>` : '';
+        prizesGrid.innerHTML += `
+            <div class="case-detail-prize">
+                <img src="${imgSrc}" alt="${label}">
+                <div class="prize-label">${label}</div>
+                ${gcoins}
+            </div>
+        `;
+    });
     // Показываем страницу кейса
     showPage('case');
 }

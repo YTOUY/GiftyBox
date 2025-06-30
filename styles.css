@@ -80,19 +80,19 @@ body {
     position: absolute;
     left: 0; right: 0; bottom: 0;
     width: 100%;
-    background: linear-gradient(0deg, rgba(24,31,42,0.65) 90%, rgba(24,31,42,0.01) 100%);
-    padding: 7px 0 4px 0;
+    background: linear-gradient(0deg, rgba(24,31,42,0.45) 95%, rgba(24,31,42,0.01) 100%);
+    padding: 3px 0 2px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 0 0 18px 18px;
     z-index: 2;
-    min-height: 44px;
-    max-height: 48px;
+    min-height: 36px;
+    max-height: 40px;
     justify-content: flex-end;
 }
 .case-card-title {
-    font-size: 1.08rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #ffe7a0;
     text-align: center;
@@ -107,7 +107,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
+    margin: 0 0 1px 0;
     z-index: 2;
 }
 .case-card-price {
@@ -1683,4 +1683,106 @@ body {
     .case-card-grid {
         max-width: 98vw;
     }
+}
+
+.case-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 32px;
+    margin-bottom: 18px;
+}
+.case-detail-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 24px;
+    background: #232b3a;
+    box-shadow: 0 4px 24px #0003;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    overflow: hidden;
+}
+.case-detail-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 24px;
+}
+.case-detail-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffe7a0;
+    text-align: center;
+    margin-bottom: 8px;
+}
+.case-detail-price-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.case-detail-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffe7a0;
+    line-height: 1;
+}
+.case-detail-gcoins {
+    font-size: 1rem;
+    color: #b0b0b0;
+    font-weight: 600;
+    margin-top: 1px;
+    letter-spacing: 0.5px;
+}
+.case-detail-prizes-title {
+    text-align: center;
+    color: #7ecbff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 18px 0 10px 0;
+}
+.case-detail-prizes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    padding: 0 18px 32px 18px;
+    justify-items: center;
+}
+@media (max-width: 700px) {
+    .case-detail-avatar { width: 80px; height: 80px; }
+    .case-detail-title { font-size: 1.1rem; }
+    .case-detail-prizes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 4px 18px 4px; }
+}
+.case-detail-prize {
+    background: #232b3a;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px #0002;
+    padding: 12px 8px 8px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    max-width: 120px;
+}
+.case-detail-prize img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    background: #2226;
+}
+.case-detail-prize .prize-label {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    text-align: center;
+}
+.case-detail-prize .prize-gcoins {
+    color: #ffe7a0;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
