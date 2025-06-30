@@ -2735,3 +2735,27 @@ body.modal-open::after {
         gap: 7px;
     }
 }
+
+.spinner-container {
+    align-items: flex-start !important;
+}
+.spinner-items {
+    align-items: flex-start !important;
+}
+.spinner-item {
+    width: 120px;
+    height: 120px;
+    background: #223355 !important;
+    border-radius: 16px;
+    margin: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 8px #0003;
+}
+.spinner-item img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}

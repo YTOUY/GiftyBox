@@ -2007,6 +2007,7 @@ function spinRouletteMulti(caseId, count, fast = false) {
         for (let i = 0; i < 40; i++) {
             nfts = nfts.concat(baseNFTs.sort(() => Math.random() - 0.5));
         }
+        // НЕ очищаем container.innerHTML после анимации, чтобы призы не исчезали
         container.innerHTML = '';
         nfts.forEach(nft => {
             const item = document.createElement('div');
@@ -2016,7 +2017,7 @@ function spinRouletteMulti(caseId, count, fast = false) {
             container.appendChild(item);
         });
         // Размеры
-        const itemWidth = 64; // должен совпадать с CSS
+        const itemWidth = 120; // теперь совпадает с CSS
         const totalItems = nfts.length;
         const visibleCount = 5;
         // Выбираем случайные призы для мультиспина
@@ -2038,6 +2039,9 @@ function spinRouletteMulti(caseId, count, fast = false) {
         const stopIndex = winIndexes[0];
         // Итоговый сдвиг
         const stopShift = (rounds * baseNFTs.length + stopIndex) * itemWidth;
+        // Сброс transform к начальному положению
+        container.style.transition = 'none';
+        container.style.transform = 'translateX(0px)';
         // Анимация
         function animate(now) {
             if (!start) start = now;
