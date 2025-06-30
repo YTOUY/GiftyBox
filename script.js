@@ -622,24 +622,31 @@ function cleanNFTName(label) {
 }
 
 // Функция для перехода на страницу кейса
-function openCasePage(caseName) {
-    caseState.current = cases[caseName];
+function openCasePage(caseId) {
+    caseState.current = cases[caseId];
+    if (!caseState.current) return;
+    
     // Аватарка
     const avatar = document.getElementById('case-detail-avatar');
     avatar.innerHTML = `<img src="${caseState.current.image}" alt="${caseState.current.name}">`;
+    
     // Название
     document.getElementById('case-detail-title').textContent = caseState.current.name;
+    
     // Цена
     document.getElementById('case-detail-price').textContent = caseState.current.cost;
-    // Призы (сортировка по gcoins, если есть, иначе по label)
+    
+    // Призы
     const prizesGrid = document.getElementById('case-detail-prizes-grid');
     let nfts = [...caseState.current.nfts];
-    nfts.sort((a, b) => (b.gcoins || 0) - (a.gcoins || 0) || (b.label > a.label ? 1 : -1));
+    nfts.sort((a, b) => (b.gcoins || 0) - (a.gcoins || 0));
+    
     prizesGrid.innerHTML = '';
     nfts.forEach(nft => {
-        let imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.rarity || 'basic'}-${nft.id}.gif`;
-        let label = cleanNFTName(nft.label);
-        let gcoins = nft.gcoins ? `<span class='prize-gcoins'>${nft.gcoins} Gc</span>` : '';
+        const imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.id}.gif`;
+        const label = nft.label;
+        const gcoins = nft.gcoins ? `<span class="prize-gcoins">${nft.gcoins} Gc</span>` : '';
+        
         prizesGrid.innerHTML += `
             <div class="case-detail-prize">
                 <img src="${imgSrc}" alt="${label}">
@@ -648,6 +655,7 @@ function openCasePage(caseName) {
             </div>
         `;
     });
+    
     // Показываем страницу кейса
     showPage('case');
 }
@@ -1624,119 +1632,115 @@ function loadPossibleItems() {
 // Инициализация спиннера
 function initializeSpinner() {
     const spinnerItems = document.getElementById('spinner-items');
+    if (!spinnerItems || !caseState.current) return;
+    
+    // Очищаем спиннер
     spinnerItems.innerHTML = '';
     spinnerItems.style.transform = 'translateX(0)';
     
-    // Генерируем случайные предметы для спиннера
-    caseState.spinItems = generateSpinItems();
+    // Генерируем случайные предметы для спина
+    const items = [];
+    for (let i = 0; i < 50; i++) {
+        const randomNft = caseState.current.nfts[Math.floor(Math.random() * caseState.current.nfts.length)];
+        items.push(randomNft);
+    }
     
-    caseState.spinItems.forEach(item => {
+    // Добавляем предметы в спиннер
+    items.forEach(nft => {
+        const imgSrc = nft.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${nft.id}.gif`;
         const spinnerItem = document.createElement('div');
         spinnerItem.className = 'spinner-item';
-        spinnerItem.innerHTML = `<img src="assets/nft/${item.rarity}-${item.id}.gif" alt="${item.name}">`;
+        spinnerItem.innerHTML = `<img src="${imgSrc}" alt="${nft.label}">`;
         spinnerItems.appendChild(spinnerItem);
     });
 }
 
-// Генерация предметов для спиннера
-function generateSpinItems() {
-    const items = [];
-    const totalItems = 50; // Общее количество предметов в спиннере
-    
-    for (let i = 0; i < totalItems; i++) {
-        const randomItem = getRandomItem();
-        items.push(randomItem);
-    }
-    
-    return items;
+// Функция спина рулетки
+async function spinRoulette() {
+    return new Promise((resolve) => {
+        const spinnerItems = document.getElementById('spinner-items');
+        if (!spinnerItems || !caseState.current) {
+            resolve(null);
+            return;
+        }
+        
+        // Определяем выигрышный предмет
+        const winIndex = Math.floor(Math.random() * caseState.current.nfts.length);
+        const winningNFT = caseState.current.nfts[winIndex];
+        
+        // Вычисляем позицию для остановки
+        const itemWidth = 132; // ширина предмета + margin
+        const centerOffset = (window.innerWidth - itemWidth) / 2;
+        const targetPosition = -(winIndex * itemWidth + centerOffset);
+        
+        // Анимация спина
+        spinnerItems.style.transition = 'transform 5s cubic-bezier(0.32, 0.64, 0.45, 1)';
+        spinnerItems.style.transform = `translateX(${targetPosition}px)`;
+        
+        // По окончании анимации
+        setTimeout(() => {
+            resolve(winningNFT);
+        }, 5000);
+    });
 }
 
-// Получение случайного предмета с учетом вероятностей
-function getRandomItem() {
-    return caseState.current.items[Math.floor(Math.random() * caseState.current.items.length)];
-}
-
-// Функция запуска спина
-async function spin(isDemo = false) {
-    if (caseState.isSpinning) return;
+// Функция открытия кейса
+async function openCase() {
+    if (!caseState.current || caseState.isSpinning) return;
     
-    const multiplier = caseState.multiplier || 1;
-    const price = caseState.current.price * multiplier;
-    
-    // Проверяем баланс для реального спина
-    if (!isDemo && gcoins < price) {
-        alert('Недостаточно средств');
+    const cost = caseState.current.cost * (caseState.multiplier || 1);
+    if (window.gcoins < cost) {
+        alert('Недостаточно Gcoins!');
         return;
     }
     
     caseState.isSpinning = true;
     
-    // Списываем баланс для реального спина
-    if (!isDemo) {
-        gcoins -= price;
-        updateBalanceDisplays();
-    }
+    // Списываем баланс
+    window.gcoins -= cost;
+    updateBalanceDisplays();
     
-    // Инициализируем спиннер с новыми предметами
+    // Инициализируем спиннер
     initializeSpinner();
     
-    // Генерируем выигрышные предметы в зависимости от множителя
-    const winItems = [];
-    for (let i = 0; i < multiplier; i++) {
-        // Определяем выигрышный предмет
-        const winItem = getRandomItem();
-        winItems.push(winItem);
-    }
+    // Запускаем спин и получаем выигрыш
+    const winningNFT = await spinRoulette();
     
-    // Настраиваем анимацию
-    const spinnerItems = document.getElementById('spinner-items');
-    const isFast = document.getElementById('fast-spin').checked;
-    const duration = isFast ? SPIN_CONFIG.FAST_DURATION : SPIN_CONFIG.NORMAL_DURATION;
-    
-    // Вычисляем конечную позицию (центр экрана)
-    const containerWidth = spinnerItems.parentElement.offsetWidth;
-    const itemTotalWidth = SPIN_CONFIG.ITEM_WIDTH + (SPIN_CONFIG.ITEM_MARGIN * 2);
-    const centerOffset = (containerWidth - SPIN_CONFIG.ITEM_WIDTH) / 2;
-    const centerIndex = Math.floor(SPIN_CONFIG.ITEMS_IN_SPIN / 2);
-    const targetPosition = -(centerIndex * itemTotalWidth - centerOffset);
-    
-    // Настраиваем плавную анимацию
-    spinnerItems.style.transition = `transform ${duration}ms cubic-bezier(0.21, 0.53, 0.29, 0.99)`;
-    
-    // Добавляем небольшую задержку перед началом анимации
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    // Запускаем анимацию
-    spinnerItems.style.transform = `translate3d(${targetPosition}px, -50%, 0)`;
-    
-    // Ждем окончания анимации
-    await new Promise(resolve => setTimeout(resolve, duration + 100));
-    
-    // Обрабатываем выигрыш
-    if (!isDemo) {
-        for (const item of winItems) {
-            if (item.type === 'nft') {
-                // Добавляем NFT в инвентарь
-                inventory.push(item);
-                await saveWin(item);
-            } else {
-                // Добавляем GCoins к балансу
-                gcoins += item.amount;
-                updateBalanceDisplays();
-                await saveGCoinsWin(item.amount);
-            }
-        }
-        
-        // Показываем модальное окно с выигрышем
-        showWinModal(winItems);
+    if (winningNFT) {
+        // Показываем выигрыш
+        setTimeout(() => {
+            showWinModal([winningNFT]);
+        }, 5500);
     }
     
     caseState.isSpinning = false;
 }
 
-// Обработчики событий
-document.getElementById('btn-spin').addEventListener('click', () => spin(false));
-document.getElementById('btn-demo').addEventListener('click', () => spin(true));
+// Функция демо-спина
+async function demoCase() {
+    if (!caseState.current || caseState.isSpinning) return;
+    
+    caseState.isSpinning = true;
+    
+    // Инициализируем спиннер
+    initializeSpinner();
+    
+    // Запускаем спин и получаем выигрыш
+    const winningNFT = await spinRoulette();
+    
+    if (winningNFT) {
+        // Показываем выигрыш
+        setTimeout(() => {
+            showWinModal([winningNFT]);
+        }, 5500);
+    }
+    
+    caseState.isSpinning = false;
+}
+
+// Добавляем обработчики кнопок
+document.getElementById('btn-spin')?.addEventListener('click', openCase);
+document.getElementById('btn-demo')?.addEventListener('click', demoCase);
 
 // Обработчики множителей
 document.querySelectorAll('.btn-mult').forEach(btn => {
@@ -1788,31 +1792,6 @@ function generateSpinItems() {
 // Получение случайного NFT с учетом вероятностей
 function getRandomNft() {
     return caseState.current.items[Math.floor(Math.random() * caseState.current.items.length)];
-}
-
-// Инициализация спиннера
-function initializeSpinner() {
-    const spinnerItems = document.getElementById('spinner-items');
-    spinnerItems.innerHTML = '';
-    spinnerItems.style.transform = 'translateX(0)';
-    
-    // Генерируем предметы для спина
-    caseState.spinItems = generateSpinItems();
-    
-    // Создаем элементы в спиннере
-    caseState.spinItems.forEach(item => {
-        const spinnerItem = document.createElement('div');
-        spinnerItem.className = `spinner-item ${item.type}`;
-        
-        if (item.type === 'nft') {
-            spinnerItem.innerHTML = `<img src="assets/nft/${item.rarity}-${item.id}.gif" alt="${item.name}">`;
-        } else {
-            spinnerItem.setAttribute('data-amount', item.amount);
-            spinnerItem.innerHTML = `<img src="assets/nft/gcoins.gif" alt="GCoins">`;
-        }
-        
-        spinnerItems.appendChild(spinnerItem);
-    });
 }
 
 // Сохранение выигрыша GCoins

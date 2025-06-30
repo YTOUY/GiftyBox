@@ -1900,6 +1900,7 @@ body {
     margin: 32px 0;
     padding: 0 18px;
     position: relative;
+    overflow: hidden;
 }
 
 .spinner-container {
@@ -1914,9 +1915,9 @@ body {
 .spinner-items {
     display: flex;
     position: absolute;
-    left: 0;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
     transition: transform 0s cubic-bezier(0.32, 0.64, 0.45, 1);
 }
 
@@ -1933,86 +1934,24 @@ body {
 }
 
 .spinner-item img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
-}
-
-.spinner-item.gcoins::before {
-    content: attr(data-amount);
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ffe7a0;
-    font-weight: 700;
-    font-size: 0.9rem;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2px 8px;
-    border-radius: 4px;
 }
 
 .spinner-pointer {
     position: absolute;
-    top: 0;
     left: 50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(to bottom, 
-        rgba(58, 143, 255, 0) 0%,
-        rgba(58, 143, 255, 1) 20%,
-        rgba(58, 143, 255, 1) 80%,
-        rgba(58, 143, 255, 0) 100%
-    );
-    z-index: 2;
-}
-
-.spinner-pointer::before,
-.spinner-pointer::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-}
-
-.spinner-pointer::before {
     top: 0;
-    border-top: 8px solid #3a8fff;
-}
-
-.spinner-pointer::after {
-    bottom: 0;
-    border-bottom: 8px solid #3a8fff;
-}
-
-/* Затемнение по краям спиннера */
-.spinner-container::before,
-.spinner-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 100px;
+    transform: translateX(-50%);
+    width: 2px;
     height: 100%;
+    background: #7ecbff;
     z-index: 1;
 }
 
-.spinner-container::before {
-    left: 0;
-    background: linear-gradient(to right, #232b3a 0%, rgba(35, 43, 58, 0) 100%);
-}
-
-.spinner-container::after {
-    right: 0;
-    background: linear-gradient(to left, #232b3a 0%, rgba(35, 43, 58, 0) 100%);
-}
-
 .case-controls {
-    padding: 0 18px;
+    padding: 0 24px;
     margin-bottom: 32px;
 }
 
@@ -2024,17 +1963,16 @@ body {
 
 .btn-spin, .btn-demo {
     flex: 1;
-    font-size: 1.1rem;
     padding: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
 }
 
 .spin-options {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #232b3a;
-    border-radius: 12px;
-    padding: 12px 18px;
+    margin-top: 16px;
 }
 
 .fast-option {
@@ -2042,32 +1980,8 @@ body {
     align-items: center;
     gap: 8px;
     color: #fff;
-    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
-}
-
-.fast-option input {
-    display: none;
-}
-
-.fast-option .checkmark {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #3a8fff;
-    border-radius: 4px;
-    position: relative;
-}
-
-.fast-option input:checked + .checkmark::after {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid #3a8fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
 }
 
 .multiplier-options {
@@ -2076,73 +1990,24 @@ body {
 }
 
 .btn-mult {
-    background: none;
+    padding: 8px 16px;
     border: none;
-    color: #7ecbff;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-mult:hover, .btn-mult.active {
-    background: #3a8fff;
-    color: #fff;
-}
-
-.case-items {
-    padding: 0 18px;
-}
-
-.case-items h3 {
-    color: #fff;
-    font-size: 1.1rem;
-    margin-bottom: 16px;
-}
-
-.items-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
-
-.item-card {
-    background: #232b3a;
     border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.item-card img {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 8px;
-}
-
-.item-name {
+    background: #232b3a;
     color: #fff;
     font-size: 0.9rem;
-    margin-bottom: 4px;
-}
-
-.item-price {
-    color: #7ecbff;
     font-weight: 600;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-.item-price img {
-    width: 12px;
-    height: 12px;
-    margin: 0;
+.btn-mult:hover {
+    background: #2c3547;
+}
+
+.btn-mult.active {
+    background: #7ecbff;
+    color: #232b3a;
 }
 
 /* Стили для модального окна с выигрышем */
