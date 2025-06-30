@@ -2092,3 +2092,279 @@ function showWinModalMulti(prizes) {
     // Здесь реализуй красивое окно с призами (аналогично скрину)
     alert('Ваши призы: ' + prizes.map(p => p ? p.label : '').join(', '));
 }
+
+// --- UPGRADE LOGIC ---
+let upgradeSelectedNFT = null;
+let upgradeTargetNFT = null;
+let upgradeChance = 0;
+let upgradeInProgress = false;
+
+// Модальное окно выбора NFT
+function showNFTSelectModal(nfts, onSelect, title = 'Выберите NFT') {
+    let modal = document.getElementById('modal-nft-select');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-nft-select';
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-window">
+                <div class="modal-title"></div>
+                <div class="modal-list"></div>
+                <button class="modal-close">Закрыть</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    modal.querySelector('.modal-title').textContent = title;
+    const list = modal.querySelector('.modal-list');
+    list.innerHTML = '';
+    nfts.forEach(nft => {
+        const item = document.createElement('div');
+        item.className = 'modal-nft-item';
+        item.innerHTML = `<img src="assets/nft/${nft.rarity || 'basic'}-${nft.id}.gif" alt="${nft.label}"><span>${nft.label}</span>`;
+        item.onclick = () => {
+            modal.style.display = 'none';
+            onSelect(nft);
+        };
+        list.appendChild(item);
+    });
+    modal.querySelector('.modal-close').onclick = () => {
+        modal.style.display = 'none';
+    };
+    modal.style.display = 'flex';
+}
+
+// Модальное окно результата
+function showUpgradeResultModal(success, targetNFT) {
+    let modal = document.getElementById('modal-upgrade-result');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-upgrade-result';
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-window">
+                <div class="modal-title"></div>
+                <div class="modal-content"></div>
+                <button class="modal-close">OK</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    modal.querySelector('.modal-title').textContent = success ? 'Успех!' : 'Неудача';
+    modal.querySelector('.modal-content').innerHTML = success
+        ? `<div>Вы получили:<br><img src="assets/nft/${targetNFT.rarity || 'basic'}-${targetNFT.id}.gif" style="width:48px;height:48px;"><br>${targetNFT.label}</div>`
+        : `<div>Вы потеряли своё NFT.<br>Попробуйте ещё раз!</div>`;
+    modal.querySelector('.modal-close').onclick = () => {
+        modal.style.display = 'none';
+    };
+    modal.style.display = 'flex';
+}
+
+// Уведомление
+function showNotification(msg) {
+    let notif = document.getElementById('notif-toast');
+    if (!notif) {
+        notif = document.createElement('div');
+        notif.id = 'notif-toast';
+        notif.className = 'notif-toast';
+        document.body.appendChild(notif);
+    }
+    notif.textContent = msg;
+    notif.style.display = 'block';
+    setTimeout(() => { notif.style.display = 'none'; }, 2200);
+}
+
+// Кнопки
+const btnAddNFT = document.getElementById('btn-add-nft');
+const btnChooseNFT = document.getElementById('btn-choose-nft');
+const btnStart = document.getElementById('btn-start-upgrade');
+
+if (btnAddNFT) {
+    btnAddNFT.onclick = () => {
+        // Выбор своего NFT (только одно, из инвентаря)
+        if (!window.inventory || window.inventory.length === 0) {
+            showNotification('У вас нет NFT для апгрейда!');
+            return;
+        }
+        showNFTSelectModal(window.inventory, nft => {
+            upgradeSelectedNFT = nft;
+            upgradeTargetNFT = null;
+            updateUpgradeUI();
+            showNotification('Теперь выберите целевое NFT');
+        }, 'Выберите своё NFT');
+    };
+}
+if (btnChooseNFT) {
+    btnChooseNFT.onclick = () => {
+        if (!upgradeSelectedNFT) {
+            showNotification('Сначала выберите своё NFT!');
+            return;
+        }
+        // Выбор целевого NFT (цена >= 1.8x выбранного)
+        const selectedPrice = getNFTPriceInTON(upgradeSelectedNFT.id);
+        const allNFTs = Object.values(NFT_PRICES)
+            .filter(nft => nft.id !== upgradeSelectedNFT.id)
+            .filter(nft => getNFTPriceInTON(nft.id) >= Math.ceil(selectedPrice * 1.8));
+        if (allNFTs.length === 0) {
+            showNotification('Нет подходящих NFT для апгрейда!');
+            return;
+        }
+        showNFTSelectModal(allNFTs, nft => {
+            upgradeTargetNFT = nft;
+            updateUpgradeUI();
+        }, 'Выберите целевое NFT');
+    };
+}
+if (btnStart) {
+    btnStart.onclick = () => {
+        if (!upgradeSelectedNFT || !upgradeTargetNFT || upgradeInProgress) return;
+        upgradeInProgress = true;
+        animateUpgradeSpin();
+    };
+}
+
+function getNFTPriceInTON(id) {
+    // Пример: ищем цену в TON по id
+    if (NFT_PRICES && NFT_PRICES[id]) return NFT_PRICES[id].ton || 0;
+    return 0;
+}
+
+function updateUpgradeUI() {
+    // Цена
+    const price = upgradeSelectedNFT ? getNFTPriceInTON(upgradeSelectedNFT.id) : 0;
+    document.getElementById('upgrade-price').textContent = price ? price + ' TON' : '';
+    // Шанс
+    let chance = 0;
+    if (upgradeSelectedNFT && upgradeTargetNFT) {
+        const priceSel = getNFTPriceInTON(upgradeSelectedNFT.id);
+        const priceTgt = getNFTPriceInTON(upgradeTargetNFT.id);
+        chance = Math.floor((priceSel / priceTgt) * 100);
+        if (chance > 100) chance = 100;
+        upgradeChance = chance;
+    }
+    document.getElementById('upgrade-chance').textContent = chance ? chance + '%' : '';
+    // Центр круга
+    const centerDiv = document.getElementById('upgrade-nft-center');
+    if (centerDiv) {
+        if (upgradeTargetNFT) {
+            centerDiv.innerHTML = `<img src="assets/nft/${upgradeTargetNFT.rarity || 'basic'}-${upgradeTargetNFT.id}.gif" alt="NFT">`;
+        } else {
+            centerDiv.innerHTML = '';
+        }
+    }
+    // Кнопка старт
+    if (btnStart) btnStart.style.display = (upgradeSelectedNFT && upgradeTargetNFT) ? '' : 'none';
+    // Перерисовать круг
+    drawUpgradeCircle();
+}
+
+function drawUpgradeCircle(angle = 0) {
+    const canvas = document.getElementById('upgrade-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Круг
+    ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.lineWidth = 18;
+    // Серый фон
+    ctx.strokeStyle = '#3a425a';
+    ctx.beginPath();
+    ctx.arc(0, 0, 80, 0, 2*Math.PI);
+    ctx.stroke();
+    // Синяя дуга (шанс)
+    if (upgradeChance > 0) {
+        ctx.strokeStyle = '#2e7fff';
+        ctx.beginPath();
+        ctx.arc(0, 0, 80, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
+        ctx.shadowColor = '#2e7fff';
+        ctx.shadowBlur = 8;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+    }
+    ctx.restore();
+    // Треугольник-указатель
+    ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.rotate(angle);
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.moveTo(0, -92);
+    ctx.lineTo(-12, -70);
+    ctx.lineTo(12, -70);
+    ctx.closePath();
+    ctx.shadowColor = '#fff';
+    ctx.shadowBlur = 8;
+    ctx.fill();
+    ctx.restore();
+}
+
+function animateUpgradeSpin() {
+    const canvas = document.getElementById('upgrade-canvas');
+    if (!canvas) return;
+    let start = null;
+    const duration = 5000 + Math.random()*4000; // 5-9 сек
+    const totalAngle = 2*Math.PI;
+    // Сектор успеха
+    const winStart = -Math.PI/2;
+    const winEnd = winStart + totalAngle * (upgradeChance/100);
+    // Случайный итоговый угол
+    const isWin = Math.random() < (upgradeChance/100);
+    let finalAngle;
+    if (isWin) {
+        finalAngle = winStart + Math.random()*(winEnd-winStart);
+    } else {
+        finalAngle = winEnd + Math.random()*(totalAngle-(winEnd-winStart));
+    }
+    // Анимация
+    function animate(now) {
+        if (!start) start = now;
+        let elapsed = now - start;
+        if (elapsed > duration) elapsed = duration;
+        let t = elapsed / duration;
+        let ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+        let angle = 8*Math.PI*ease + finalAngle*ease; // много оборотов + финал
+        drawUpgradeCircle(angle);
+        if (elapsed < duration) {
+            requestAnimationFrame(animate);
+        } else {
+            setTimeout(() => {
+                finishUpgrade(isWin);
+            }, 800);
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+function finishUpgrade(isWin) {
+    upgradeInProgress = false;
+    if (isWin) {
+        // Удаляем своё NFT, добавляем целевое
+        window.inventory = window.inventory.filter(nft => nft.id !== upgradeSelectedNFT.id);
+        window.inventory.push(upgradeTargetNFT);
+        showUpgradeResultModal(true, upgradeTargetNFT);
+    } else {
+        // Удаляем своё NFT
+        window.inventory = window.inventory.filter(nft => nft.id !== upgradeSelectedNFT.id);
+        showUpgradeResultModal(false, upgradeTargetNFT);
+    }
+    upgradeSelectedNFT = null;
+    upgradeTargetNFT = null;
+    updateUpgradeUI();
+    if (typeof updateInventory === 'function') updateInventory();
+}
+
+// Инициализация апгрейда при заходе на страницу
+function initUpgradePage() {
+    upgradeSelectedNFT = null;
+    upgradeTargetNFT = null;
+    upgradeChance = 0;
+    upgradeInProgress = false;
+    updateUpgradeUI();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#upgrade' || document.getElementById('page-upgrade').classList.contains('active')) {
+        initUpgradePage();
+    }
+});

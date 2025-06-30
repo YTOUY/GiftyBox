@@ -2655,3 +2655,54 @@ body.modal-open::after {
         min-width: 70px;
     }
 }
+
+#page-upgrade {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upgrade-center-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.upgrade-header {
+    margin-bottom: 10px;
+}
+
+.upgrade-circle {
+    margin-bottom: 18px;
+}
+
+.upgrade-actions {
+    margin-top: 10px;
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    #page-upgrade {
+        min-height: 100vh;
+        padding-top: 12vw;
+        padding-bottom: 12vw;
+    }
+    .upgrade-center-wrap {
+        margin-top: 10px;
+    }
+    .upgrade-header {
+        margin-bottom: 6px;
+    }
+    .upgrade-circle {
+        margin-bottom: 10px;
+    }
+    .upgrade-actions {
+        margin-top: 6px;
+        gap: 7px;
+    }
+}
