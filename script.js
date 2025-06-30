@@ -1588,14 +1588,15 @@ function showFlash() {
 function renderCasesGrid() {
     const grid = document.getElementById('cases-list-grid');
     if (!grid) return;
-    
     grid.innerHTML = '';
-    Object.keys(cases).forEach(caseId => {
-        const caseData = cases[caseId];
+    // Получаем массив кейсов, сортируем по цене (от дешевого к дорогому) и берём только первые 16
+    const sortedCases = Object.entries(cases)
+        .sort(([, a], [, b]) => a.cost - b.cost)
+        .slice(0, 16);
+    sortedCases.forEach(([caseId, caseData]) => {
         const card = document.createElement('div');
         card.className = 'case-card';
         card.onclick = () => openCasePage(caseId);
-        
         card.innerHTML = `
             <div class="case-image">
                 <img src="${caseData.image}" alt="${caseData.name}" onerror="this.src='assets/cases/default.png'">
@@ -1604,7 +1605,7 @@ function renderCasesGrid() {
                 <div class="case-name">${caseData.name}</div>
                 <div class="case-price">
                     <span>${caseData.cost}</span>
-                    <img src="assets/ton-logo.svg" class="ton-logo"/>
+                    <img src="assets/icons/gcoin.png" class="ton-logo"/>
                 </div>
             </div>
         `;
