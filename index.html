@@ -101,18 +101,18 @@
             </section>
             <!-- Upgrade -->
             <section id="page-upgrade" class="page">
-                <div class="upgrade-history-row">
-                    <!-- История апгрейдов -->
-                </div>
-                <div class="upgrade-switch">
-                    <button class="tab active">Gifts</button>
-                    <button class="tab">TONs</button>
+                <div class="upgrade-header">
+                    <span class="upgrade-price" id="upgrade-price">0.00 TON</span>
+                    <span class="upgrade-chance" id="upgrade-chance">0%</span>
                 </div>
                 <div class="upgrade-circle">
-                    <div class="upgrade-center">UPGRADE<br><span>Select prize</span></div>
+                    <canvas id="upgrade-canvas" width="200" height="200"></canvas>
+                    <div class="upgrade-nft-center" id="upgrade-nft-center"></div>
                 </div>
-                <div class="upgrade-inventory-row">
-                    <!-- Инвентарь для апгрейда -->
+                <div class="upgrade-actions">
+                    <button class="btn-upgrade" id="btn-add-nft">Add NFT</button>
+                    <button class="btn-upgrade" id="btn-choose-nft">Choose NFT</button>
+                    <button class="btn-upgrade btn-start" id="btn-start-upgrade" style="display:none">Запустить</button>
                 </div>
             </section>
             <!-- Profile -->
@@ -138,15 +138,17 @@
             <!-- Case Opening -->
             <section id="page-case-opening" class="page">
                 <div class="spin-area">
-                    <div class="case-spinner">
-                        <div class="spinner-container">
-                            <div class="spinner-items" id="spinner-items"></div>
-                            <div class="spinner-indicator">
-                                <div class="indicator-arrow top"></div>
-                                <div class="indicator-line"></div>
-                                <div class="indicator-arrow bottom"></div>
+                    <div class="roulette-box">
+                        <div class="case-spinner">
+                            <div class="spinner-container">
+                                <div class="spinner-items" id="spinner-items"></div>
+                                <div class="spinner-indicator">
+                                    <div class="indicator-arrow top"></div>
+                                    <div class="indicator-line"></div>
+                                    <div class="indicator-arrow bottom"></div>
+                                </div>
+                                <div class="spinner-pointer" style="display:none"></div>
                             </div>
-                            <div class="spinner-pointer" style="display:none"></div>
                         </div>
                     </div>
                 </div>

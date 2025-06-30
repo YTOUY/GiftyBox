@@ -2441,11 +2441,11 @@ body.modal-open::after {
 
 .spin-area {
     width: 100%;
-    height: 30vh;
-    min-height: 160px;
-    max-height: 320px;
+    height: 40vh;
+    min-height: 180px;
+    max-height: 340px;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
     background: none;
     margin-bottom: 0;
@@ -2453,11 +2453,25 @@ body.modal-open::after {
     z-index: 2;
 }
 
+.roulette-box {
+    width: 92vw;
+    max-width: 600px;
+    height: 100%;
+    background: linear-gradient(135deg, #2d3547 80%, #3a425a 100%);
+    border-radius: 32px;
+    box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 12px;
+}
+
 .case-spinner {
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
     background: none;
     position: relative;
@@ -2468,83 +2482,176 @@ body.modal-open::after {
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
 }
 
 .spinner-items {
     display: flex;
-    align-items: flex-end;
-    height: 64px;
-    min-height: 48px;
-    max-height: 80px;
+    align-items: center;
+    height: 56px;
+    min-height: 40px;
+    max-height: 72px;
     transition: transform 0.3s;
     overflow: visible;
-    /* width не задаём! */
 }
 
-.spinner-pointer {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 100%;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    pointer-events: none;
-    z-index: 3;
-}
-
-.spinner-indicator {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    width: 0;
-    z-index: 10;
-    pointer-events: none;
+.spinner-item {
+    width: 40px;
+    height: 40px;
+    background: #1a2233;
+    border-radius: 16px;
+    margin: 0 7px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+    transition: box-shadow 0.2s, background 0.2s;
 }
-.indicator-line {
-    width: 2px;
-    height: 100%;
-    background: #fff;
-    opacity: 0.8;
+.spinner-item img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
 }
-.indicator-arrow {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-}
-.indicator-arrow.top {
-    border-bottom: 14px solid #fff;
-    margin-bottom: 2px;
-}
-.indicator-arrow.bottom {
-    border-top: 14px solid #fff;
-    margin-top: 2px;
+.spinner-item.winning {
+    background: #2e7fff;
+    box-shadow: 0 0 0 3px #2e7fff44;
 }
 
 @media (max-width: 600px) {
+    .spin-area {
+        min-height: 120px;
+        max-height: 180px;
+    }
+    .roulette-box {
+        border-radius: 18px;
+        padding: 0 4px;
+    }
     .spinner-items {
-        height: 48px;
-        min-height: 32px;
-        max-height: 56px;
+        height: 36px;
+        min-height: 24px;
+        max-height: 48px;
     }
-    .indicator-arrow {
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
+    .spinner-item {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        margin: 0 3px;
     }
-    .indicator-arrow.top {
-        border-bottom: 10px solid #fff;
+    .spinner-item img {
+        width: 24px;
+        height: 24px;
     }
-    .indicator-arrow.bottom {
-        border-top: 10px solid #fff;
+}
+
+.upgrade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: #bfc9d8;
+    font-weight: 500;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.upgrade-circle {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 10px auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#upgrade-canvas {
+    width: 200px;
+    height: 200px;
+    background: none;
+    display: block;
+    border-radius: 50%;
+}
+
+.upgrade-nft-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.upgrade-nft-center img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #232b36;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+}
+
+.upgrade-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    max-width: 220px;
+    margin: 0 auto;
+}
+
+.btn-upgrade {
+    min-width: 80px;
+    height: 32px;
+    font-size: 14px;
+    border-radius: 8px;
+    background: #232b36;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+}
+.btn-upgrade:active {
+    background: #2e7fff;
+    color: #fff;
+}
+.btn-upgrade.btn-start {
+    background: #2e7fff;
+    color: #fff;
+    min-width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 600px) {
+    .upgrade-header, .upgrade-actions {
+        max-width: 98vw;
+        font-size: 13px;
+    }
+    .upgrade-circle, #upgrade-canvas {
+        width: 140px;
+        height: 140px;
+    }
+    .upgrade-nft-center {
+        width: 28px;
+        height: 28px;
+    }
+    .upgrade-nft-center img {
+        width: 22px;
+        height: 22px;
+    }
+    .btn-upgrade {
+        min-width: 60px;
+        height: 28px;
+        font-size: 12px;
+    }
+    .btn-upgrade.btn-start {
+        min-width: 70px;
     }
 }
