@@ -130,24 +130,14 @@
                         <img src="assets/ton-logo.svg" class="ton-logo"/>
                     </div>
                 </div>
-                
-                <div class="case-spinner">
-                    <div class="spinner-container">
-                        <div class="spinner-items" id="spinner-items"></div>
-                        <div class="spinner-pointer"></div>
-                    </div>
-                </div>
-                
-                <div class="case-controls">
-                    <div class="spin-buttons">
-                        <button class="btn btn-blue btn-spin" id="btn-spin-case">Spin</button>
-                        <button class="btn btn-grey btn-demo" id="btn-demo-case">Demo spin</button>
-                    </div>
+                <!-- КНОПКИ ПОД ЦЕНОЙ -->
+                <div class="case-spin-controls">
+                    <button class="btn btn-blue btn-spin" id="btn-spin-case">Spin</button>
+                    <button class="btn btn-grey btn-demo" id="btn-demo-case">Demo spin</button>
                     <div class="spin-options">
                         <label class="fast-option">
-                            <span>Fast</span>
                             <input type="checkbox" id="fast-spin">
-                            <span class="checkmark"></span>
+                            <span>Fast</span>
                         </label>
                         <div class="multiplier-options">
                             <button class="btn-mult active" data-mult="x1">x1</button>
@@ -158,7 +148,13 @@
                         </div>
                     </div>
                 </div>
-                
+                <!-- КОНЕЦ КНОПОК -->
+                <div class="case-spinner">
+                    <div class="spinner-container">
+                        <div class="spinner-items" id="spinner-items"></div>
+                        <div class="spinner-pointer"></div>
+                    </div>
+                </div>
                 <div class="case-items">
                     <h3>Возможные призы</h3>
                     <div class="items-grid" id="possible-items"></div>

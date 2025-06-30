@@ -2365,3 +2365,76 @@ body.modal-open::after {
     width: 14px;
     height: 14px;
 }
+
+.case-spin-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 20px 0 18px 0;
+}
+
+.case-spin-controls .btn-spin,
+.case-spin-controls .btn-demo {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 12px 0;
+}
+
+.case-spin-controls .btn-demo {
+    background: #fff;
+    color: #222;
+    border: none;
+    box-shadow: none;
+}
+
+.case-spin-controls .spin-options {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 2px;
+    background: none;
+    box-shadow: none;
+}
+
+.case-spin-controls .fast-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    color: #bfc9d8;
+    font-weight: 500;
+    background: #232b36;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+
+.case-spin-controls .fast-option input[type="checkbox"] {
+    accent-color: #3a4250;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+.case-spin-controls .multiplier-options {
+    display: flex;
+    gap: 6px;
+}
+
+.case-spin-controls .btn-mult {
+    background: #232b36;
+    color: #bfc9d8;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+}
+
+.case-spin-controls .btn-mult.active {
+    background: #111927;
+    color: #fff;
+}
