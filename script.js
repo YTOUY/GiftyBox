@@ -2063,18 +2063,23 @@ function spinRouletteMulti(caseId, count, fast = false) {
 
 // Открытие кейса с мультиспином
 function handleSpin(caseId, isDemo = false) {
-    // Блокируем кнопки
-    const controls = document.getElementById('case-detail-spin-controls');
-    if (controls) controls.classList.add('disabled');
-    // Получаем множитель и fast
-    const mult = getSelectedMultiplier();
-    const fast = isFastSpin();
-    spinRouletteMulti(caseId, mult, fast).then(prizes => {
-        // После прокрутки разблокируем кнопки
-        if (controls) controls.classList.remove('disabled');
-        // Показываем окно с призами (реализуй showWinModalMulti)
-        showWinModalMulti(prizes);
-    });
+    // Переход на страницу рулетки
+    showPage('case-opening');
+    // Ждём, чтобы DOM обновился
+    setTimeout(() => {
+        // Блокируем кнопки (на странице деталей)
+        const controls = document.getElementById('case-detail-spin-controls');
+        if (controls) controls.classList.add('disabled');
+        // Получаем множитель и fast
+        const mult = getSelectedMultiplier();
+        const fast = isFastSpin();
+        spinRouletteMulti(caseId, mult, fast).then(prizes => {
+            // После прокрутки разблокируем кнопки
+            if (controls) controls.classList.remove('disabled');
+            // Показываем окно с призами (реализуй showWinModalMulti)
+            showWinModalMulti(prizes);
+        });
+    }, 100);
 }
 
 // Модалка с несколькими призами
