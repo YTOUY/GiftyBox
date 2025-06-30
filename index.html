@@ -7,6 +7,48 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            background: #fff;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        .prize-rect {
+            width: 600px;
+            height: 220px;
+            background: #444;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            margin: 60px auto;
+            box-shadow: 0 4px 24px #0002;
+        }
+        .nft-slot {
+            width: 160px;
+            height: 160px;
+            background: #353b42;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 2px 8px #0003;
+        }
+        .nft-gif {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            animation: spin 2.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+    </style>
 </head>
 <body>
     <!-- Загрузочный экран -->
