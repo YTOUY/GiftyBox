@@ -1,3 +1,7 @@
+body, #app, .bottom-nav, html {
+    overflow-x: hidden !important;
+}
+
 body {
     background: #181f2a;
     color: #fff;
@@ -1938,19 +1942,20 @@ body.modal-open::after {
 /* --- MAIN MENU --- */
 .main-menu {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 8px;
     padding: 10px;
     width: 100%;
-    justify-content: space-between;
+    height: 100%;
+    justify-content: stretch;
     align-items: stretch;
 }
 .main-btn {
-    flex: 1 1 20%;
-    width: 20%;
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
-    max-width: 20%;
-    height: 48px;
+    flex: 1 1 20%;
+    height: 20%;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 600;
@@ -1977,7 +1982,6 @@ body.modal-open::after {
     }
     .main-btn {
         font-size: 0.95rem;
-        height: 38px;
         border-radius: 7px;
         padding: 0 2px;
     }
