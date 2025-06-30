@@ -18,7 +18,7 @@ const cases = {
             { id: 'gcoins-5', label: '5 Gc', gcoins: 5 },
             { id: 'gcoins-10', label: '10 Gc', gcoins: 10 }
         ],
-        probabilities: [0.99, 0.002, 0.002, 0.002, 0.002, 0.002]
+        probabilities: [99, 0.2, 0.2, 0.2, 0.2, 0.2]
     },
     'lunar-luck': {
         cost: 50,
@@ -37,7 +37,7 @@ const cases = {
             { id: 'snow-mittens', label: 'Snow Mittens' },
             { id: 'light-sword', label: 'Light Sword' }
         ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+        probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
     },
     'heartbeat': {
         cost: 100,
@@ -56,7 +56,7 @@ const cases = {
             { id: 'precious-peach', label: 'Precious Peach' },
             { id: 'restless-jar', label: 'Restless Jar' }
         ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+        probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
     },
     'sweet-tooth': {
         cost: 200,

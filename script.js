@@ -277,7 +277,7 @@ const cases = {
             { id: 'gcoins-5', label: '5 Gc', gcoins: 5 },
             { id: 'gcoins-10', label: '10 Gc', gcoins: 10 }
         ],
-        probabilities: [0.99, 0.002, 0.002, 0.002, 0.002, 0.002]
+        probabilities: [99, 0.2, 0.2, 0.2, 0.2, 0.2]
     },
     'lunar-luck': {
         name: 'Lunar Luck',
@@ -296,9 +296,9 @@ const cases = {
             { id: 'sakura-flower', label: 'Sakura Flower', rarity: 'basic' },
             { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' },
             { id: 'snow-mittens', label: 'Snow Mittens', rarity: 'basic' },
-            { id: 'light-sword', label: 'Light Sword', rarity: 'epic' }
+            { id: 'light-sword', label: 'Light Sword', rarity: 'basic' }
         ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+        probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
     },
     'heartbeat': {
         name: 'Heartbeat',
@@ -319,7 +319,7 @@ const cases = {
             { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' },
             { id: 'restless-jar', label: 'Restless Jar', rarity: 'basic' }
         ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
+        probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
     },
     'sweet-tooth': {
         name: 'Sweet Tooth',

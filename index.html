@@ -53,12 +53,8 @@
                 <div class="cases-balance-row">
                     <!-- Горизонтальный список баланса по кейсам -->
                 </div>
-                <div class="cases-list">
-                    <div class="case-card free-spins">FREE SPINS<br><span>Open now</span></div>
-                    <!-- Кейсы с TON, HOT, NEW -->
-                    <div class="case-card hot">Durov Duck <span class="case-price">0.50 <img src='assets/ton-logo.svg'/></span></div>
-                    <div class="case-card new">HB STAGE <span class="case-price">1.00 <img src='assets/ton-logo.svg'/></span></div>
-                    <div class="case-card">Mexico Vibes <span class="case-price">2.00 <img src='assets/ton-logo.svg'/></span></div>
+                <div class="cases-list" id="cases-list-grid">
+                    <!-- Кейсы будут рендериться динамически через JS -->
                 </div>
             </section>
             <!-- Deposit -->
@@ -130,11 +126,21 @@
         </main>
         <!-- Нижнее меню -->
         <nav class="bottom-nav">
-            <button class="nav-btn" data-page="main" onclick="showPage('main')"><span class="nav-icon"></span><span>Main</span></button>
-            <button class="nav-btn" data-page="cases" onclick="showPage('cases')"><span class="nav-icon"></span><span>Cases</span></button>
-            <button class="nav-btn" data-page="deposit" onclick="showPage('deposit')"><span class="nav-icon"></span><span>Deposit</span></button>
-            <button class="nav-btn" data-page="upgrade" onclick="showPage('upgrade')"><span class="nav-icon"></span><span>Upgrade</span></button>
-            <button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span class="nav-icon"></span><span>Profile</span></button>
+            <button class="nav-btn" data-page="main" onclick="showPage('main')">
+                <span class="nav-icon"><img src="assets/icons/main.svg" alt="Main" width="28" height="28"></span><span>Main</span>
+            </button>
+            <button class="nav-btn" data-page="cases" onclick="showPage('cases')">
+                <span class="nav-icon"><img src="assets/icons/cases.svg" alt="Cases" width="28" height="28"></span><span>Cases</span>
+            </button>
+            <button class="nav-btn" data-page="deposit" onclick="showPage('deposit')">
+                <span class="nav-icon"><img src="assets/icons/deposit.svg" alt="Deposit" width="28" height="28"></span><span>Deposit</span>
+            </button>
+            <button class="nav-btn" data-page="upgrade" onclick="showPage('upgrade')">
+                <span class="nav-icon"><img src="assets/icons/upgrade.svg" alt="Upgrade" width="28" height="28"></span><span>Upgrade</span>
+            </button>
+            <button class="nav-btn" data-page="profile" onclick="showPage('profile')">
+                <span class="nav-icon"><img src="assets/icons/profile.svg" alt="Profile" width="28" height="28"></span><span>Profile</span>
+            </button>
         </nav>
     </div>
     <!-- Контейнер для TON Connect UI -->
