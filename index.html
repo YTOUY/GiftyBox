@@ -30,22 +30,16 @@
         <main>
             <!-- Main -->
             <section id="page-main" class="page active">
-                <div class="promo-block giveaways">GIVEAWAYS<br><span>Contrary to popular belief</span></div>
-                <div class="promo-block promo">FOLLOW THE PROMOTIONS!<br><span>Follow on our telegram!</span></div>
-                <div class="main-cards">
-                    <div class="main-card cases" onclick="showPage('cases')">
-                        <div class="main-card-img"></div>
-                        <div class="main-card-title">Play & Earn!<br><b>CASES</b></div>
-                    </div>
-                    <div class="main-card upgrade" onclick="showPage('upgrade')">
-                        <div class="main-card-img"></div>
-                        <div class="main-card-title">Upgrade your gifts!<br><b>UPGRADE</b></div>
-                    </div>
-                    <div class="main-card coming-soon">
-                        <div class="main-card-img"></div>
-                        <div class="main-card-title">COMING SOON</div>
-                        <div class="main-card-timer">08 DAYS 04 HOURS 17 MIN 47 SEC</div>
-                    </div>
+                <div class="main-menu">
+                    <a href="https://t.me/Ytouy_Official" target="_blank" class="main-btn telegram-btn">
+                        Присоединяйся к нашему телеграмм каналу
+                    </a>
+                    <button class="main-btn cases-btn" onclick="showPage('cases')">
+                        Открывай кейсы и испытывай удачу
+                    </button>
+                    <button class="main-btn upgrade-btn" onclick="showPage('upgrade')">
+                        Используй апгрейд для улучшения подарков
+                    </button>
                 </div>
             </section>
             <!-- Cases -->
@@ -204,9 +198,11 @@
     </div>
     <!-- Контейнер для TON Connect UI -->
     <div id="ton-connect-ui" style="margin-bottom: 18px;"></div>
-    <script src="nft-prices.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tma.js/sdk@latest/dist/tma.js"></script>
     <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="nft-prices.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

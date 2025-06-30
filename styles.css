@@ -644,8 +644,12 @@ body {
     }
     
     .case-img-grid {
-        width: 60px;
-        height: 60px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
     }
     
     .case-card-title {
@@ -2218,4 +2222,66 @@ body.modal-open::after {
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
     z-index: 999;
+}
+
+/* --- MAIN MENU --- */
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    height: 100vh;
+}
+
+.main-btn {
+    height: 33vh;
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.main-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.telegram-btn {
+    background: linear-gradient(135deg, #3a8fff 0%, #7ecbff 100%);
+}
+
+.cases-btn {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+}
+
+.upgrade-btn {
+    background: linear-gradient(135deg, #e74c3c 0%, #ff6f91 100%);
+}
+
+/* Обновленные стили для баланса */
+.balance-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffe7a0;
+}
+
+.balance-row::after {
+    content: 'Gcoins';
+    font-size: 0.9rem;
+    color: #7ecbff;
+    margin-left: 4px;
 }

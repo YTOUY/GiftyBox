@@ -186,11 +186,10 @@ async function initializeUser() {
 
 // Обновление отображения баланса
 function updateBalanceDisplays() {
-    const mainBalance = document.getElementById('main-balance');
-    const profileBalance = document.getElementById('profile-balance');
-    
-    if (mainBalance) mainBalance.textContent = gcoins.toFixed(2);
-    if (profileBalance) profileBalance.textContent = gcoins.toFixed(2);
+    const balanceElements = document.querySelectorAll('#main-balance, #profile-balance');
+    balanceElements.forEach(el => {
+        el.textContent = window.gcoins.toFixed(2);
+    });
 }
 
 // Загрузка инвентаря из Supabase
@@ -1908,3 +1907,63 @@ function showWinModal(items) {
     document.body.appendChild(modal);
     document.body.classList.add('modal-open');
 }
+
+// Глобальные переменные и инициализация
+window.tg = window.Telegram.WebApp;
+window.gcoins = 0;
+let walletConnected = false;
+
+// Инициализация TonConnect
+const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: 'https://ton-connect.github.io/demo-dapp-with-react/tonconnect-manifest.json',
+    buttonRootId: 'ton-connect-ui'
+});
+
+// Функция для подключения кошелька
+async function connectWallet() {
+    try {
+        await tonConnectUI.connectWallet();
+        walletConnected = true;
+        document.querySelectorAll('.btn-wallet').forEach(btn => {
+            btn.textContent = 'Wallet Connected';
+            btn.style.background = '#27ae60';
+        });
+        // Обновляем баланс после подключения
+        updateBalanceDisplays();
+    } catch (error) {
+        console.error('Error connecting wallet:', error);
+        alert('Failed to connect wallet. Please try again.');
+    }
+}
+
+// Обновление отображения баланса
+function updateBalanceDisplays() {
+    const balanceElements = document.querySelectorAll('#main-balance, #profile-balance');
+    balanceElements.forEach(el => {
+        el.textContent = window.gcoins.toFixed(2);
+    });
+}
+
+// Инициализация приложения
+async function initializeApp() {
+    // Настраиваем Telegram Mini App
+    window.tg.ready();
+    window.tg.expand();
+
+    // Добавляем обработчики для кнопок подключения кошелька
+    document.querySelectorAll('.btn-wallet').forEach(btn => {
+        btn.addEventListener('click', connectWallet);
+    });
+
+    // Инициализируем начальный баланс
+    updateBalanceDisplays();
+
+    // Слушаем события подключения/отключения кошелька
+    tonConnectUI.onStatusChange(wallet => {
+        walletConnected = !!wallet;
+        updateBalanceDisplays();
+    });
+}
+
+// Запускаем инициализацию при загрузке страницы
+document.addEventListener('DOMContentLoaded', initializeApp);
