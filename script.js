@@ -1731,161 +1731,35 @@ async function demoCase() {
     if (winningNFT) {
         // Показываем выигрыш
         setTimeout(() => {
-            showWinModal([winningNFT]);
+            showWinModal(winningNFT);
         }, 5500);
     }
     
     caseState.isSpinning = false;
 }
 
-// Добавляем обработчики кнопок
-document.getElementById('btn-spin')?.addEventListener('click', openCase);
-document.getElementById('btn-demo')?.addEventListener('click', demoCase);
-
-// Обработчики множителей
-document.querySelectorAll('.btn-mult').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.btn-mult').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        caseState.multiplier = parseInt(btn.dataset.mult.substring(1));
+// Обработчики кнопок
+document.addEventListener('DOMContentLoaded', () => {
+    // Кнопки спина
+    document.getElementById('btn-spin')?.addEventListener('click', () => {
+        if (!walletConnected) {
+            alert('Пожалуйста, подключите кошелек');
+            return;
+        }
+        openCase();
+    });
+    
+    document.getElementById('btn-demo')?.addEventListener('click', demoCase);
+    
+    // Множители
+    document.querySelectorAll('.btn-mult').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.btn-mult').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            caseState.multiplier = parseInt(btn.dataset.mult.substring(1));
+        });
     });
 });
-
-// Константы для спина
-const SPIN_CONFIG = {
-    NFT_CHANCE: 0.05, // 5% шанс на NFT
-    GCOINS_MIN: 0.15, // Минимальное количество GCoins
-    GCOINS_MAX: 0.5,  // Максимальное количество GCoins
-    NORMAL_DURATION: 7500, // 7.5 секунд для обычного спина
-    FAST_DURATION: 3500,   // 3.5 секунд для быстрого спина
-    ITEMS_IN_SPIN: 50,     // Количество предметов в спине
-    ITEM_WIDTH: 120,       // Ширина одного предмета
-    ITEM_MARGIN: 6         // Отступ между предметами
-};
-
-// Генерация предметов для спиннера
-function generateSpinItems() {
-    const items = [];
-    
-    for (let i = 0; i < SPIN_CONFIG.ITEMS_IN_SPIN; i++) {
-        // 5% шанс на NFT, 95% на GCoins
-        if (Math.random() < SPIN_CONFIG.NFT_CHANCE) {
-            // Выбираем случайный NFT из кейса
-            const nft = getRandomNft();
-            items.push({
-                type: 'nft',
-                ...nft
-            });
-        } else {
-            // Генерируем случайное количество GCoins
-            const amount = (Math.random() * (SPIN_CONFIG.GCOINS_MAX - SPIN_CONFIG.GCOINS_MIN) + SPIN_CONFIG.GCOINS_MIN).toFixed(2);
-            items.push({
-                type: 'gcoins',
-                amount: parseFloat(amount)
-            });
-        }
-    }
-    
-    return items;
-}
-
-// Получение случайного NFT с учетом вероятностей
-function getRandomNft() {
-    return caseState.current.items[Math.floor(Math.random() * caseState.current.items.length)];
-}
-
-// Сохранение выигрыша GCoins
-async function saveGCoinsWin(amount) {
-    try {
-        await fetch('/.netlify/functions/api', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                action: 'addGCoins',
-                userId: currentUserId,
-                amount: amount
-            })
-        });
-    } catch (error) {
-        console.error('Error saving GCoins win:', error);
-    }
-}
-
-// Функция для отображения выигрыша
-function showWinModal(items) {
-    // Создаем модальное окно
-    const modal = document.createElement('div');
-    modal.className = 'win-modal';
-    
-    // Заголовок
-    const title = document.createElement('div');
-    title.className = 'win-modal-title';
-    title.textContent = 'YOUR PRIZE';
-    modal.appendChild(title);
-    
-    // Контейнер для призов
-    const prizesContainer = document.createElement('div');
-    prizesContainer.className = 'win-prizes-container';
-    
-    // Добавляем каждый выигранный предмет
-    items.forEach(item => {
-        const prizeElement = document.createElement('div');
-        prizeElement.className = 'win-prize-item';
-        
-        if (item.type === 'nft') {
-            prizeElement.innerHTML = `
-                <img src="assets/nft/${item.rarity}-${item.id}.gif" alt="${item.name}">
-                <div class="prize-name">${item.name}</div>
-            `;
-        } else {
-            prizeElement.innerHTML = `
-                <img src="assets/nft/gcoins.gif" alt="GCoins">
-                <div class="prize-amount">${item.amount} GC</div>
-            `;
-        }
-        
-        prizesContainer.appendChild(prizeElement);
-    });
-    
-    modal.appendChild(prizesContainer);
-    
-    // Кнопки действий
-    const buttonsContainer = document.createElement('div');
-    buttonsContainer.className = 'win-modal-buttons';
-    
-    const spinAgainBtn = document.createElement('button');
-    spinAgainBtn.className = 'btn btn-blue';
-    spinAgainBtn.textContent = 'Spin again';
-    spinAgainBtn.onclick = () => {
-        modal.remove();
-        document.body.classList.remove('modal-open');
-    };
-    
-    const sellAllBtn = document.createElement('button');
-    sellAllBtn.className = 'btn btn-grey';
-    sellAllBtn.textContent = 'Sell all';
-    sellAllBtn.onclick = async () => {
-        // Продаем все выигранные предметы
-        for (const item of items) {
-            if (item.type === 'nft') {
-                await sellNFT(item);
-            } else {
-                gcoins += item.amount;
-            }
-        }
-        updateBalanceDisplays();
-        modal.remove();
-        document.body.classList.remove('modal-open');
-    };
-    
-    buttonsContainer.appendChild(spinAgainBtn);
-    buttonsContainer.appendChild(sellAllBtn);
-    modal.appendChild(buttonsContainer);
-    
-    // Добавляем модальное окно на страницу
-    document.body.appendChild(modal);
-    document.body.classList.add('modal-open');
-}
 
 // Глобальные переменные и инициализация
 window.tg = window.Telegram.WebApp;
@@ -1946,3 +1820,153 @@ async function initializeApp() {
 
 // Запускаем инициализацию при загрузке страницы
 document.addEventListener('DOMContentLoaded', initializeApp);
+
+// Инициализация рулетки
+function initializeRoulette() {
+    const rouletteItems = document.getElementById('roulette-items');
+    if (!rouletteItems || !caseState.current) return;
+    
+    // Очищаем рулетку
+    rouletteItems.innerHTML = '';
+    rouletteItems.style.transform = 'translateX(0)';
+    
+    // Генерируем случайные предметы для рулетки
+    const items = [];
+    for (let i = 0; i < 50; i++) {
+        const randomNft = caseState.current.nfts[Math.floor(Math.random() * caseState.current.nfts.length)];
+        items.push(randomNft);
+    }
+    
+    // Добавляем предметы в рулетку
+    items.forEach(item => {
+        const rouletteItem = document.createElement('div');
+        rouletteItem.className = 'roulette-item';
+        
+        const imgSrc = item.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${item.id}.gif`;
+        const price = item.gcoins ? `${item.gcoins} TON` : item.price ? `${item.price} TON` : '';
+        
+        rouletteItem.innerHTML = `
+            <img src="${imgSrc}" alt="${item.label}">
+            <div class="item-price">
+                ${price}
+                <img src="assets/ton-logo.svg" alt="TON">
+            </div>
+        `;
+        
+        rouletteItems.appendChild(rouletteItem);
+    });
+}
+
+// Функция спина рулетки
+async function spinRoulette() {
+    return new Promise((resolve) => {
+        const rouletteItems = document.getElementById('roulette-items');
+        if (!rouletteItems || !caseState.current) {
+            resolve(null);
+            return;
+        }
+        
+        // Определяем выигрышный предмет
+        const winIndex = Math.floor(Math.random() * caseState.current.nfts.length);
+        const winningNFT = caseState.current.nfts[winIndex];
+        
+        // Вычисляем позицию для остановки
+        const itemWidth = 140; // ширина предмета
+        const centerOffset = (window.innerWidth - itemWidth) / 2;
+        const targetPosition = -(winIndex * itemWidth + centerOffset);
+        
+        // Определяем скорость анимации
+        const isFast = document.getElementById('fast-spin').checked;
+        const duration = isFast ? 3000 : 5000;
+        
+        // Анимация спина
+        rouletteItems.style.transition = `transform ${duration}ms cubic-bezier(0.21, 0.53, 0.29, 0.99)`;
+        rouletteItems.style.transform = `translateX(${targetPosition}px)`;
+        
+        // По окончании анимации
+        setTimeout(() => {
+            resolve(winningNFT);
+        }, duration);
+    });
+}
+
+// Функция показа выигрыша
+function showWinModal(item) {
+    const modal = document.createElement('div');
+    modal.className = 'win-modal';
+    
+    const imgSrc = item.gcoins ? 'assets/nft/gcoins.gif' : `assets/nft/${item.id}.gif`;
+    const price = item.gcoins ? `${item.gcoins} TON` : item.price ? `${item.price} TON` : '';
+    
+    modal.innerHTML = `
+        <div class="win-modal-title">YOUR PRIZE</div>
+        <div class="win-prize">
+            <img src="${imgSrc}" alt="${item.label}">
+            <div class="prize-price">
+                ${price}
+                <img src="assets/ton-logo.svg" alt="TON">
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Закрываем модальное окно по клику
+    modal.addEventListener('click', () => {
+        modal.remove();
+    });
+}
+
+// Обновляем функцию открытия кейса
+async function openCase() {
+    if (!caseState.current || caseState.isSpinning) return;
+    
+    const cost = caseState.current.cost * (caseState.multiplier || 1);
+    if (window.gcoins < cost) {
+        alert('Недостаточно TON!');
+        return;
+    }
+    
+    caseState.isSpinning = true;
+    
+    // Списываем баланс
+    window.gcoins -= cost;
+    updateBalanceDisplays();
+    
+    // Инициализируем рулетку
+    initializeRoulette();
+    
+    // Запускаем спин и получаем выигрыш
+    const winningNFT = await spinRoulette();
+    
+    if (winningNFT) {
+        // Показываем выигрыш
+        setTimeout(() => {
+            showWinModal(winningNFT);
+        }, 500);
+    }
+    
+    caseState.isSpinning = false;
+}
+
+// Функция демо-спина
+async function demoCase() {
+    if (!caseState.current || caseState.isSpinning) return;
+    
+    caseState.isSpinning = true;
+    
+    // Инициализируем рулетку
+    initializeRoulette();
+    
+    // Запускаем спин и получаем выигрыш
+    const winningNFT = await spinRoulette();
+    
+    if (winningNFT) {
+        // Показываем выигрыш
+        setTimeout(() => {
+            showWinModal(winningNFT);
+        }, 500);
+    }
+    
+    caseState.isSpinning = false;
+}

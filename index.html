@@ -121,16 +121,32 @@
             </section>
             <!-- Case -->
             <section id="page-case" class="page">
-                <div class="case-detail-container">
-                    <div class="case-detail-avatar" id="case-detail-avatar"></div>
-                    <div class="case-detail-title" id="case-detail-title"></div>
-                    <div class="case-detail-price-block">
-                        <span class="case-detail-price" id="case-detail-price"></span>
-                        <span class="case-detail-gcoins">Gcoins</span>
+                <div class="case-roulette">
+                    <div class="roulette-items" id="roulette-items">
+                        <!-- Items will be added dynamically -->
+                    </div>
+                    <div class="roulette-pointer"></div>
+                </div>
+                
+                <div class="case-controls">
+                    <button class="btn-spin" id="btn-spin">Spin</button>
+                    <button class="btn-demo" id="btn-demo">Demo spin</button>
+                    
+                    <div class="spin-options">
+                        <label class="fast-option">
+                            <input type="checkbox" id="fast-spin">
+                            <span>Fast</span>
+                        </label>
+                        
+                        <div class="multiplier-options">
+                            <button class="btn-mult active" data-mult="x1">x1</button>
+                            <button class="btn-mult" data-mult="x2">x2</button>
+                            <button class="btn-mult" data-mult="x3">x3</button>
+                            <button class="btn-mult" data-mult="x4">x4</button>
+                            <button class="btn-mult" data-mult="x5">x5</button>
+                        </div>
                     </div>
                 </div>
-                <div class="case-detail-prizes-title">Возможные подарки</div>
-                <div class="case-detail-prizes-grid" id="case-detail-prizes-grid"></div>
             </section>
             <!-- Case Opening -->
             <section id="page-case-opening" class="page">

@@ -1754,205 +1754,51 @@ body {
     align-items: center;
     margin-top: 32px;
     margin-bottom: 18px;
+    padding: 0 20px;
 }
+
 .case-detail-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 24px;
-    background: #232b3a;
-    box-shadow: 0 4px 24px #0003;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 18px;
-    overflow: hidden;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 16px;
 }
+
 .case-detail-avatar img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border-radius: 24px;
 }
+
 .case-detail-title {
-    font-size: 1.7rem;
-    font-weight: 900;
-    color: #ffe7a0;
-    text-align: center;
-    margin-bottom: 18px;
-    padding: 6px 18px;
-    border-radius: 12px;
-    background: rgba(24,31,42,0.85);
-    box-shadow: 0 2px 8px #0005;
-    text-shadow: 0 2px 8px #000a, 0 1px 0 #232b3a;
-    display: inline-block;
-    max-width: 90vw;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.case-detail-price-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 8px;
-    margin-top: 10px;
-}
-.case-detail-price {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #ffe7a0;
-    line-height: 1;
-}
-.case-detail-gcoins {
-    font-size: 1rem;
-    color: #b0b0b0;
-    font-weight: 600;
-    margin-top: 1px;
-    letter-spacing: 0.5px;
-}
-.case-detail-prizes-title {
-    text-align: center;
-    color: #7ecbff;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin: 18px 0 10px 0;
-}
-.case-detail-prizes-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    padding: 0 18px 32px 18px;
-    justify-items: center;
-}
-@media (max-width: 700px) {
-    .case-detail-avatar { width: 80px; height: 80px; }
-    .case-detail-title { font-size: 1.1rem; }
-    .case-detail-prizes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 4px 18px 4px; }
-}
-.case-detail-prize {
-    background: #232b3a;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px #0002;
-    padding: 12px 8px 8px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 80px;
-    max-width: 120px;
-}
-.case-detail-prize img {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    margin-bottom: 6px;
-    border-radius: 10px;
-    background: #2226;
-}
-.case-detail-prize .prize-label {
     color: #fff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 2px;
-    text-align: center;
-}
-.case-detail-prize .prize-gcoins {
-    color: #ffe7a0;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-/* --- CASE OPENING --- */
-.case-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 24px 0;
-}
-
-.case-avatar {
-    width: 180px;
-    height: 180px;
     margin-bottom: 12px;
 }
 
-.case-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 8px;
-}
-
-.case-price {
+.case-detail-price-block {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 1.2rem;
+    margin-bottom: 24px;
+}
+
+.case-detail-price {
+    font-size: 1.3rem;
     font-weight: 700;
+    color: #ffe7a0;
+}
+
+.case-detail-gcoins {
+    font-size: 1rem;
     color: #7ecbff;
 }
 
-.case-price .ton-logo {
-    width: 18px;
-    height: 18px;
-}
-
-.case-spinner {
-    margin: 32px 0;
-    padding: 0 18px;
-    position: relative;
-    overflow: hidden;
-}
-
-.spinner-container {
-    background: #232b3a;
-    border-radius: 12px;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-    height: 140px;
-}
-
-.spinner-items {
-    display: flex;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 0s cubic-bezier(0.32, 0.64, 0.45, 1);
-}
-
-.spinner-item {
-    flex: 0 0 120px;
-    height: 120px;
-    margin: 0 6px;
-    border-radius: 8px;
-    background: #2c3547;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.spinner-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-}
-
-.spinner-pointer {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 100%;
-    background: #7ecbff;
-    z-index: 1;
-}
-
+/* Стили для кнопок */
 .case-controls {
-    padding: 0 24px;
-    margin-bottom: 32px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 24px;
 }
 
 .spin-buttons {
@@ -1963,25 +1809,39 @@ body {
 
 .btn-spin, .btn-demo {
     flex: 1;
-    padding: 12px;
+    padding: 14px;
     font-size: 1.1rem;
     font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-spin {
+    background: linear-gradient(135deg, #3a8fff 0%, #7ecbff 100%);
+    color: #fff;
+}
+
+.btn-demo {
+    background: #232b3a;
+    color: #7ecbff;
+}
+
+.btn-spin:hover {
+    background: linear-gradient(135deg, #2563c9 0%, #3a8fff 100%);
+    transform: translateY(-2px);
+}
+
+.btn-demo:hover {
+    background: #2c3547;
+    transform: translateY(-2px);
 }
 
 .spin-options {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 16px;
-}
-
-.fast-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #fff;
-    font-size: 0.9rem;
-    cursor: pointer;
 }
 
 .multiplier-options {
@@ -1998,11 +1858,12 @@ body {
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .btn-mult:hover {
     background: #2c3547;
+    transform: translateY(-2px);
 }
 
 .btn-mult.active {
@@ -2016,66 +1877,51 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1a2232;
-    border-radius: 16px;
+    background: #1a1f2e;
     padding: 24px;
-    width: 90%;
-    max-width: 480px;
+    border-radius: 12px;
+    text-align: center;
     z-index: 1000;
-    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
 }
 
 .win-modal-title {
     color: #fff;
     font-size: 1.5rem;
     font-weight: 700;
-    text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
-.win-prizes-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    margin-bottom: 24px;
+.win-prize {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 20px;
+    position: relative;
 }
 
-.win-prize-item {
-    background: #232b3a;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    min-width: 120px;
-}
-
-.win-prize-item img {
-    width: 80px;
-    height: 80px;
+.win-prize img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    margin-bottom: 8px;
 }
 
-.win-prize-item .prize-name,
-.win-prize-item .prize-amount {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.win-prize-item .prize-amount {
-    color: #ffe7a0;
-}
-
-.win-modal-buttons {
+.win-prize .prize-price {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: #7ecbff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 4px;
 }
 
-.win-modal-buttons button {
-    flex: 1;
-    font-size: 1.1rem;
-    padding: 12px;
+.win-prize .prize-price img {
+    width: 14px;
+    height: 14px;
 }
 
 body.modal-open::after {
@@ -2149,4 +1995,219 @@ body.modal-open::after {
     font-size: 0.9rem;
     color: #7ecbff;
     margin-left: 4px;
+}
+
+/* Стили для рулетки */
+.case-roulette {
+    width: 100%;
+    height: 140px;
+    background: #1a1f2e;
+    position: relative;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.roulette-items {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition: transform 5s cubic-bezier(0.21, 0.53, 0.29, 0.99);
+}
+
+.roulette-item {
+    flex: 0 0 140px;
+    height: 140px;
+    padding: 10px;
+    position: relative;
+    background: #232b3a;
+    border: 2px solid #2c3547;
+}
+
+.roulette-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.roulette-item .item-price {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: #7ecbff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.roulette-item .item-price img {
+    width: 14px;
+    height: 14px;
+}
+
+.roulette-pointer {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #7ecbff;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.roulette-pointer::before,
+.roulette-pointer::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+
+.roulette-pointer::before {
+    top: 0;
+    border-top: 6px solid #7ecbff;
+}
+
+.roulette-pointer::after {
+    bottom: 0;
+    border-bottom: 6px solid #7ecbff;
+}
+
+/* Стили для кнопок */
+.case-controls {
+    padding: 0 20px;
+}
+
+.btn-spin,
+.btn-demo {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-spin {
+    background: #3a8fff;
+    color: #fff;
+}
+
+.btn-demo {
+    background: #232b3a;
+    color: #7ecbff;
+}
+
+.spin-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.fast-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.fast-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+.multiplier-options {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-mult {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #232b3a;
+    color: #7ecbff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-mult:hover {
+    background: #2c3547;
+}
+
+.btn-mult.active {
+    background: #3a8fff;
+    color: #fff;
+}
+
+/* Стили для модального окна с выигрышем */
+.win-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1f2e;
+    padding: 24px;
+    border-radius: 12px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.win-modal-title {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.win-prize {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.win-prize img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.win-prize .prize-price {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: #7ecbff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.win-prize .prize-price img {
+    width: 14px;
+    height: 14px;
 }
