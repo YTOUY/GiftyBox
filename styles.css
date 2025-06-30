@@ -2505,3 +2505,46 @@ body.modal-open::after {
         max-height: 90px;
     }
 }
+
+/* Размер аватарки кейса */
+.case-detail-avatar img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+/* Призы в рулетке */
+.spinner-item {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 6px;
+    background: none;
+    box-shadow: none;
+    border-radius: 10px;
+    transition: box-shadow 0.2s;
+}
+.spinner-item img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .case-detail-avatar img {
+        width: 48px;
+        height: 48px;
+    }
+    .spinner-item {
+        width: 48px;
+        height: 48px;
+    }
+    .spinner-item img {
+        width: 48px;
+        height: 48px;
+    }
+}
