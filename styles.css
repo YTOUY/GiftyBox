@@ -48,8 +48,8 @@ body {
 .case-card-grid {
     aspect-ratio: 1/1;
     width: 100%;
-    max-width: 468px;
-    min-width: 0;
+    max-width: 98vw;
+    min-width: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1467,6 +1467,7 @@ body {
     gap: 18px;
     padding: 18px;
     justify-items: center;
+    margin: 0 2vw 0 2vw;
 }
 .case-card {
     background: #232b3a;
@@ -1649,4 +1650,16 @@ body {
     font-weight: 600;
     color: #2563c9;
     margin-top: 2px;
+}
+
+@media (max-width: 700px) {
+    .cases-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 6px;
+        margin: 0 1vw 0 1vw;
+    }
+    .case-card-grid {
+        max-width: 98vw;
+    }
 }
