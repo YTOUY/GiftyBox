@@ -1531,11 +1531,13 @@ function renderCasesGrid() {
             card.className = 'case-card-grid';
             card.innerHTML = `
                 <img src="${c.image}" alt="${c.name}" class="case-img-grid">
-                <button class="case-btn-grid" onclick="openCasePage('${c.id}')">
-                    <span class="case-btn-title">${c.name}</span>
-                    <span class="case-btn-price">${c.cost} Gc</span>
-                </button>
+                <div class="case-card-title">${c.name}</div>
+                <div class="case-card-price-block">
+                    <span class="case-card-price">${c.cost}</span>
+                    <span class="case-card-gcoins">Gcoins</span>
+                </div>
             `;
+            card.onclick = () => openCasePage(c.id);
             row.appendChild(card);
         }
         container.appendChild(row);
