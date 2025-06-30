@@ -134,30 +134,87 @@ body {
 }
 
 /* Кнопки */
-.btn {
-    font-size: 1.1rem;
-    font-weight: 600;
+.btn, .btn-blue, .btn-grey, .btn-red, .btn-wallet {
+    font-size: 1.13rem;
+    font-weight: 700;
     border: none;
-    border-radius: 12px;
-    padding: 12px 28px;
-    margin: 8px 12px;
+    border-radius: 16px;
+    padding: 14px 32px;
+    margin: 10px 14px;
     cursor: pointer;
-    transition: background 0.15s, box-shadow 0.15s;
-    box-shadow: 0 2px 8px #0002;
-}
-.btn-red {
-    background: #ff4d4f;
-    color: #fff;
-}
-.btn-red:hover {
-    background: #d9363e;
+    box-shadow: 0 4px 24px #3a8fff40, 0 2px 8px #0002;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.12s, color 0.18s;
+    letter-spacing: 0.5px;
+    outline: none;
 }
 .btn-blue {
-    background: #3a8fff;
+    background: linear-gradient(90deg, #3a8fff 0%, #7ecbff 100%);
+    color: #232b3a;
+}
+.btn-blue:hover, .btn-blue:focus {
+    background: linear-gradient(90deg, #2563c9 0%, #3a8fff 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px #3a8fff80, 0 4px 16px #0003;
+    transform: translateY(-2px) scale(1.03);
+}
+.btn-blue:active {
+    background: linear-gradient(90deg, #1a3a6f 0%, #2563c9 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px #3a8fff40, 0 1px 4px #0002;
+    transform: scale(0.98);
+}
+.btn-grey {
+    background: linear-gradient(90deg, #232b3a 0%, #2c2f3a 100%);
     color: #fff;
 }
-.btn-blue:hover {
-    background: #2563c9;
+.btn-grey:hover, .btn-grey:focus {
+    background: linear-gradient(90deg, #232b3a 0%, #3a8fff 100%);
+    color: #7ecbff;
+    box-shadow: 0 8px 32px #3a8fff40, 0 4px 16px #0003;
+    transform: translateY(-2px) scale(1.03);
+}
+.btn-grey:active {
+    background: linear-gradient(90deg, #181f2a 0%, #232b3a 100%);
+    color: #7ecbff;
+    box-shadow: 0 2px 8px #3a8fff40, 0 1px 4px #0002;
+    transform: scale(0.98);
+}
+.btn-red {
+    background: linear-gradient(90deg, #ff4d4f 0%, #ffb347 100%);
+    color: #fff;
+}
+.btn-red:hover, .btn-red:focus {
+    background: linear-gradient(90deg, #ff6f91 0%, #ff4d4f 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px #ff4d4f80, 0 4px 16px #0003;
+    transform: translateY(-2px) scale(1.03);
+}
+.btn-red:active {
+    background: linear-gradient(90deg, #a23a3a 0%, #ff4d4f 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px #ff4d4f40, 0 1px 4px #0002;
+    transform: scale(0.98);
+}
+.btn-wallet {
+    background: linear-gradient(90deg, #3a8fff 0%, #7ecbff 100%);
+    color: #232b3a;
+    font-weight: 800;
+    border-radius: 16px;
+    padding: 14px 32px;
+    box-shadow: 0 4px 24px #3a8fff40, 0 2px 8px #0002;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.12s, color 0.18s;
+}
+.btn-wallet:hover, .btn-wallet:focus {
+    background: linear-gradient(90deg, #2563c9 0%, #3a8fff 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px #3a8fff80, 0 4px 16px #0003;
+    transform: translateY(-2px) scale(1.03);
+}
+.btn-wallet:active {
+    background: linear-gradient(90deg, #1a3a6f 0%, #2563c9 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px #3a8fff40, 0 1px 4px #0002;
+    transform: scale(0.98);
 }
 
 /* Страница кейса */
@@ -1523,12 +1580,6 @@ body {
 .nav-btn.active, .nav-btn:focus { color: #7ecbff; }
 .nav-icon { width: 28px; height: 28px; margin-bottom: 2px; }
 
-/* --- BUTTONS --- */
-.btn { font-size: 1.1rem; font-weight: 600; border: none; border-radius: 12px; padding: 12px 28px; margin: 8px 12px; cursor: pointer; transition: background 0.15s, box-shadow 0.15s; box-shadow: 0 2px 8px #0002; }
-.btn-blue { background: #3a8fff; color: #fff; }
-.btn-blue:hover { background: #2563c9; }
-.btn-grey { background: #232b3a; color: #fff; }
-
 /* --- SCROLLBAR --- */
 ::-webkit-scrollbar { width: 8px; background: #232b3a; }
 ::-webkit-scrollbar-thumb { background: #3a8fff; border-radius: 8px; }
@@ -1542,4 +1593,49 @@ body {
     .modal-content { min-width: 90vw; }
     .upgrade-circle { width: 140px; height: 140px; }
     .profile-header { flex-direction: column; gap: 8px; }
+}
+
+.case-btn-grid {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px 0 10px 0;
+    border: none;
+    border-radius: 16px 16px 24px 24px;
+    background: linear-gradient(90deg, #3a8fff 0%, #7ecbff 100%);
+    color: #232b3a;
+    font-size: 1.15rem;
+    font-weight: 800;
+    box-shadow: 0 4px 24px #3a8fff40, 0 2px 8px #0002;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+    position: relative;
+    letter-spacing: 0.5px;
+}
+.case-btn-grid:hover {
+    background: linear-gradient(90deg, #2563c9 0%, #3a8fff 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px #3a8fff80, 0 4px 16px #0003;
+    transform: translateY(-2px) scale(1.03);
+}
+.case-btn-grid:active {
+    background: linear-gradient(90deg, #1a3a6f 0%, #2563c9 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px #3a8fff40, 0 1px 4px #0002;
+    transform: scale(0.98);
+}
+.case-btn-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    letter-spacing: 0.2px;
+}
+.case-btn-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2563c9;
+    margin-top: 2px;
 }

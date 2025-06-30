@@ -303,6 +303,7 @@ const cases = {
     'heartbeat': {
         name: 'Heartbeat',
         cost: 100,
+        image: 'assets/cases/heartbeat.png',
         nfts: [
             { id: 'gcoins-20', label: '20 Gc', gcoins: 20 },
             { id: 'gcoins-30', label: '30 Gc', gcoins: 30 },
@@ -323,6 +324,7 @@ const cases = {
     'sweet-tooth': {
         name: 'Sweet Tooth',
         cost: 200,
+        image: 'assets/cases/sweet-tooth.png',
         nfts: [
             { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
             { id: 'gcoins-70', label: '70 Gc', gcoins: 70 },
@@ -343,6 +345,7 @@ const cases = {
     'magic-night': {
         name: 'Magic Night',
         cost: 300,
+        image: 'assets/cases/magic-night.png',
         nfts: [
             { id: 'gcoins-70', label: '70 Gc', gcoins: 70 },
             { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
@@ -363,6 +366,7 @@ const cases = {
     'winter-wonders': {
         name: 'Winter Wonders',
         cost: 500,
+        image: 'assets/cases/winter-wonders.png',
         nfts: [
             { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
             { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
@@ -383,6 +387,7 @@ const cases = {
     'party-box': {
         name: 'Party Box',
         cost: 700,
+        image: 'assets/cases/party-box.png',
         nfts: [
             { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
             { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
@@ -403,6 +408,7 @@ const cases = {
     'lucky-charms': {
         name: 'Lucky Charms',
         cost: 1000,
+        image: 'assets/cases/lucky-charms.png',
         nfts: [
             { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
             { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
@@ -423,6 +429,7 @@ const cases = {
     'heroic-legends': {
         name: 'Heroic Legends',
         cost: 1500,
+        image: 'assets/cases/heroic-legends.png',
         nfts: [
             { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
             { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
@@ -443,6 +450,7 @@ const cases = {
     'flower-power': {
         name: 'Flower Power',
         cost: 2000,
+        image: 'assets/cases/flower-power.png',
         nfts: [
             { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
             { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
@@ -463,6 +471,7 @@ const cases = {
     'riches-rings': {
         name: 'Riches & Rings',
         cost: 3000,
+        image: 'assets/cases/riches-rings.png',
         nfts: [
             { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
             { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
@@ -483,6 +492,7 @@ const cases = {
     'tech-treasures': {
         name: 'Tech Treasures',
         cost: 5000,
+        image: 'assets/cases/tech-treasures.png',
         nfts: [
             { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
             { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
@@ -503,6 +513,7 @@ const cases = {
     'spooky-box': {
         name: 'Spooky Box',
         cost: 7000,
+        image: 'assets/cases/spooky-box.png',
         nfts: [
             { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
             { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
@@ -523,6 +534,7 @@ const cases = {
     'animal-parade': {
         name: 'Animal Parade',
         cost: 8000,
+        image: 'assets/cases/animal-parade.png',
         nfts: [
             { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
             { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
@@ -543,6 +555,7 @@ const cases = {
     'cosmic-fortune': {
         name: 'Cosmic Fortune',
         cost: 9000,
+        image: 'assets/cases/cosmic-fortune.png',
         nfts: [
             { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
             { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
@@ -563,6 +576,7 @@ const cases = {
     'golden-year': {
         name: 'Golden Year',
         cost: 10000,
+        image: 'assets/cases/golden-year.png',
         nfts: [
             { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
             { id: 'gcoins-4000', label: '4000 Gc', gcoins: 4000 },
