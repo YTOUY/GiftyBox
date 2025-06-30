@@ -10,7 +10,8 @@ let gcoins = 1000;
 let inventory = [];
 let activeCase = null;
 let isSpinning = false;
-let currentUserId = null; // ID текущего пользователя
+let currentUserId = null;
+let tg = window.Telegram.WebApp;
 
 // Глобальные переменные для истории и рефералов
 let userHistory = [];
@@ -141,40 +142,49 @@ function generateUserId() {
 
 // Инициализация пользователя
 async function initializeUser() {
-    // Проверяем, есть ли сохраненный ID пользователя
-    let userId = localStorage.getItem('giftybox_user_id');
-    
-    if (!userId) {
-        userId = generateUserId();
-        localStorage.setItem('giftybox_user_id', userId);
-    }
-    
-    currentUserId = userId;
-    
-    try {
-        // Получаем данные пользователя из Supabase
-        const response = await fetch('/.netlify/functions/api', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                action: 'getUser',
-                userId: userId
-            })
-        });
+    // Получаем данные из Telegram WebApp
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const telegramUser = tg.initDataUnsafe.user;
+        currentUserId = telegramUser.id;
         
-        const data = await response.json();
-        
-        if (data.success) {
-            gcoins = data.user.gcoins;
-            gcoinsDisplay.textContent = gcoins;
-            
-            // Загружаем инвентарь
-            await loadInventory();
+        // Обновляем отображение имени пользователя
+        const profileName = document.getElementById('profile-name');
+        if (profileName) {
+            profileName.textContent = telegramUser.first_name + 
+                (telegramUser.last_name ? ' ' + telegramUser.last_name : '');
         }
-    } catch (error) {
-        console.error('Error initializing user:', error);
-        // В случае ошибки используем локальные данные
+        
+        try {
+            // Получаем данные пользователя из базы
+            const response = await fetch('/.netlify/functions/api', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'getUser',
+                    userId: currentUserId
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                gcoins = data.user.gcoins;
+                updateBalanceDisplays();
+                await loadInventory();
+            }
+        } catch (error) {
+            console.error('Error initializing user:', error);
+        }
     }
+}
+
+// Обновление отображения баланса
+function updateBalanceDisplays() {
+    const mainBalance = document.getElementById('main-balance');
+    const profileBalance = document.getElementById('profile-balance');
+    
+    if (mainBalance) mainBalance.textContent = gcoins.toFixed(2);
+    if (profileBalance) profileBalance.textContent = gcoins.toFixed(2);
 }
 
 // Загрузка инвентаря из Supabase

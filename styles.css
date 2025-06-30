@@ -1569,13 +1569,72 @@ body {
 .upgrade-inventory-row { display: flex; gap: 8px; overflow-x: auto; padding: 12px 18px 0 18px; }
 
 /* --- PROFILE --- */
-.profile-header { display: flex; align-items: center; gap: 18px; margin: 32px 18px 0 18px; }
-.profile-avatar img { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #3a8fff; }
-.profile-nick { font-size: 1.2rem; font-weight: 700; color: #fff; }
-.profile-id { font-size: 0.9rem; color: #7ecbff; }
-.profile-balance-row { display: flex; align-items: center; gap: 12px; margin: 18px 18px 0 18px; font-size: 1.1rem; font-weight: 600; }
-.profile-inventory { margin: 32px 18px; }
-.empty-inventory { text-align: center; color: #7ecbff; font-size: 1.1rem; }
+.profile-header { 
+    display: flex; 
+    align-items: center; 
+    gap: 18px; 
+    margin: 32px 18px 24px 18px;
+    background: #232b3a;
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.profile-avatar img { 
+    width: 64px; 
+    height: 64px; 
+    border-radius: 50%; 
+    border: 3px solid #3a8fff; 
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-nick { 
+    font-size: 1.2rem; 
+    font-weight: 700; 
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.profile-balance {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #7ecbff;
+}
+
+.profile-balance img {
+    width: 16px;
+    height: 16px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    margin: 0 18px 24px 18px;
+}
+
+.profile-actions .btn {
+    flex: 1;
+}
+
+.profile-inventory { 
+    margin: 0 18px;
+    background: #232b3a;
+    border-radius: 16px;
+    padding: 24px;
+    min-height: 200px;
+}
+
+.empty-inventory { 
+    text-align: center; 
+    color: #7ecbff; 
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
 
 /* --- REFERRAL --- */
 .referral-block { background: #232b3a; border-radius: 18px; margin: 32px auto; max-width: 420px; padding: 32px 24px; box-shadow: 0 4px 24px #0003; }
@@ -1715,7 +1774,7 @@ body {
     font-weight: 900;
     color: #ffe7a0;
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 18px;
     padding: 6px 18px;
     border-radius: 12px;
     background: rgba(24,31,42,0.85);
@@ -1732,6 +1791,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 8px;
+    margin-top: 10px;
 }
 .case-detail-price {
     font-size: 1.15rem;

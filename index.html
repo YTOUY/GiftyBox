@@ -94,18 +94,20 @@
             <section id="page-profile" class="page">
                 <div class="profile-header">
                     <div class="profile-avatar"><img src="assets/nft/mythic-neko-helmet.gif" alt="avatar"></div>
-                    <div class="profile-nick">ЕЩКЕРЕЕ<br><span class="profile-id">#4704</span></div>
+                    <div class="profile-info">
+                        <div class="profile-nick" id="profile-name"></div>
+                        <div class="profile-balance">
+                            <span id="profile-balance">0.00</span>
+                            <img src="assets/ton-logo.svg"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="profile-balance-row">
-                    <span>Balance</span>
-                    <span>0.00 <img src="assets/ton-logo.svg"/></span>
-                    <button class="btn btn-blue">Deposit</button>
+                <div class="profile-actions">
+                    <button class="btn btn-blue" onclick="showPage('deposit')">Пополнить</button>
+                    <button class="btn btn-grey" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/giftybox_support')">Поддержка</button>
                 </div>
-                <button class="btn-wallet">Connect wallet</button>
-                <button class="btn btn-blue">Referral program</button>
-                <button class="btn btn-grey">Support</button>
                 <div class="profile-inventory">
-                    <div class="empty-inventory">There is nothing in your inventory<br><button class="btn btn-blue">Open case</button></div>
+                    <div class="empty-inventory">В вашем инвентаре пока ничего нет<br><button class="btn btn-blue" onclick="showPage('cases')">Открыть кейс</button></div>
                 </div>
             </section>
             <!-- Referral -->
