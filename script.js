@@ -2991,19 +2991,80 @@ function makeDraggable(modal) {
 }
 
 // --- TON Connect (TMAWallet) ---
+let tmaWalletClient = null;
+let tmaWalletAddress = null;
+
 async function connectTMAWallet() {
-    showNotification('Подключение TON кошелька...');
-    // Пример интеграции (реальный API-ключ подставьте свой):
-    // import { TMAWalletClient } from '@tmawallet/sdk';
-    // const client = new TMAWalletClient('ВАШ_API_КЛЮЧ');
-    // await client.authenticate();
-    // const address = client.walletAddress;
-    // ...
-    // Для демо:
-    setTimeout(() => {
-        showNotification('Кошелек подключен!');
-    }, 1200);
+    const btn = document.getElementById('btn-connect-wallet');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = 'Подключение...';
+    try {
+        // Реальная инициализация клиента
+        // Если используете import:
+        // tmaWalletClient = new TMAWalletClient('а7c2738c2fc28df3', { botId: 7878144684 });
+        // await tmaWalletClient.authenticate();
+        // tmaWalletAddress = tmaWalletClient.walletAddress;
+        // Для обычного браузера (если SDK подключен через <script>):
+        if (typeof TMAWalletClient !== 'undefined') {
+            tmaWalletClient = new TMAWalletClient('а7c2738c2fc28df3', { botId: 7878144684 });
+            await tmaWalletClient.authenticate();
+            tmaWalletAddress = tmaWalletClient.walletAddress;
+        } else {
+            // Для демо — имитация подключения
+            await new Promise(r => setTimeout(r, 1200));
+            tmaWalletAddress = 'EQC1...demo';
+        }
+        btn.textContent = 'Кошелек подключен';
+        btn.classList.add('btn-grey');
+        btn.classList.remove('btn-blue');
+        btn.disabled = true;
+        // Показываем адрес справа от баланса
+        const balanceBlock = document.querySelector('.profile-balance-block');
+        if (balanceBlock && !document.getElementById('wallet-address-short')) {
+            const addr = document.createElement('span');
+            addr.id = 'wallet-address-short';
+            addr.style.marginLeft = '12px';
+            addr.style.fontSize = '0.95rem';
+            addr.style.color = '#7ecbff';
+            addr.textContent = tmaWalletAddress;
+            balanceBlock.appendChild(addr);
+        }
+        showNotification('Кошелек успешно подключен!');
+    } catch (error) {
+        btn.textContent = 'Подключить кошелек';
+        btn.disabled = false;
+        showNotification('Ошибка подключения кошелька!');
+        console.error('Wallet connection error:', error);
+    }
 }
+
+// --- Пример отправки TON через ethers.js и signer из tmaWalletClient ---
+// Для работы нужен ethers.js (npm install ethers)
+// import { ethers } from 'ethers';
+async function sendTonTransaction(toAddress, amountTon) {
+    if (!tmaWalletClient || !tmaWalletClient.walletAddress) {
+        showNotification('Сначала подключите кошелек!');
+        return;
+    }
+    // Для реального провайдера используйте свой RPC
+    const provider = new ethers.JsonRpcProvider();
+    const signer = tmaWalletClient.getEthersSigner(provider);
+    try {
+        const tx = await signer.sendTransaction({
+            to: toAddress,
+            value: ethers.parseEther(amountTon.toString()),
+        });
+        showNotification('Транзакция отправлена! Hash: ' + tx.hash);
+    } catch (error) {
+        showNotification('Ошибка транзакции!');
+        console.error('Transaction error:', error);
+    }
+}
+// --- Безопасность ---
+// Никогда не публикуйте токен бота и API-ключ публично в продакшене!
+// Храните их в .env или на сервере, если делаете серверную часть.
+// --- Остальной код ---
 
 // --- Депозит ---
 function showDepositModal() {
