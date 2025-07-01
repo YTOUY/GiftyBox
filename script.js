@@ -1005,60 +1005,39 @@ function getRarityById(id) {
 
 // Отрисовка круга апгрейда
 function drawUpgradeCircle(angle = 0) {
+    if (typeof upgradeChance === 'undefined') upgradeChance = 0;
     const canvas = document.getElementById('upgrade-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Круг
     ctx.save();
     ctx.translate(canvas.width/2, canvas.height/2);
-    ctx.lineWidth = 32;
-    // Серый фон
-    ctx.strokeStyle = '#bbb';
+    ctx.lineWidth = 18;
+    ctx.strokeStyle = '#3a425a';
     ctx.beginPath();
-    ctx.arc(0, 0, 130, 0, 2*Math.PI);
+    ctx.arc(0, 0, 80, 0, 2*Math.PI);
     ctx.stroke();
-    // Градиентная дуга (шанс)
-    if (typeof upgradeChance !== 'undefined' && upgradeChance > 0) {
-        const grad = ctx.createLinearGradient(130, 0, -130, 0);
-        grad.addColorStop(0, '#27ae60');
-        grad.addColorStop(1, '#2980b9');
-        ctx.strokeStyle = grad;
+    if (upgradeChance > 0) {
+        ctx.strokeStyle = '#2e7fff';
         ctx.beginPath();
-        ctx.arc(0, 0, 130, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
-        ctx.shadowColor = '#27ae60';
-        ctx.shadowBlur = 16;
+        ctx.arc(0, 0, 80, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
+        ctx.shadowColor = '#2e7fff';
+        ctx.shadowBlur = 8;
         ctx.stroke();
         ctx.shadowBlur = 0;
     }
-    // Красный треугольник (указатель) с glow
+    ctx.restore();
     ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
     ctx.rotate(angle);
-    ctx.shadowColor = '#fff';
-    ctx.shadowBlur = 12;
-    ctx.fillStyle = '#c0392b';
+    ctx.fillStyle = '#e74c3c';
     ctx.beginPath();
-    ctx.moveTo(0, -150);
-    ctx.lineTo(-22, -110);
-    ctx.lineTo(22, -110);
+    ctx.moveTo(0, -92);
+    ctx.lineTo(-12, -70);
+    ctx.lineTo(12, -70);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
-    ctx.restore();
-    // В центре целевое NFT (upgradeTargetNFT)
-    const centerDiv = document.getElementById('upgrade-nft-center');
-    if (centerDiv) {
-        if (typeof upgradeTargetNFT !== 'undefined' && upgradeTargetNFT) {
-            let imgSrc = upgradeTargetNFT.id && upgradeTargetNFT.id.startsWith('gcoins')
-                ? 'assets/nft/gcoins.gif'
-                : `assets/nft/${upgradeTargetNFT.rarity || getRarityById(upgradeTargetNFT.id)}-${upgradeTargetNFT.id}.gif`;
-            centerDiv.innerHTML = `<img src='${imgSrc}' alt='NFT'>`;
-            centerDiv.style.display = '';
-        } else {
-            centerDiv.innerHTML = '';
-            centerDiv.style.display = 'none';
-        }
-    }
 }
 
 // Запуск анимации апгрейда
@@ -1157,17 +1136,14 @@ function upgradeNFT() {
 function populateNFTSelects() {
     const currentSelect = document.getElementById('current-nft');
     const targetSelect = document.getElementById('target-nft');
-    
+    if (!currentSelect || !targetSelect) return;
     currentSelect.innerHTML = '<option value="">Выберите NFT</option>';
     targetSelect.innerHTML = '<option value="">Выберите цель</option>';
-    
-    inventory.forEach((nft, index) => {
+    if (!window.inventory) return;
+    window.inventory.forEach((nft, index) => {
         const option = document.createElement('option');
         option.value = index;
-        
-        // Убираем слова редкости из названия
         let displayName = cleanNFTName(nft.label);
-        
         option.textContent = displayName;
         currentSelect.appendChild(option);
     });
@@ -2250,20 +2226,18 @@ function updateUpgradeUI() {
 }
 
 function drawUpgradeCircle(angle = 0) {
+    if (typeof upgradeChance === 'undefined') upgradeChance = 0;
     const canvas = document.getElementById('upgrade-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Круг
     ctx.save();
     ctx.translate(canvas.width/2, canvas.height/2);
     ctx.lineWidth = 18;
-    // Серый фон
     ctx.strokeStyle = '#3a425a';
     ctx.beginPath();
     ctx.arc(0, 0, 80, 0, 2*Math.PI);
     ctx.stroke();
-    // Синяя дуга (шанс)
     if (upgradeChance > 0) {
         ctx.strokeStyle = '#2e7fff';
         ctx.beginPath();
@@ -2274,7 +2248,6 @@ function drawUpgradeCircle(angle = 0) {
         ctx.shadowBlur = 0;
     }
     ctx.restore();
-    // Треугольник-указатель
     ctx.save();
     ctx.translate(canvas.width/2, canvas.height/2);
     ctx.rotate(angle);
