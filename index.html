@@ -156,53 +156,6 @@
                     <button class="btn-upgrade btn-start" id="btn-start-upgrade" style="display:none">Запустить</button>
                 </div>
             </section>
-            <!-- Profile -->
-            <section id="page-profile" class="page">
-                <div class="profile-header">
-                    <div class="profile-avatar"><img src="assets/nft/mythic-neko-helmet.gif" alt="avatar"></div>
-                    <div class="profile-info">
-                        <div class="profile-nick" id="profile-name"></div>
-                        <div class="profile-balance">
-                            <span id="profile-balance">0.00 <img src="assets/icons/gcoin.png"/></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="profile-actions">
-                    <button class="btn btn-blue" onclick="showPage('deposit')">Пополнить</button>
-                    <button class="btn btn-grey" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/giftybox_support')">Поддержка</button>
-                </div>
-                <div id="inventory-list" class="profile-inventory">
-                    <div class="empty-inventory">В вашем инвентаре пока ничего нет<br><button class="btn btn-blue" onclick="showPage('cases')">Открыть кейс</button></div>
-                </div>
-            </section>
-            <!-- Case Opening -->
-            <section id="page-case-opening" class="page">
-                <div class="spin-area">
-                    <div class="roulette-box">
-                        <div class="case-spinner">
-                            <div class="spinner-container">
-                                <div class="spinner-items" id="spinner-items"></div>
-                                <div class="spinner-indicator">
-                                    <div class="indicator-arrow top"></div>
-                                    <div class="indicator-line"></div>
-                                    <div class="indicator-arrow bottom"></div>
-                                </div>
-                                <div class="spinner-pointer" style="display:none"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="case-header">
-                    <div class="case-name" id="case-name"></div>
-                    <div class="case-price">
-                        <span id="case-price">0.00 <img src="assets/icons/gcoin.png" class="ton-logo"/></span>
-                    </div>
-                </div>
-                <div class="case-items">
-                    <h3>Возможные призы</h3>
-                    <div class="items-grid" id="possible-items"></div>
-                </div>
-            </section>
         </main>
         <!-- Нижнее меню -->
         <nav class="bottom-nav">

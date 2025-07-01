@@ -12,13 +12,12 @@ const cases = {
         cost: 0,
         nfts: [
             { id: 'empty', label: 'Пусто', type: 'empty' },
-            { id: 'gcoins-1', label: '1 Gc', gcoins: 1 },
-            { id: 'gcoins-2', label: '2 Gc', gcoins: 2 },
-            { id: 'gcoins-3', label: '3 Gc', gcoins: 3 },
-            { id: 'gcoins-5', label: '5 Gc', gcoins: 5 },
-            { id: 'gcoins-10', label: '10 Gc', gcoins: 10 }
+            { id: 'gcoins-02', label: '0.2 Gcoin', gcoins: 0.2 },
+            { id: 'gcoins-015', label: '0.15 Gcoins', gcoins: 0.15 },
+            { id: 'gcoins-012', label: '0.12 Gcoins', gcoins: 0.12 },
+            { id: 'gcoins-010', label: '0.10 Gcoins', gcoins: 0.10 }
         ],
-        probabilities: [99, 0.2, 0.2, 0.2, 0.2, 0.2]
+        probabilities: [97.5, 1, 0.7, 0.5, 0.3]
     },
     'lunar-luck': {
         cost: 50,

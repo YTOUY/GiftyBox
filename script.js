@@ -279,337 +279,320 @@ async function openCaseWithSupabase(caseName) {
     }
 }
 
-const cases = {
-    'free-spins': {
-        name: 'Free Spins',
-        cost: 0,
-        image: 'assets/cases/free-spins.png',
-        nfts: [
-            { id: 'empty', label: 'Пусто', type: 'empty' },
-            { id: 'gcoins-1', label: '1 Gc', gcoins: 1 },
-            { id: 'gcoins-2', label: '2 Gc', gcoins: 2 },
-            { id: 'gcoins-3', label: '3 Gc', gcoins: 3 },
-            { id: 'gcoins-5', label: '5 Gc', gcoins: 5 },
-            { id: 'gcoins-10', label: '10 Gc', gcoins: 10 }
-        ],
-        probabilities: [99, 0.2, 0.2, 0.2, 0.2, 0.2]
-    },
-    'lunar-luck': {
-        name: 'Lunar Luck',
-        cost: 50,
-        image: 'assets/cases/lunar-luck.png',
-        nfts: [
-            { id: 'gcoins-10', label: '10 Gc', gcoins: 10 },
-            { id: 'gcoins-15', label: '15 Gc', gcoins: 15 },
-            { id: 'gcoins-20', label: '20 Gc', gcoins: 20 },
-            { id: 'gcoins-25', label: '25 Gc', gcoins: 25 },
-            { id: 'gcoins-30', label: '30 Gc', gcoins: 30 },
-            { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
-            { id: 'lunar-snake', label: 'Lunar Snake', rarity: 'basic' },
-            { id: 'pet-snake', label: 'Pet Snake', rarity: 'basic' },
-            { id: 'snake-box', label: 'Snake Box', rarity: 'basic' },
-            { id: 'sakura-flower', label: 'Sakura Flower', rarity: 'basic' },
-            { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' },
-            { id: 'snow-mittens', label: 'Snow Mittens', rarity: 'basic' },
-            { id: 'light-sword', label: 'Light Sword', rarity: 'basic' }
-        ],
-        probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
-    },
-    'heartbeat': {
-        name: 'Heartbeat',
-        cost: 100,
-        image: 'assets/cases/heartbeat.png',
-        nfts: [
-            { id: 'gcoins-20', label: '20 Gc', gcoins: 20 },
-            { id: 'gcoins-30', label: '30 Gc', gcoins: 30 },
-            { id: 'gcoins-40', label: '40 Gc', gcoins: 40 },
-            { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
-            { id: 'gcoins-60', label: '60 Gc', gcoins: 60 },
-            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
-            { id: 'heart-locket', label: 'Heart Locket', rarity: 'basic' },
-            { id: 'trapped-heart', label: 'Trapped Heart', rarity: 'basic' },
-            { id: 'cookie-heart', label: 'Cookie Heart', rarity: 'basic' },
-            { id: 'eternal-rose', label: 'Eternal Rose', rarity: 'basic' },
-            { id: 'bow-tie', label: 'Bow Tie', rarity: 'basic' },
-            { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' },
-            { id: 'restless-jar', label: 'Restless Jar', rarity: 'basic' }
-        ],
-        probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
-    },
-    'sweet-tooth': {
-        name: 'Sweet Tooth',
-        cost: 200,
-        image: 'assets/cases/sweet-tooth.png',
-        nfts: [
-            { id: 'gcoins-50', label: '50 Gc', gcoins: 50 },
-            { id: 'gcoins-70', label: '70 Gc', gcoins: 70 },
-            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
-            { id: 'gcoins-120', label: '120 Gc', gcoins: 120 },
-            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
-            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
-            { id: 'jelly-bunny', label: 'Jelly Bunny', rarity: 'basic' },
-            { id: 'ginger-cookie', label: 'Ginger Cookie', rarity: 'basic' },
-            { id: 'candy-cane', label: 'Candy Cane', rarity: 'basic' },
-            { id: 'lol-pop', label: 'Lol Pop', rarity: 'basic' },
-            { id: 'mad-pumpkin', label: 'Mad Pumpkin', rarity: 'basic' },
-            { id: 'holiday-drink', label: 'Holiday Drink', rarity: 'basic' },
-            { id: 'big-year', label: 'Big Year', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'magic-night': {
-        name: 'Magic Night',
-        cost: 300,
-        image: 'assets/cases/magic-night.png',
-        nfts: [
-            { id: 'gcoins-70', label: '70 Gc', gcoins: 70 },
-            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
-            { id: 'gcoins-120', label: '120 Gc', gcoins: 120 },
-            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
-            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
-            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
-            { id: 'eternal-candle', label: 'Eternal Candle', rarity: 'basic' },
-            { id: 'magic-potion', label: 'Magic Potion', rarity: 'basic' },
-            { id: 'crystal-ball', label: 'Crystal Ball', rarity: 'basic' },
-            { id: 'hypno-lollipop', label: 'Hypno Lollipop', rarity: 'basic' },
-            { id: 'witch-hat', label: 'Witch Hat', rarity: 'basic' },
-            { id: 'voodoo-doll', label: 'Voodoo Doll', rarity: 'basic' },
-            { id: 'hex-pot', label: 'Hex Pot', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'winter-wonders': {
-        name: 'Winter Wonders',
-        cost: 500,
-        image: 'assets/cases/winter-wonders.png',
-        nfts: [
-            { id: 'gcoins-100', label: '100 Gc', gcoins: 100 },
-            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
-            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
-            { id: 'gcoins-250', label: '250 Gc', gcoins: 250 },
-            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
-            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
-            { id: 'snow-globe', label: 'Snow Globe', rarity: 'basic' },
-            { id: 'snow-mittens', label: 'Snow Mittens', rarity: 'basic' },
-            { id: 'sleigh-bell', label: 'Sleigh Bell', rarity: 'basic' },
-            { id: 'winter-wreath', label: 'Winter Wreath', rarity: 'basic' },
-            { id: 'santa-hat', label: 'Santa Hat', rarity: 'basic' },
-            { id: 'jingle-bells', label: 'Jingle Bells', rarity: 'basic' },
-            { id: 'desk-calendar', label: 'Desk Calendar', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'party-box': {
-        name: 'Party Box',
-        cost: 700,
-        image: 'assets/cases/party-box.png',
-        nfts: [
-            { id: 'gcoins-150', label: '150 Gc', gcoins: 150 },
-            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
-            { id: 'gcoins-250', label: '250 Gc', gcoins: 250 },
-            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
-            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
-            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
-            { id: 'party-sparkler', label: 'Party Sparkler', rarity: 'basic' },
-            { id: 'jester-hat', label: 'Jester Hat', rarity: 'basic' },
-            { id: 'b-day-candle', label: 'B Day Candle', rarity: 'basic' },
-            { id: 'plush-pepe', label: 'Plush Pepe', rarity: 'basic' },
-            { id: 'top-hat', label: 'Top Hat', rarity: 'basic' },
-            { id: 'flying-broom', label: 'Flying Broom', rarity: 'basic' },
-            { id: 'record-player', label: 'Record Player', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'lucky-charms': {
-        name: 'Lucky Charms',
-        cost: 1000,
-        image: 'assets/cases/lucky-charms.png',
-        nfts: [
-            { id: 'gcoins-200', label: '200 Gc', gcoins: 200 },
-            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
-            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
-            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
-            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
-            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
-            { id: 'evil-eye', label: 'Evil Eye', rarity: 'basic' },
-            { id: 'sharp-tongue', label: 'Sharp Tongue', rarity: 'basic' },
-            { id: 'star-notepad', label: 'Star Notepad', rarity: 'basic' },
-            { id: 'ion-gem', label: 'Ion Gem', rarity: 'basic' },
-            { id: 'scared-cat', label: 'Scared Cat', rarity: 'basic' },
-            { id: 'kissed-frog', label: 'Kissed Frog', rarity: 'basic' },
-            { id: 'electric-skull', label: 'Electric Skull', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'heroic-legends': {
-        name: 'Heroic Legends',
-        cost: 1500,
-        image: 'assets/cases/heroic-legends.png',
-        nfts: [
-            { id: 'gcoins-300', label: '300 Gc', gcoins: 300 },
-            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
-            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
-            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
-            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
-            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
-            { id: 'heroic-helmet', label: 'Heroic Helmet', rarity: 'basic' },
-            { id: 'durov-cap', label: 'Durov s Cap', rarity: 'basic' },
-            { id: 'top-hat', label: 'Top Hat', rarity: 'basic' },
-            { id: 'mini-oscar', label: 'Mini Oscar', rarity: 'basic' },
-            { id: 'swiss-watch', label: 'Swiss Watch', rarity: 'basic' },
-            { id: 'vintage-cigar', label: 'Vintage Cigar', rarity: 'basic' },
-            { id: 'gem-signet', label: 'Gem Signet', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'flower-power': {
-        name: 'Flower Power',
-        cost: 2000,
-        image: 'assets/cases/flower-power.png',
-        nfts: [
-            { id: 'gcoins-400', label: '400 Gc', gcoins: 400 },
-            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
-            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
-            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
-            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
-            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
-            { id: 'skull-flower', label: 'Skull Flower', rarity: 'basic' },
-            { id: 'sakura-flower', label: 'Sakura Flower', rarity: 'basic' },
-            { id: 'eternal-rose', label: 'Eternal Rose', rarity: 'basic' },
-            { id: 'lush-bouquet', label: 'Lush Bouquet', rarity: 'basic' },
-            { id: 'berry-box', label: 'Berry Box', rarity: 'basic' },
-            { id: 'perfume-bottle', label: 'Perfume Bottle', rarity: 'basic' },
-            { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'riches-rings': {
-        name: 'Riches & Rings',
-        cost: 3000,
-        image: 'assets/cases/riches-rings.png',
-        nfts: [
-            { id: 'gcoins-500', label: '500 Gc', gcoins: 500 },
-            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
-            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
-            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
-            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
-            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
-            { id: 'diamond-ring', label: 'Diamond Ring', rarity: 'basic' },
-            { id: 'signet-ring', label: 'Signet Ring', rarity: 'basic' },
-            { id: 'bonded-ring', label: 'Bonded Ring', rarity: 'basic' },
-            { id: 'nail-bracelet', label: 'Nail Bracelet', rarity: 'basic' },
-            { id: 'gem-signet', label: 'Gem Signet', rarity: 'basic' },
-            { id: 'bow-tie', label: 'Bow Tie', rarity: 'basic' },
-            { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'tech-treasures': {
-        name: 'Tech Treasures',
-        cost: 5000,
-        image: 'assets/cases/tech-treasures.png',
-        nfts: [
-            { id: 'gcoins-700', label: '700 Gc', gcoins: 700 },
-            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
-            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
-            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
-            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
-            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
-            { id: 'tama-gadget', label: 'Tama Gadget', rarity: 'basic' },
-            { id: 'vintage-cigar', label: 'Vintage Cigar', rarity: 'basic' },
-            { id: 'swiss-watch', label: 'Swiss Watch', rarity: 'basic' },
-            { id: 'record-player', label: 'Record Player', rarity: 'basic' },
-            { id: 'crystal-ball', label: 'Crystal Ball', rarity: 'basic' },
-            { id: 'electric-skull', label: 'Electric Skull', rarity: 'basic' },
-            { id: 'hypno-lollipop', label: 'Hypno Lollipop', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'spooky-box': {
-        name: 'Spooky Box',
-        cost: 7000,
-        image: 'assets/cases/spooky-box.png',
-        nfts: [
-            { id: 'gcoins-1000', label: '1000 Gc', gcoins: 1000 },
-            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
-            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
-            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
-            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
-            { id: 'gcoins-7000', label: '7000 Gc', gcoins: 7000 },
-            { id: 'voodoo-doll', label: 'Voodoo Doll', rarity: 'basic' },
-            { id: 'mad-pumpkin', label: 'Mad Pumpkin', rarity: 'basic' },
-            { id: 'witch-hat', label: 'Witch Hat', rarity: 'basic' },
-            { id: 'scared-cat', label: 'Scared Cat', rarity: 'basic' },
-            { id: 'evil-eye', label: 'Evil Eye', rarity: 'basic' },
-            { id: 'hex-pot', label: 'Hex Pot', rarity: 'basic' },
-            { id: 'trapped-heart', label: 'Trapped Heart', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'animal-parade': {
-        name: 'Animal Parade',
-        cost: 8000,
-        image: 'assets/cases/animal-parade.png',
-        nfts: [
-            { id: 'gcoins-1500', label: '1500 Gc', gcoins: 1500 },
-            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
-            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
-            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
-            { id: 'gcoins-7000', label: '7000 Gc', gcoins: 7000 },
-            { id: 'gcoins-8000', label: '8000 Gc', gcoins: 8000 },
-            { id: 'plush-pepe', label: 'Plush Pepe', rarity: 'basic' },
-            { id: 'scared-cat', label: 'Scared Cat', rarity: 'basic' },
-            { id: 'toy-bear', label: 'Toy Bear', rarity: 'basic' },
-            { id: 'durov-duck', label: 'Durov Duck', rarity: 'basic' },
-            { id: 'jelly-bunny', label: 'Jelly Bunny', rarity: 'basic' },
-            { id: 'pet-snake', label: 'Pet Snake', rarity: 'basic' },
-            { id: 'flying-broom', label: 'Flying Broom', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'cosmic-fortune': {
-        name: 'Cosmic Fortune',
-        cost: 9000,
-        image: 'assets/cases/cosmic-fortune.png',
-        nfts: [
-            { id: 'gcoins-2000', label: '2000 Gc', gcoins: 2000 },
-            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
-            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
-            { id: 'gcoins-7000', label: '7000 Gc', gcoins: 7000 },
-            { id: 'gcoins-8000', label: '8000 Gc', gcoins: 8000 },
-            { id: 'gcoins-9000', label: '9000 Gc', gcoins: 9000 },
-            { id: 'astral-shard', label: 'Astral Shard', rarity: 'basic' },
-            { id: 'ion-gem', label: 'Ion Gem', rarity: 'basic' },
-            { id: 'gem-signet', label: 'Gem Signet', rarity: 'basic' },
-            { id: 'crystal-ball', label: 'Crystal Ball', rarity: 'basic' },
-            { id: 'magic-potion', label: 'Magic Potion', rarity: 'basic' },
-            { id: 'eternal-candle', label: 'Eternal Candle', rarity: 'basic' },
-            { id: 'big-year', label: 'Big Year', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    },
-    'golden-year': {
-        name: 'Golden Year',
-        cost: 10000,
-        image: 'assets/cases/golden-year.png',
-        nfts: [
-            { id: 'gcoins-3000', label: '3000 Gc', gcoins: 3000 },
-            { id: 'gcoins-4000', label: '4000 Gc', gcoins: 4000 },
-            { id: 'gcoins-5000', label: '5000 Gc', gcoins: 5000 },
-            { id: 'gcoins-6000', label: '6000 Gc', gcoins: 6000 },
-            { id: 'gcoins-8000', label: '8000 Gc', gcoins: 8000 },
-            { id: 'gcoins-10000', label: '10000 Gc', gcoins: 10000 },
-            { id: 'big-year', label: 'Big Year', rarity: 'basic' },
-            { id: 'bow-tie', label: 'Bow Tie', rarity: 'basic' },
-            { id: 'precious-peach', label: 'Precious Peach', rarity: 'basic' },
-            { id: 'heroic-helmet', label: 'Heroic Helmet', rarity: 'basic' },
-            { id: 'diamond-ring', label: 'Diamond Ring', rarity: 'basic' },
-            { id: 'swiss-watch', label: 'Swiss Watch', rarity: 'basic' },
-            { id: 'durov-cap', label: 'Durov s Cap', rarity: 'basic' }
-        ],
-        probabilities: [0.13,0.13,0.13,0.13,0.13,0.10,0.05,0.05,0.05,0.05,0.05,0.05,0.05]
-    }
-};
+const cases = [
+  {
+    id: 'free-spins',
+    name: 'Free Spins',
+    cost: 0,
+    image: 'assets/cases/free-spins.png',
+    nfts: [
+      { id: 'empty', label: 'Пусто', type: 'empty' },
+      { id: 'gcoins-1', label: '1 Gcoin', gcoins: 1 },
+      { id: 'gcoins-2', label: '2 Gcoins', gcoins: 2 },
+      { id: 'gcoins-5', label: '5 Gcoins', gcoins: 5 },
+      { id: 'gcoins-10', label: '10 Gcoins', gcoins: 10 },
+      { id: 'gcoins-20', label: '20 Gcoins', gcoins: 20 }
+    ],
+    probabilities: [99, 0.2, 0.2, 0.2, 0.2, 0.2]
+  },
+  {
+    id: 'simple-box',
+    name: 'Simple Box',
+    cost: 50,
+    image: 'assets/cases/Simple-Box.png',
+    nfts: [
+      { id: 'gcoins-5', label: '5 Gcoins', gcoins: 5 },
+      { id: 'gcoins-10', label: '10 Gcoins', gcoins: 10 },
+      { id: 'gcoins-15', label: '15 Gcoins', gcoins: 15 },
+      { id: 'gcoins-20', label: '20 Gcoins', gcoins: 20 },
+      { id: 'gcoins-25', label: '25 Gcoins', gcoins: 25 },
+      { id: 'gcoins-50', label: '50 Gcoins', gcoins: 50 },
+      { id: 'lol-pop', label: 'Lol Pop' },
+      { id: 'desk-calendar', label: 'Desk Calendar' },
+      { id: 'candy-cane', label: 'Candy Cane' },
+      { id: 'lunar-snake', label: 'Lunar Snake' },
+      { id: 'b-day-candle', label: 'B-Day Candle' },
+      { id: 'jingle-bells', label: 'Jingle Bells' },
+      { id: 'cookie-heart', label: 'Cookie Heart' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 5, 5, 5]
+  },
+  {
+    id: 'lucky-box',
+    name: 'Lucky Box',
+    cost: 100,
+    image: 'assets/cases/Lucky-Box.png',
+    nfts: [
+      { id: 'gcoins-10', label: '10 Gcoins', gcoins: 10 },
+      { id: 'gcoins-20', label: '20 Gcoins', gcoins: 20 },
+      { id: 'gcoins-30', label: '30 Gcoins', gcoins: 30 },
+      { id: 'gcoins-40', label: '40 Gcoins', gcoins: 40 },
+      { id: 'gcoins-50', label: '50 Gcoins', gcoins: 50 },
+      { id: 'gcoins-100', label: '100 Gcoins', gcoins: 100 },
+      { id: 'hypno-lollipop', label: 'Hypno Lollipop' },
+      { id: 'homemade-cake', label: 'Homemade Cake' },
+      { id: 'xmas-stocking', label: 'Xmas Stocking' },
+      { id: 'snake-box', label: 'Snake Box' },
+      { id: 'party-sparkler', label: 'Party Sparkler' },
+      { id: 'winter-wreath', label: 'Winter Wreath' },
+      { id: 'pet-snake', label: 'Pet Snake' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 6, 6, 6, 6, 6, 6, 6]
+  },
+  {
+    id: 'fun-box',
+    name: 'Fun Box',
+    cost: 200,
+    image: 'assets/cases/Fun-Box.png',
+    nfts: [
+      { id: 'gcoins-20', label: '20 Gcoins', gcoins: 20 },
+      { id: 'gcoins-30', label: '30 Gcoins', gcoins: 30 },
+      { id: 'gcoins-40', label: '40 Gcoins', gcoins: 40 },
+      { id: 'gcoins-50', label: '50 Gcoins', gcoins: 50 },
+      { id: 'gcoins-75', label: '75 Gcoins', gcoins: 75 },
+      { id: 'gcoins-150', label: '150 Gcoins', gcoins: 150 },
+      { id: 'jack-in-the-box', label: 'Jack-in-the-Box' },
+      { id: 'spiced-wine', label: 'Spiced Wine' },
+      { id: 'tama-gadget', label: 'Tama Gadget' },
+      { id: 'spy-agaric', label: 'Spy Agaric' },
+      { id: 'witch-hat', label: 'Witch Hat' },
+      { id: 'evil-eye', label: 'Evil Eye' },
+      { id: 'star-notepad', label: 'Star Notepad' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 7, 7, 7, 7, 7, 7, 7]
+  },
+  {
+    id: 'joy-box',
+    name: 'Joy Box',
+    cost: 300,
+    image: 'assets/cases/Joy-Box.png',
+    nfts: [
+      { id: 'gcoins-30', label: '30 Gcoins', gcoins: 30 },
+      { id: 'gcoins-40', label: '40 Gcoins', gcoins: 40 },
+      { id: 'gcoins-50', label: '50 Gcoins', gcoins: 50 },
+      { id: 'gcoins-75', label: '75 Gcoins', gcoins: 75 },
+      { id: 'gcoins-100', label: '100 Gcoins', gcoins: 100 },
+      { id: 'gcoins-200', label: '200 Gcoins', gcoins: 200 },
+      { id: 'hex-pot', label: 'Hex Pot' },
+      { id: 'easter-egg', label: 'Easter Egg' },
+      { id: 'big-year', label: 'Big Year' },
+      { id: 'snow-globe', label: 'Snow Globe' },
+      { id: 'restless-jar', label: 'Restless Jar' },
+      { id: 'jelly-bunny', label: 'Jelly Bunny' },
+      { id: 'snow-mittens', label: 'Snow Mittens' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 8, 8, 8, 8, 8, 8, 8]
+  },
+  {
+    id: 'sweet-box',
+    name: 'Sweet Box',
+    cost: 500,
+    image: 'assets/cases/Sweet-Box.png',
+    nfts: [
+      { id: 'gcoins-40', label: '40 Gcoins', gcoins: 40 },
+      { id: 'gcoins-50', label: '50 Gcoins', gcoins: 50 },
+      { id: 'gcoins-75', label: '75 Gcoins', gcoins: 75 },
+      { id: 'gcoins-100', label: '100 Gcoins', gcoins: 100 },
+      { id: 'gcoins-150', label: '150 Gcoins', gcoins: 150 },
+      { id: 'gcoins-300', label: '300 Gcoins', gcoins: 300 },
+      { id: 'bunny-muffin', label: 'Bunny Muffin' },
+      { id: 'sakura-flower', label: 'Sakura Flower' },
+      { id: 'berry-box', label: 'Berry Box' },
+      { id: 'hanging-star', label: 'Hanging Star' },
+      { id: 'bow-tie', label: 'Bow Tie' },
+      { id: 'flying-broom', label: 'Flying Broom' },
+      { id: 'skull-flower', label: 'Skull Flower' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 9, 9, 9, 9, 9, 9, 9]
+  },
+  {
+    id: 'magic-box',
+    name: 'Magic Box',
+    cost: 1000,
+    image: 'assets/cases/Magic-Box.png',
+    nfts: [
+      { id: 'gcoins-50', label: '50 Gcoins', gcoins: 50 },
+      { id: 'gcoins-75', label: '75 Gcoins', gcoins: 75 },
+      { id: 'gcoins-100', label: '100 Gcoins', gcoins: 100 },
+      { id: 'gcoins-150', label: '150 Gcoins', gcoins: 150 },
+      { id: 'gcoins-200', label: '200 Gcoins', gcoins: 200 },
+      { id: 'gcoins-400', label: '400 Gcoins', gcoins: 400 },
+      { id: 'love-potion', label: 'Love Potion' },
+      { id: 'top-hat', label: 'Top Hat' },
+      { id: 'record-player', label: 'Record Player' },
+      { id: 'lush-bouquet', label: 'Lush Bouquet' },
+      { id: 'voodoo-doll', label: 'Voodoo Doll' },
+      { id: 'mad-pumpkin', label: 'Mad Pumpkin' },
+      { id: 'eternal-rose', label: 'Eternal Rose' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 10, 10, 10, 10, 10, 10, 10]
+  },
+  {
+    id: 'party-box',
+    name: 'Party Box',
+    cost: 2000,
+    image: 'assets/cases/Party-Box.png',
+    nfts: [
+      { id: 'gcoins-75', label: '75 Gcoins', gcoins: 75 },
+      { id: 'gcoins-100', label: '100 Gcoins', gcoins: 100 },
+      { id: 'gcoins-150', label: '150 Gcoins', gcoins: 150 },
+      { id: 'gcoins-200', label: '200 Gcoins', gcoins: 200 },
+      { id: 'gcoins-300', label: '300 Gcoins', gcoins: 300 },
+      { id: 'gcoins-600', label: '600 Gcoins', gcoins: 600 },
+      { id: 'diamond-ring', label: 'Diamond Ring' },
+      { id: 'toy-bear', label: 'Toy Bear' },
+      { id: 'vintage-cigar', label: 'Vintage Cigar' },
+      { id: 'neko-helmet', label: 'Neko Helmet' },
+      { id: 'electric-skull', label: 'Electric Skull' },
+      { id: 'swiss-watch', label: 'Swiss Watch' },
+      { id: 'sharp-tongue', label: 'Sharp Tongue' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 11, 11, 11, 11, 11, 11, 11]
+  },
+  {
+    id: 'star-box',
+    name: 'Star Box',
+    cost: 3000,
+    image: 'assets/cases/Star-Box.png',
+    nfts: [
+      { id: 'gcoins-100', label: '100 Gcoins', gcoins: 100 },
+      { id: 'gcoins-150', label: '150 Gcoins', gcoins: 150 },
+      { id: 'gcoins-200', label: '200 Gcoins', gcoins: 200 },
+      { id: 'gcoins-300', label: '300 Gcoins', gcoins: 300 },
+      { id: 'gcoins-400', label: '400 Gcoins', gcoins: 400 },
+      { id: 'gcoins-800', label: '800 Gcoins', gcoins: 800 },
+      { id: 'scared-cat', label: 'Scared Cat' },
+      { id: 'genie-lamp', label: 'Genie Lamp' },
+      { id: 'magic-potion', label: 'Magic Potion' },
+      { id: 'signet-ring', label: 'Signet Ring' },
+      { id: 'astral-shard', label: 'Astral Shard' },
+      { id: 'mini-oscar', label: 'Mini Oscar' },
+      { id: 'perfume-bottle', label: 'Perfume Bottle' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 12, 12, 12, 12, 12, 12, 12]
+  },
+  {
+    id: 'premium-box',
+    name: 'Premium Box',
+    cost: 5000,
+    image: 'assets/cases/Premium-Box.png',
+    nfts: [
+      { id: 'gcoins-150', label: '150 Gcoins', gcoins: 150 },
+      { id: 'gcoins-200', label: '200 Gcoins', gcoins: 200 },
+      { id: 'gcoins-300', label: '300 Gcoins', gcoins: 300 },
+      { id: 'gcoins-400', label: '400 Gcoins', gcoins: 400 },
+      { id: 'gcoins-600', label: '600 Gcoins', gcoins: 600 },
+      { id: 'gcoins-1200', label: '1200 Gcoins', gcoins: 1200 },
+      { id: 'gem-signet', label: 'Gem Signet' },
+      { id: 'heroic-helmet', label: 'Heroic Helmet' },
+      { id: 'nail-bracelet', label: 'Nail Bracelet' },
+      { id: 'loot-bag', label: 'Loot Bag' },
+      { id: 'heart-locket', label: 'Heart Locket' },
+      { id: 'plush-pepe', label: 'Plush Pepe' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 13, 13, 13, 13, 13, 0.01]
+  },
+  {
+    id: 'super-box',
+    name: 'Super Box',
+    cost: 6000,
+    image: 'assets/cases/Super-Box.png',
+    nfts: [
+      { id: 'gcoins-200', label: '200 Gcoins', gcoins: 200 },
+      { id: 'gcoins-300', label: '300 Gcoins', gcoins: 300 },
+      { id: 'gcoins-400', label: '400 Gcoins', gcoins: 400 },
+      { id: 'gcoins-600', label: '600 Gcoins', gcoins: 600 },
+      { id: 'gcoins-1200', label: '1200 Gcoins', gcoins: 1200 },
+      { id: 'gcoins-2500', label: '2500 Gcoins', gcoins: 2500 },
+      { id: 'heroic-helmet', label: 'Heroic Helmet' },
+      { id: 'nail-bracelet', label: 'Nail Bracelet' },
+      { id: 'loot-bag', label: 'Loot Bag' },
+      { id: 'heart-locket', label: 'Heart Locket' },
+      { id: 'plush-pepe', label: 'Plush Pepe' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 8, 8, 8, 8, 0.01]
+  },
+  {
+    id: 'ultra-box',
+    name: 'Ultra Box',
+    cost: 7000,
+    image: 'assets/cases/Ultra-Box.png',
+    nfts: [
+      { id: 'gcoins-300', label: '300 Gcoins', gcoins: 300 },
+      { id: 'gcoins-400', label: '400 Gcoins', gcoins: 400 },
+      { id: 'gcoins-600', label: '600 Gcoins', gcoins: 600 },
+      { id: 'gcoins-1200', label: '1200 Gcoins', gcoins: 1200 },
+      { id: 'gcoins-2500', label: '2500 Gcoins', gcoins: 2500 },
+      { id: 'gcoins-5000', label: '5000 Gcoins', gcoins: 5000 },
+      { id: 'heroic-helmet', label: 'Heroic Helmet' },
+      { id: 'nail-bracelet', label: 'Nail Bracelet' },
+      { id: 'loot-bag', label: 'Loot Bag' },
+      { id: 'heart-locket', label: 'Heart Locket' },
+      { id: 'plush-pepe', label: 'Plush Pepe' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 7, 7, 7, 7, 0.01]
+  },
+  {
+    id: 'mega-box',
+    name: 'Mega Box',
+    cost: 8000,
+    image: 'assets/cases/Mega-Box.png',
+    nfts: [
+      { id: 'gcoins-400', label: '400 Gcoins', gcoins: 400 },
+      { id: 'gcoins-600', label: '600 Gcoins', gcoins: 600 },
+      { id: 'gcoins-1200', label: '1200 Gcoins', gcoins: 1200 },
+      { id: 'gcoins-2500', label: '2500 Gcoins', gcoins: 2500 },
+      { id: 'gcoins-5000', label: '5000 Gcoins', gcoins: 5000 },
+      { id: 'gcoins-8000', label: '8000 Gcoins', gcoins: 8000 },
+      { id: 'heroic-helmet', label: 'Heroic Helmet' },
+      { id: 'nail-bracelet', label: 'Nail Bracelet' },
+      { id: 'loot-bag', label: 'Loot Bag' },
+      { id: 'heart-locket', label: 'Heart Locket' },
+      { id: 'plush-pepe', label: 'Plush Pepe' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 6, 6, 6, 6, 0.01]
+  },
+  {
+    id: 'diamond-box',
+    name: 'Diamond Box',
+    cost: 9000,
+    image: 'assets/cases/Diamond-Box.png',
+    nfts: [
+      { id: 'gcoins-600', label: '600 Gcoins', gcoins: 600 },
+      { id: 'gcoins-1200', label: '1200 Gcoins', gcoins: 1200 },
+      { id: 'gcoins-2500', label: '2500 Gcoins', gcoins: 2500 },
+      { id: 'gcoins-5000', label: '5000 Gcoins', gcoins: 5000 },
+      { id: 'gcoins-8000', label: '8000 Gcoins', gcoins: 8000 },
+      { id: 'gcoins-10000', label: '10000 Gcoins', gcoins: 10000 },
+      { id: 'heroic-helmet', label: 'Heroic Helmet' },
+      { id: 'nail-bracelet', label: 'Nail Bracelet' },
+      { id: 'loot-bag', label: 'Loot Bag' },
+      { id: 'heart-locket', label: 'Heart Locket' },
+      { id: 'plush-pepe', label: 'Plush Pepe' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 5, 5, 5, 5, 0.01]
+  },
+  {
+    id: 'royal-box',
+    name: 'Royal Box',
+    cost: 10000,
+    image: 'assets/cases/Royal-Box.png',
+    nfts: [
+      { id: 'gcoins-2500', label: '2500 Gcoins', gcoins: 2500 },
+      { id: 'gcoins-5000', label: '5000 Gcoins', gcoins: 5000 },
+      { id: 'gcoins-8000', label: '8000 Gcoins', gcoins: 8000 },
+      { id: 'gcoins-10000', label: '10000 Gcoins', gcoins: 10000 },
+      { id: 'gcoins-15000', label: '15000 Gcoins', gcoins: 15000 },
+      { id: 'gcoins-20000', label: '20000 Gcoins', gcoins: 20000 },
+      { id: 'heroic-helmet', label: 'Heroic Helmet' },
+      { id: 'nail-bracelet', label: 'Nail Bracelet' },
+      { id: 'loot-bag', label: 'Loot Bag' },
+      { id: 'heart-locket', label: 'Heart Locket' },
+      { id: 'plush-pepe', label: 'Plush Pepe' }
+    ],
+    probabilities: [13, 13, 13, 13, 13, 10, 4, 4, 4, 4, 0.01]
+  }
+];
 
 // Вспомогательная функция для очистки названий от слов редкости
 function cleanNFTName(label) {
@@ -2346,12 +2329,20 @@ function finishUpgrade(isWin) {
     upgradeInProgress = false;
     if (isWin) {
         // Удаляем своё NFT, добавляем целевое
-        window.inventory = window.inventory.filter(nft => nft.id !== upgradeSelectedNFT.id);
-        window.inventory.push(upgradeTargetNFT);
+        inventory = inventory.filter(nft => nft.id !== upgradeSelectedNFT.id);
+        inventory.push({
+            id: upgradeTargetNFT.id,
+            label: upgradeTargetNFT.id,
+            rarity: getRarityById(upgradeTargetNFT.id),
+            stars: 0,
+            gcoins: 0,
+            case_id: '',
+            created_at: new Date().toISOString()
+        });
         showUpgradeResultModal(true, upgradeTargetNFT);
     } else {
         // Удаляем своё NFT
-        window.inventory = window.inventory.filter(nft => nft.id !== upgradeSelectedNFT.id);
+        inventory = inventory.filter(nft => nft.id !== upgradeSelectedNFT.id);
         showUpgradeResultModal(false, upgradeTargetNFT);
     }
     upgradeSelectedNFT = null;
@@ -2507,4 +2498,596 @@ function spinCase(prizes, winIndex) {
         spinner.style.transition = 'transform 1.5s cubic-bezier(.4,2.3,.3,1)';
         spinner.style.transform = `translateX(-${offset}px)`;
     }, 50);
+}
+
+// --- Новая логика SpinAnimation ---
+// Модальное окно открытия кейса
+let spinModal = null;
+let spinResult = null;
+
+function showSpinModal(caseData) {
+    if (!spinModal) {
+        spinModal = document.createElement('div');
+        spinModal.id = 'spin-modal';
+        spinModal.className = 'spin-modal-overlay';
+        spinModal.innerHTML = `
+            <div class="spin-modal-window">
+                <div class="spin-modal-header">
+                    <img id="spin-case-avatar" class="spin-case-avatar" src="" alt="case">
+                    <div id="spin-case-title" class="spin-case-title"></div>
+                    <div id="spin-case-price" class="spin-case-price"></div>
+                </div>
+                <div class="spin-controls">
+                    <button id="spin-btn">Spin</button>
+                    <button id="demo-spin-btn">Demo Spin</button>
+                    <label><input type="checkbox" id="spin-fast"> Fast</label>
+                    <div class="spin-mult-btns">
+                        <button class="spin-mult" data-mult="1">x1</button>
+                        <button class="spin-mult" data-mult="2">x2</button>
+                        <button class="spin-mult" data-mult="3">x3</button>
+                        <button class="spin-mult" data-mult="4">x4</button>
+                        <button class="spin-mult" data-mult="5">x5</button>
+                    </div>
+                </div>
+                <div id="spin-animation-area" class="spin-animation-area"></div>
+                <div id="spin-result-area" class="spin-result-area" style="display:none"></div>
+                <div class="spin-result-controls" style="display:none">
+                    <button id="spin-again-btn">Spin again</button>
+                    <button id="spin-withdraw-btn">Withdraw</button>
+                    <button id="spin-sell-btn">Sell</button>
+                </div>
+                <button class="spin-modal-close">×</button>
+            </div>
+        `;
+        document.body.appendChild(spinModal);
+        spinModal.querySelector('.spin-modal-close').onclick = () => {
+            spinModal.style.display = 'none';
+        };
+    }
+    // Заполняем данные
+    document.getElementById('spin-case-avatar').src = caseData.image;
+    document.getElementById('spin-case-title').textContent = caseData.name;
+    document.getElementById('spin-case-price').textContent = `${caseData.cost} Gcoins`;
+    document.getElementById('spin-animation-area').innerHTML = '';
+    document.getElementById('spin-result-area').style.display = 'none';
+    spinModal.querySelector('.spin-result-controls').style.display = 'none';
+    spinModal.style.display = 'flex';
+    // Множитель по умолчанию
+    let mult = 1;
+    spinModal.querySelectorAll('.spin-mult').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.mult === '1') btn.classList.add('active');
+        btn.onclick = () => {
+            spinModal.querySelectorAll('.spin-mult').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            mult = parseInt(btn.dataset.mult);
+        };
+    });
+    // Fast
+    let fast = false;
+    document.getElementById('spin-fast').checked = false;
+    document.getElementById('spin-fast').onchange = (e) => {
+        fast = e.target.checked;
+    };
+    // Spin/Demo Spin
+    document.getElementById('spin-btn').onclick = () => startSpinAnimation(caseData, mult, fast, false);
+    document.getElementById('demo-spin-btn').onclick = () => startSpinAnimation(caseData, mult, fast, true);
+    // Spin again
+    document.getElementById('spin-again-btn').onclick = () => {
+        document.getElementById('spin-result-area').style.display = 'none';
+        spinModal.querySelector('.spin-result-controls').style.display = 'none';
+        startSpinAnimation(caseData, mult, fast, false);
+    };
+    // Withdraw/Sell
+    document.getElementById('spin-withdraw-btn').onclick = () => {
+        showNotification('Вывод призов реализуйте по вашему сценарию!');
+    };
+    document.getElementById('spin-sell-btn').onclick = () => {
+        showNotification('Продажа призов реализуйте по вашему сценарию!');
+    };
+    // Sell обработка
+    document.getElementById('spin-sell-btn').onclick = () => {
+        if (!spinResult || !Array.isArray(spinResult) || spinResult.length === 0) return;
+        let totalGcoins = 0;
+        spinResult.forEach(prize => {
+            // Если приз gcoins — начисляем, если NFT — просто удаляем
+            if (prize.gcoins) {
+                window.gcoins += prize.gcoins;
+                totalGcoins += prize.gcoins;
+            }
+            // Удаляем из инвентаря, если он туда добавлен (опционально)
+            if (window.inventory) {
+                const idx = window.inventory.findIndex(nft => nft.id === prize.id);
+                if (idx !== -1) window.inventory.splice(idx, 1);
+            }
+        });
+        if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+        if (typeof updateInventory === 'function') updateInventory();
+        showNotification(totalGcoins > 0 ? `Продано! +${totalGcoins} Gcoins` : 'Призы проданы!');
+        // Скрыть модалку или оставить на усмотрение
+        // spinModal.style.display = 'none';
+    };
+}
+
+// --- SpinAnimation ---
+function startSpinAnimation(caseData, mult, fast, isDemo) {
+    // Скрываем хедер, показываем анимацию
+    spinModal.querySelector('.spin-modal-header').style.display = 'none';
+    document.getElementById('spin-animation-area').style.display = '';
+    document.getElementById('spin-result-area').style.display = 'none';
+    spinModal.querySelector('.spin-result-controls').style.display = 'none';
+    // Время анимации
+    const duration = fast ? (4000 + Math.random()*1000) : (8000 + Math.random()*1000);
+    // x1 — горизонтальная лента, x2-x5 — вертикальные ленты
+    if (mult === 1) {
+        spinAnimationHorizontal(caseData, duration, (prize) => {
+            showSpinResult([prize], caseData, mult);
+        });
+    } else {
+        spinAnimationVertical(caseData, mult, duration, (prizes) => {
+            showSpinResult(prizes, caseData, mult);
+        });
+    }
+}
+
+// Горизонтальная анимация (x1)
+function spinAnimationHorizontal(caseData, duration, onFinish) {
+    const area = document.getElementById('spin-animation-area');
+    area.innerHTML = '';
+    area.style.height = '35vh';
+    area.style.display = 'flex';
+    area.style.alignItems = 'center';
+    area.style.justifyContent = 'center';
+    // Лента призов
+    const belt = document.createElement('div');
+    belt.className = 'spin-belt-horizontal';
+    belt.style.display = 'flex';
+    belt.style.gap = '16px';
+    belt.style.transition = 'none';
+    belt.style.position = 'relative';
+    belt.style.height = '30vh';
+    belt.style.alignItems = 'center';
+    // Случайный порядок призов, повторяем чтобы хватило на анимацию
+    let nfts = [];
+    for (let i = 0; i < 30; i++) {
+        nfts = nfts.concat([...caseData.nfts].sort(() => Math.random() - 0.5));
+    }
+    // Рендерим призы
+    nfts.forEach(nft => {
+        const el = document.createElement('div');
+        el.className = 'spin-prize';
+        el.style.width = '90px';
+        el.style.height = '90px';
+        el.style.background = '#1a2340';
+        el.style.borderRadius = '16px';
+        el.style.display = 'flex';
+        el.style.flexDirection = 'column';
+        el.style.alignItems = 'center';
+        el.style.justifyContent = 'center';
+        el.innerHTML = `<img src="assets/nft/${nft.id}.gif" style="width:60px;height:60px;"><div style="font-size:14px;color:#fff">${nft.label}</div><div style="font-size:13px;color:#7fc">${nft.gcoins ? nft.gcoins + ' Gc' : ''}</div>`;
+        belt.appendChild(el);
+    });
+    area.appendChild(belt);
+    // Центр — вертикальная палка
+    const pointer = document.createElement('div');
+    pointer.className = 'spin-pointer-vertical';
+    pointer.style.position = 'absolute';
+    pointer.style.left = '50%';
+    pointer.style.top = '0';
+    pointer.style.width = '0';
+    pointer.style.height = '100%';
+    pointer.style.borderLeft = '4px solid #2e7fff';
+    pointer.style.zIndex = '2';
+    pointer.innerHTML = '<div style="position:absolute;top:0;left:-12px;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:18px solid #2e7fff;"></div>';
+    area.appendChild(pointer);
+    // Анимация
+    const itemWidth = 106; // 90px + gap
+    const total = nfts.length;
+    const centerIndex = Math.floor(total / 2);
+    const stopIndex = centerIndex + Math.floor(Math.random() * caseData.nfts.length);
+    const stopShift = (stopIndex - 3) * itemWidth; // 3 — чтобы палка была по центру
+    belt.style.transition = `transform ${duration}ms cubic-bezier(.4,2.3,.3,1)`;
+    setTimeout(() => {
+        belt.style.transform = `translateX(-${stopShift}px)`;
+    }, 50);
+    setTimeout(() => {
+        const prize = nfts[stopIndex];
+        onFinish(prize);
+        spinModal.querySelector('.spin-modal-header').style.display = '';
+    }, duration + 200);
+}
+
+// Вертикальная анимация (x2-x5)
+function spinAnimationVertical(caseData, mult, duration, onFinish) {
+    const area = document.getElementById('spin-animation-area');
+    area.innerHTML = '';
+    area.style.height = '35vh';
+    area.style.display = 'flex';
+    area.style.alignItems = 'center';
+    area.style.justifyContent = 'center';
+    // Несколько вертикальных лент
+    const belts = [];
+    let prizes = [];
+    for (let m = 0; m < mult; m++) {
+        const belt = document.createElement('div');
+        belt.className = 'spin-belt-vertical';
+        belt.style.display = 'flex';
+        belt.style.flexDirection = 'column';
+        belt.style.gap = '16px';
+        belt.style.transition = 'none';
+        belt.style.position = 'relative';
+        belt.style.width = '90px';
+        belt.style.height = '30vh';
+        // Случайный порядок призов, повторяем чтобы хватило на анимацию
+        let nfts = [];
+        for (let i = 0; i < 30; i++) {
+            nfts = nfts.concat([...caseData.nfts].sort(() => Math.random() - 0.5));
+        }
+        nfts.forEach(nft => {
+            const el = document.createElement('div');
+            el.className = 'spin-prize';
+            el.style.width = '90px';
+            el.style.height = '90px';
+            el.style.background = '#1a2340';
+            el.style.borderRadius = '16px';
+            el.style.display = 'flex';
+            el.style.flexDirection = 'column';
+            el.style.alignItems = 'center';
+            el.style.justifyContent = 'center';
+            el.innerHTML = `<img src="assets/nft/${nft.id}.gif" style="width:60px;height:60px;"><div style="font-size:14px;color:#fff">${nft.label}</div><div style="font-size:13px;color:#7fc">${nft.gcoins ? nft.gcoins + ' Gc' : ''}</div>`;
+            belt.appendChild(el);
+        });
+        area.appendChild(belt);
+        belts.push({belt, nfts});
+    }
+    // Центр — горизонтальная палка
+    const pointer = document.createElement('div');
+    pointer.className = 'spin-pointer-horizontal';
+    pointer.style.position = 'absolute';
+    pointer.style.top = '50%';
+    pointer.style.left = '0';
+    pointer.style.width = '100%';
+    pointer.style.height = '0';
+    pointer.style.borderTop = '4px solid #2e7fff';
+    pointer.style.zIndex = '2';
+    pointer.innerHTML = '<div style="position:absolute;left:0;top:-12px;width:100%;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:18px solid #2e7fff;"></div>';
+    area.appendChild(pointer);
+    // Анимация
+    const itemHeight = 106;
+    const total = belts[0].nfts.length;
+    const centerIndex = Math.floor(total / 2);
+    const stopIndexes = [];
+    for (let m = 0; m < mult; m++) {
+        stopIndexes.push(centerIndex + Math.floor(Math.random() * caseData.nfts.length));
+    }
+    setTimeout(() => {
+        belts.forEach((b, i) => {
+            b.belt.style.transition = `transform ${duration}ms cubic-bezier(.4,2.3,.3,1)`;
+            b.belt.style.transform = `translateY(-${(stopIndexes[i] - 3) * itemHeight}px)`;
+        });
+    }, 50);
+    setTimeout(() => {
+        prizes = belts.map((b, i) => b.nfts[stopIndexes[i]]);
+        onFinish(prizes);
+        spinModal.querySelector('.spin-modal-header').style.display = '';
+    }, duration + 200);
+}
+
+// Показ результата
+function showSpinResult(prizes, caseData, mult) {
+    spinResult = prizes;
+    document.getElementById('spin-animation-area').style.display = 'none';
+    const area = document.getElementById('spin-result-area');
+    area.innerHTML = '';
+    area.style.display = '';
+    area.style.height = '35vh';
+    area.style.display = 'flex';
+    area.style.alignItems = 'center';
+    area.style.justifyContent = 'center';
+    prizes.forEach(prize => {
+        const el = document.createElement('div');
+        el.className = 'spin-result-prize';
+        el.style.width = '90px';
+        el.style.height = '90px';
+        el.style.background = '#1a2340';
+        el.style.borderRadius = '16px';
+        el.style.display = 'flex';
+        el.style.flexDirection = 'column';
+        el.style.alignItems = 'center';
+        el.style.justifyContent = 'center';
+        el.innerHTML = `<img src="assets/nft/${prize.id}.gif" style="width:60px;height:60px;"><div style="font-size:14px;color:#fff">${prize.label}</div><div style="font-size:13px;color:#7fc">${prize.gcoins ? prize.gcoins + ' Gc' : ''}</div>`;
+        area.appendChild(el);
+    });
+    spinModal.querySelector('.spin-result-controls').style.display = '';
+}
+
+// --- Обновляю обработчик открытия кейса ---
+function openCaseModal(caseId) {
+    const caseData = cases.find(c => c.id === caseId);
+    if (!caseData) return;
+    showSpinModal(caseData);
+}
+
+// --- Сетка кейсов 3 в ряд ---
+function renderCasesGrid() {
+    const grid = document.getElementById('cases-list-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    // Сортируем по цене
+    const sortedCases = cases.slice().sort((a, b) => a.cost - b.cost);
+    sortedCases.forEach((caseData, idx) => {
+        const card = document.createElement('div');
+        card.className = 'case-card';
+        card.style.width = '30%';
+        card.style.display = 'inline-block';
+        card.style.margin = '1%';
+        card.onclick = () => openCaseModal(caseData.id);
+        card.innerHTML = `
+            <div class="case-image">
+                <img src="${caseData.image}" alt="${caseData.name}" onerror="this.src='assets/cases/default.png'">
+            </div>
+            <div class="case-info">
+                <div class="case-name">${caseData.name}</div>
+                <div class="case-price">
+                    <span>${caseData.cost}</span>
+                    <img src="assets/icons/gcoin.png" class="ton-logo"/>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// --- Новый профиль пользователя ---
+function renderProfilePage() {
+    const page = document.getElementById('page-profile');
+    if (!page) return;
+    page.innerHTML = `
+        <div class="profile-top-block">
+            <div class="profile-wallet-row">
+                <button id="btn-connect-wallet" class="btn-blue">Подключить кошелек</button>
+                <div class="profile-balance-block">
+                    <span id="profile-balance">${window.gcoins || 0} Gcoins</span>
+                    <img id="profile-avatar-mini" class="profile-avatar-mini" src="" alt="avatar">
+                </div>
+            </div>
+            <div class="profile-avatar-center">
+                <img id="profile-avatar" class="profile-avatar" src="" alt="avatar">
+            </div>
+            <div class="profile-nick-frame"><span id="profile-nick">@username</span></div>
+        </div>
+        <div class="profile-btn-row">
+            <a href="https://t.me/guftybox_suooort" target="_blank" class="btn-grey">Поддержка</a>
+            <a href="https://t.me/ytouy_official" target="_blank" class="btn-grey">Канал</a>
+        </div>
+        <div class="profile-inventory-block" id="profile-inventory-block">
+            <div class="profile-inventory-title">Инвентарь</div>
+            <div id="profile-inventory-preview"></div>
+        </div>
+    `;
+    // Заполняем аватарку и ник
+    if (window.tg && window.tg.initDataUnsafe && window.tg.initDataUnsafe.user) {
+        const user = window.tg.initDataUnsafe.user;
+        document.getElementById('profile-nick').textContent = user.username ? '@' + user.username : user.first_name;
+        const photoUrl = user.photo_url || 'assets/icons/default-avatar.png';
+        document.getElementById('profile-avatar').src = photoUrl;
+        document.getElementById('profile-avatar-mini').src = photoUrl;
+    }
+    // Баланс
+    document.getElementById('profile-balance').textContent = (window.gcoins || 0) + ' Gcoins';
+    // Кнопка кошелька
+    document.getElementById('btn-connect-wallet').onclick = connectTMAWallet;
+    // Инвентарь
+    renderProfileInventoryPreview();
+}
+
+function renderProfileInventoryPreview() {
+    const preview = document.getElementById('profile-inventory-preview');
+    if (!preview) return;
+    if (!window.inventory || window.inventory.length === 0) {
+        preview.innerHTML = '<div class="profile-inventory-empty">Ваш инвентарь пуст</div>';
+    } else {
+        const nft = window.inventory[0];
+        preview.innerHTML = `<div class="profile-inventory-nft" id="profile-inventory-nft-preview">
+            <img src="assets/nft/${nft.id}.gif" alt="${nft.label}">
+            <div>${nft.label}</div>
+        </div>`;
+        document.getElementById('profile-inventory-nft-preview').onclick = showInventoryDraggableModal;
+    }
+}
+
+// Draggable окно инвентаря
+function showInventoryDraggableModal() {
+    let modal = document.getElementById('modal-inventory-draggable');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-inventory-draggable';
+        modal.className = 'draggable-modal';
+        modal.innerHTML = `
+            <div class="draggable-modal-header">Ваши NFT <span class="draggable-modal-close">×</span></div>
+            <div class="draggable-modal-content" id="draggable-inventory-list"></div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('.draggable-modal-close').onclick = () => modal.remove();
+        makeDraggable(modal);
+    }
+    // Заполняем список NFT
+    const list = modal.querySelector('#draggable-inventory-list');
+    list.innerHTML = '';
+    window.inventory.forEach((nft, idx) => {
+        const el = document.createElement('div');
+        el.className = 'draggable-nft-item';
+        el.innerHTML = `<img src="assets/nft/${nft.id}.gif"><div>${nft.label}</div><div>${nft.gcoins || ''} Gc</div>`;
+        el.onclick = () => showNFTDraggableModal(nft, idx);
+        list.appendChild(el);
+    });
+    modal.style.display = 'flex';
+}
+
+// Draggable окно для NFT
+function showNFTDraggableModal(nft, idx) {
+    let modal = document.getElementById('modal-nft-draggable');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-nft-draggable';
+        modal.className = 'draggable-modal';
+        modal.innerHTML = `
+            <div class="draggable-modal-header">NFT <span class="draggable-modal-close">×</span></div>
+            <div class="draggable-modal-content" id="draggable-nft-detail"></div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('.draggable-modal-close').onclick = () => modal.remove();
+        makeDraggable(modal);
+    }
+    // Заполняем инфу
+    const detail = modal.querySelector('#draggable-nft-detail');
+    detail.innerHTML = `<img src="assets/nft/${nft.id}.gif" style="width:80px;height:80px;"><div>${nft.label}</div><div>${nft.gcoins || ''} Gc</div>
+        <div class="nft-modal-btn-row">
+            <button class="btn-grey" id="btn-nft-withdraw">Вывод</button>
+            <button class="btn-blue" id="btn-nft-sell">Продать</button>
+        </div>`;
+    document.getElementById('btn-nft-withdraw').onclick = () => {
+        showNotification('Нфт будет выведено');
+        window.inventory.splice(idx, 1);
+        if (typeof updateInventory === 'function') updateInventory();
+        renderProfileInventoryPreview();
+        modal.remove();
+    };
+    document.getElementById('btn-nft-sell').onclick = () => {
+        const price = nft.gcoins || 0;
+        window.gcoins += price;
+        showNotification(`NFT продан за ${price} Gcoins!`);
+        window.inventory.splice(idx, 1);
+        if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+        if (typeof updateInventory === 'function') updateInventory();
+        renderProfileInventoryPreview();
+        modal.remove();
+    };
+    modal.style.display = 'flex';
+}
+
+// Draggable реализация
+function makeDraggable(modal) {
+    let isDragging = false, offsetX = 0, offsetY = 0;
+    const header = modal.querySelector('.draggable-modal-header');
+    header.style.cursor = 'grab';
+    header.onmousedown = function(e) {
+        isDragging = true;
+        offsetX = e.clientX - modal.offsetLeft;
+        offsetY = e.clientY - modal.offsetTop;
+        header.style.cursor = 'grabbing';
+        document.onmousemove = function(e) {
+            if (!isDragging) return;
+            modal.style.left = (e.clientX - offsetX) + 'px';
+            modal.style.top = (e.clientY - offsetY) + 'px';
+        };
+        document.onmouseup = function() {
+            isDragging = false;
+            header.style.cursor = 'grab';
+            document.onmousemove = null;
+            document.onmouseup = null;
+        };
+    };
+}
+
+// --- TON Connect (TMAWallet) ---
+async function connectTMAWallet() {
+    showNotification('Подключение TON кошелька...');
+    // Пример интеграции (реальный API-ключ подставьте свой):
+    // import { TMAWalletClient } from '@tmawallet/sdk';
+    // const client = new TMAWalletClient('ВАШ_API_КЛЮЧ');
+    // await client.authenticate();
+    // const address = client.walletAddress;
+    // ...
+    // Для демо:
+    setTimeout(() => {
+        showNotification('Кошелек подключен!');
+    }, 1200);
+}
+
+// --- Депозит ---
+function showDepositModal() {
+    let modal = document.getElementById('modal-deposit');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-deposit';
+        modal.className = 'deposit-modal';
+        modal.innerHTML = `
+            <div class="deposit-modal-header">Пополнение баланса <span class="deposit-modal-close">×</span></div>
+            <div class="deposit-methods">
+                <button class="btn-blue" id="deposit-ton">TON кошелек</button>
+                <button class="btn-grey" id="deposit-send">@send</button>
+                <button class="btn-grey" id="deposit-gift">Гифты</button>
+            </div>
+            <div id="deposit-content"></div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('.deposit-modal-close').onclick = () => modal.remove();
+    }
+    // Обработчики
+    document.getElementById('deposit-ton').onclick = () => renderDepositTON();
+    document.getElementById('deposit-send').onclick = () => renderDepositSend();
+    document.getElementById('deposit-gift').onclick = () => renderDepositGift();
+    // По умолчанию TON
+    renderDepositTON();
+    modal.style.display = 'flex';
+}
+function renderDepositTON() {
+    const content = document.getElementById('deposit-content');
+    content.innerHTML = `
+        <div class="deposit-form">
+            <input type="number" id="deposit-amount" placeholder="Сумма TON">
+            <input type="text" id="deposit-promo" placeholder="Промокод (если есть)">
+            <button class="btn-blue" id="btn-deposit-ton-pay">Пополнить</button>
+        </div>
+    `;
+    document.getElementById('btn-deposit-ton-pay').onclick = () => {
+        let amount = parseFloat(document.getElementById('deposit-amount').value) || 0;
+        let promo = document.getElementById('deposit-promo').value.trim();
+        let bonus = 0;
+        if (promo.toUpperCase() === 'NEW') bonus = Math.floor(amount * 0.05);
+        showNotification(`Пополнено на ${amount + bonus} Gcoins!`);
+        window.gcoins += amount + bonus;
+        if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+        document.getElementById('modal-deposit').remove();
+    };
+}
+function renderDepositSend() {
+    const content = document.getElementById('deposit-content');
+    content.innerHTML = `
+        <div class="deposit-form">
+            <input type="number" id="deposit-amount" placeholder="Сумма TON">
+            <input type="text" id="deposit-promo" placeholder="Промокод (если есть)">
+            <button class="btn-blue" id="btn-deposit-send-pay">Пополнить через @send</button>
+        </div>
+    `;
+    document.getElementById('btn-deposit-send-pay').onclick = () => {
+        let amount = parseFloat(document.getElementById('deposit-amount').value) || 0;
+        let promo = document.getElementById('deposit-promo').value.trim();
+        let bonus = 0;
+        if (promo.toUpperCase() === 'NEW') bonus = Math.floor(amount * 0.05);
+        showNotification(`Пополнено на ${amount + bonus} Gcoins через @send!`);
+        window.gcoins += amount + bonus;
+        if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+        document.getElementById('modal-deposit').remove();
+    };
+}
+function renderDepositGift() {
+    const content = document.getElementById('deposit-content');
+    // Пример списка подарков (замените на реальные данные)
+    const gifts = [
+        {id:'gift1', label:'Big Gift', price:900},
+        {id:'gift2', label:'Medium Gift', price:500},
+        {id:'gift3', label:'Small Gift', price:200}
+    ];
+    gifts.sort((a,b)=>b.price-a.price);
+    content.innerHTML = `<div class="deposit-gift-list"></div><div class="deposit-gift-bot">Через бота <a href='https://t.me/GiftyBbox' target='_blank'>@GiftyBbox</a></div>`;
+    const list = content.querySelector('.deposit-gift-list');
+    gifts.forEach(gift => {
+        const price = Math.floor(gift.price * 0.9);
+        const el = document.createElement('div');
+        el.className = 'deposit-gift-item';
+        el.innerHTML = `<div class="gift-label">${gift.label}</div><div class="gift-price">${price} Gc</div>`;
+        list.appendChild(el);
+    });
 }

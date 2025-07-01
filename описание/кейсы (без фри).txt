@@ -1,0 +1,213 @@
+1. Simple Box
+Цена кейса: 0.5 TON / 50 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+10 Gcoins	0.1	10	13%
+20 Gcoins	0.2	20	13%
+30 Gcoins	0.3	30	13%
+40 Gcoins	0.4	40	13%
+45 Gcoins	0.45	45	13%
+60 Gcoins	0.6	60	10%
+Lol Pop	2	200	5%
+Desk Calendar	2	200	5%
+Candy Cane	2	200	5%
+Lunar Snake	2	200	5%
+B-Day Candle	2	200	5%
+Jingle Bells	2.21	221	5%
+Cookie Heart	2.2	220	5%
+2. Lucky Box
+Цена кейса: 1 TON / 100 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+20 Gcoins	0.2	20	13%
+30 Gcoins	0.3	30	13%
+50 Gcoins	0.5	50	13%
+60 Gcoins	0.6	60	13%
+80 Gcoins	0.8	80	13%
+120 Gcoins	1.2	120	10%
+Hypno Lollipop	2.34	234	6%
+Homemade Cake	2.4	240	6%
+Xmas Stocking	2.5	250	6%
+Snake Box	2.5	250	6%
+Party Sparkler	2.5	250	6%
+Winter Wreath	2.7	270	6%
+Pet Snake	2.7	270	6%
+3. Fun Box
+Цена кейса: 2 TON / 200 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+30 Gcoins	0.3	30	13%
+50 Gcoins	0.5	50	13%
+80 Gcoins	0.8	80	13%
+100 Gcoins	1	100	13%
+150 Gcoins	1.5	150	13%
+250 Gcoins	2.5	250	10%
+Jack-in-the-Box	3.09	309	7%
+Spiced Wine	3	300	7%
+Tama Gadget	3.1	310	7%
+Spy Agaric	3.45	345	7%
+Witch Hat	3.79	379	7%
+Evil Eye	3.9	390	7%
+Star Notepad	3.9	390	7%
+4. Joy Box
+Цена кейса: 3 TON / 300 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+50 Gcoins	0.5	50	13%
+80 Gcoins	0.8	80	13%
+100 Gcoins	1	100	13%
+150 Gcoins	1.5	150	13%
+200 Gcoins	2	200	13%
+400 Gcoins	4	400	10%
+Hex Pot	3.7	370	8%
+Easter Egg	4	400	8%
+Big Year	4	400	8%
+Snow Globe	4.09	409	8%
+Restless Jar	4.1	410	8%
+Jelly Bunny	4.16	416	8%
+Snow Mittens	4.4	440	8%
+5. Sweet Box
+Цена кейса: 5 TON / 500 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+80 Gcoins	0.8	80	13%
+100 Gcoins	1	100	13%
+150 Gcoins	1.5	150	13%
+200 Gcoins	2	200	13%
+300 Gcoins	3	300	13%
+600 Gcoins	6	600	10%
+Bunny Muffin	5	500	9%
+Sakura Flower	5.1	510	9%
+Berry Box	5.88	588	9%
+Hanging Star	5.9	590	9%
+Bow Tie	6.25	625	9%
+Flying Broom	9.2	920	9%
+Skull Flower	10	1000	9%
+6. Magic Box
+Цена кейса: 10 TON / 1000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+100 Gcoins	1	100	13%
+150 Gcoins	1.5	150	13%
+200 Gcoins	2	200	13%
+300 Gcoins	3	300	13%
+400 Gcoins	4	400	13%
+800 Gcoins	8	800	10%
+Love Potion	10	1000	10%
+Top Hat	11	1100	10%
+Record Player	11	1100	10%
+Lush Bouquet	18	1800	10%
+Voodoo Doll	18.4	1840	10%
+Mad Pumpkin	14.32	1432	10%
+Eternal Rose	15.5	1550	10%
+7. Party Box
+Цена кейса: 20 TON / 2000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+150 Gcoins	1.5	150	13%
+200 Gcoins	2	200	13%
+300 Gcoins	3	300	13%
+400 Gcoins	4	400	13%
+600 Gcoins	6	600	13%
+1200 Gcoins	12	1200	10%
+Diamond Ring	18.1	1810	11%
+Toy Bear	23.6	2360	11%
+Vintage Cigar	35	3500	11%
+Neko Helmet	36	3600	11%
+Electric Skull	38.5	3850	11%
+Swiss Watch	46.5	4650	11%
+Sharp Tongue	47	4700	11%
+8. Star Box
+Цена кейса: 30 TON / 3000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+200 Gcoins	2	200	13%
+300 Gcoins	3	300	13%
+400 Gcoins	4	400	13%
+600 Gcoins	6	600	13%
+800 Gcoins	8	800	13%
+1600 Gcoins	16	1600	10%
+Scared Cat	55	5500	12%
+Genie Lamp	59.1	5910	12%
+Magic Potion	78.5	7850	12%
+Signet Ring	30.9	3090	12%
+Astral Shard	99	9900	12%
+Mini Oscar	100	10000	12%
+Perfume Bottle	101	10100	12%
+9. Premium Box
+Цена кейса: 50 TON / 5000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+300 Gcoins	3	300	13%
+400 Gcoins	4	400	13%
+600 Gcoins	6	600	13%
+800 Gcoins	8	800	13%
+1200 Gcoins	12	1200	13%
+2500 Gcoins	25	2500	10%
+Gem Signet	103.95	10395	13%
+Heroic Helmet	270	27000	13%
+Nail Bracelet	175	17500	13%
+Loot Bag	190	19000	13%
+Heart Locket	1450	145000	13%
+Plush Pepe	3917	391700	0.01%
+10. Super Box
+Цена кейса: 60 TON / 6000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+400 Gcoins	4	400	13%
+600 Gcoins	6	600	13%
+800 Gcoins	8	800	13%
+1200 Gcoins	12	1200	13%
+2500 Gcoins	25	2500	13%
+5000 Gcoins	50	5000	10%
+Heroic Helmet	270	27000	8%
+Nail Bracelet	175	17500	8%
+Loot Bag	190	19000	8%
+Heart Locket	1450	145000	8%
+Plush Pepe	3917	391700	0.01%
+11. Ultra Box
+Цена кейса: 70 TON / 7000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+600 Gcoins	6	600	13%
+800 Gcoins	8	800	13%
+1200 Gcoins	12	1200	13%
+2500 Gcoins	25	2500	13%
+5000 Gcoins	50	5000	13%
+8000 Gcoins	80	8000	10%
+Heroic Helmet	270	27000	7%
+Nail Bracelet	175	17500	7%
+Loot Bag	190	19000	7%
+Heart Locket	1450	145000	7%
+Plush Pepe	3917	391700	0.01%
+12. Mega Box
+Цена кейса: 80 TON / 8000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+800 Gcoins	8	800	13%
+1200 Gcoins	12	1200	13%
+2500 Gcoins	25	2500	13%
+5000 Gcoins	50	5000	13%
+8000 Gcoins	80	8000	13%
+10000 Gcoins	100	10000	10%
+Heroic Helmet	270	27000	6%
+Nail Bracelet	175	17500	6%
+Loot Bag	190	19000	6%
+Heart Locket	1450	145000	6%
+Plush Pepe	3917	391700	0.01%
+13. Diamond Box
+Цена кейса: 90 TON / 9000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+1200 Gcoins	12	1200	13%
+2500 Gcoins	25	2500	13%
+5000 Gcoins	50	5000	13%
+8000 Gcoins	80	8000	13%
+10000 Gcoins	100	10000	13%
+15000 Gcoins	150	15000	10%
+Heroic Helmet	270	27000	5%
+Nail Bracelet	175	17500	5%
+Loot Bag	190	19000	5%
+Heart Locket	1450	145000	5%
+Plush Pepe	3917	391700	0.01%
+14. Royal Box
+Цена кейса: 100 TON / 10 000 Gcoins
+Приз	Цена TON	Цена Gcoins	Шанс
+2500 Gcoins	25	2500	13%
+5000 Gcoins	50	5000	13%
+8000 Gcoins	80	8000	13%
+10000 Gcoins	100	10000	13%
+15000 Gcoins	150	15000	13%
+20000 Gcoins	200	20000	10%
+Heroic Helmet	270	27000	4%
+Nail Bracelet	175	17500	4%
+Loot Bag	190	19000	4%
+Heart Locket	1450	145000	4%
+Plush Pepe	3917	391700	0.01%

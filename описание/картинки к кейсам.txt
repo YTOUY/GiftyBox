@@ -1,0 +1,45 @@
+0. Free Spins (Бесплатный)
+Prompt:
+> "A simple open loot box with the inscription 'GiftyBox' on the front. The box is light blue, glowing softly from inside. Golden coins (Gcoins) are spilling out of the box, no other items. The background is dark, the box is the main focus."
+1. Simple Box
+Prompt:
+> "A stylish open orange loot box with the inscription 'GiftyBox' on the front. From the box, golden coins are spilling out. Sticking out of the box are: a rainbow spiral lollipop on a stick, a small desk calendar with paper sheets, a red and white striped candy cane, a blue snake with a crescent moon pattern, a small birthday candle with a flame, a golden jingle bell, and a heart-shaped cookie with pink icing. The box glows with a warm orange light. Dark background."
+2. Lucky Box
+Prompt:
+> "A bright yellow open loot box with the inscription 'GiftyBox' on the front. Golden coins are scattered around. From the box, the following items are sticking out: a colorful hypnotic lollipop, a small homemade cake with pink icing, a Christmas stocking with gifts, a blue gift box with a snake pattern, a party sparkler with golden sparks, a green wreath with a red bow, and a small snake with lunar markings. The box glows with yellow light. Dark background."
+3. Fun Box
+Prompt:
+> "A light green open loot box with the inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a colorful jack-in-the-box toy, a glass of red spiced wine, a red electronic gadget with buttons, a red and white spotted mushroom, a purple witch hat, a yellow eye with a black pupil, and a blue notepad with a star on the cover. The box glows with green light. Dark background, festive mood."
+4. Joy Box
+Prompt:
+> "A blue open loot box with the inscription 'GiftyBox' on the front. Golden coins are scattered around. From the box, the following items are sticking out: a small black cauldron with green liquid (Hex Pot), a colorful Easter egg, a big '2023' sign in rainbow colors, a glass snow globe with a winter scene, a jar with a restless spirit inside, a white bunny with a yellow bow tie, and a pair of red snow mittens. The box glows with blue light. Dark background."
+5. Sweet Box
+Prompt:
+> "A pink open loot box with the inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a pink bunny muffin with cream, a pink sakura flower, a box of berries, a yellow hanging star, a blue bow tie, a flying broomstick, and a purple skull-shaped flower. The box glows with pink light. Dark background, sweet and magical atmosphere."
+6. Magic Box
+Prompt:
+> "A purple open loot box with the inscription 'GiftyBox' on the front. Golden coins are scattered around. From the box, the following items are sticking out: a pink love potion bottle, a black top hat with a red ribbon, a vintage record player, a lush bouquet of flowers, a brown voodoo doll with pins, a carved pumpkin with a glowing face, and a red eternal rose. The box glows with purple light. Dark background, magical sparkles."
+7. Party Box
+Prompt:
+> "A bright blue open loot box with the inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a golden diamond ring, a green plush bear with a yellow heart and bow tie, a brown vintage cigar, a pink cat helmet, a white skull with purple eyes, a golden Swiss watch, and a pair of red lips with a sharp tongue. The box glows with blue light. Dark background, party atmosphere."
+8. Star Box
+Prompt:
+> "A dark blue open loot box with the inscription 'GiftyBox' on the front, decorated with sparkling stars. Golden coins are scattered around. From the box, the following items are sticking out: a black scared cat with green eyes, a golden genie lamp, a green magic potion bottle, a silver signet ring with a blue gem, a crystal astral shard, a golden mini Oscar statuette, and a perfume bottle. The box glows with blue and white light. Dark background, starry effect."
+9. Premium Box
+Prompt:
+> "A golden open loot box with the inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a silver gem signet ring, a golden heroic helmet with a red plume, a golden nail bracelet, an orange loot bag, a golden heart-shaped locket, and a green plush frog (Plush Pepe) peeking out slightly. The box glows with bright golden light. Dark background, premium feel."
+10. Super Box
+Prompt:
+> "A platinum open loot box with golden accents and the inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a golden heroic helmet, a golden nail bracelet, an orange loot bag, a golden heart-shaped locket, and a green plush frog (Plush Pepe) barely visible, as a rare item. The box glows with platinum and gold light. Dark background, luxury style."
+11. Ultra Box
+Prompt:
+> "A black open loot box with gold and blue accents, inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a golden heroic helmet, a golden nail bracelet, an orange loot bag, a golden heart-shaped locket, and a green plush frog (Plush Pepe) almost hidden, as a super rare item. The box glows with blue and gold light. Dark background, ultra-premium look."
+12. Mega Box
+Prompt:
+> "A white open loot box with gold and rainbow accents, inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a golden heroic helmet, a golden nail bracelet, an orange loot bag, a golden heart-shaped locket, and a transparent ghost-like green plush frog (Plush Pepe) as a legendary rare. The box glows with white and rainbow light. Dark background, magical and rare feel."
+13. Diamond Box
+Prompt:
+> "A transparent crystal open loot box with gold accents, inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a golden heroic helmet, a golden nail bracelet, an orange loot bag, a golden heart-shaped locket, and a diamond-like green plush frog (Plush Pepe) barely visible. The box glows with white and blue light. Dark background, diamond luxury."
+14. Royal Box
+Prompt:
+> "A dark purple open loot box with a golden crown and the inscription 'GiftyBox' on the front. Golden coins are inside and around the box. Sticking out of the box: a golden heroic helmet, a golden nail bracelet, an orange loot bag, a golden heart-shaped locket, and a tiny green plush frog (Plush Pepe) as a symbol of luck. The box glows with purple and gold light. Dark background, royal and exclusive."
