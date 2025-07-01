@@ -2844,6 +2844,8 @@ function renderCasesGrid() {
 function renderProfilePage() {
     const page = document.getElementById('page-profile');
     if (!page) return;
+    page.style.alignItems = 'flex-start';
+    page.style.paddingTop = '0';
     page.innerHTML = `
         <div class="profile-top-block">
             <div class="profile-wallet-row">
@@ -3101,7 +3103,7 @@ function renderDepositTON() {
         <div class="deposit-form">
             <input type="number" id="deposit-amount" placeholder="Сумма TON">
             <input type="text" id="deposit-promo" placeholder="Промокод (если есть)">
-            <button class="btn-blue" id="btn-deposit-ton-pay">Пополнить</button>
+            <button class="btn-blue" id="btn-deposit-ton-pay">Пополнить <img src="assets/icons/gcoin.png" style="width:32px;height:32px;vertical-align:middle;"></button>
         </div>
     `;
     document.getElementById('btn-deposit-ton-pay').onclick = () => {
@@ -3200,9 +3202,19 @@ function renderUpgradePage() {
     const page = document.getElementById('page-upgrade');
     if (!page) return;
     page.innerHTML = `
+        <div class="upgrade-header">Апгрейд</div>
+        <div class="upgrade-flow">
+            <div class="upgrade-flow-from">
+                ${window.upgradeSelectedNFT ? `<img src="assets/nft/${window.upgradeSelectedNFT.id}.gif"><div>${window.upgradeSelectedNFT.label}</div>` : '<div>Выберите NFT</div>'}
+            </div>
+            <div class="arrow">→</div>
+            <div class="upgrade-flow-to">
+                ${window.upgradeTargetNFT ? `<img src="assets/nft/${window.upgradeTargetNFT.id}.gif"><div>${window.upgradeTargetNFT.label}</div>` : '<div>Целевой NFT</div>'}
+            </div>
+        </div>
         <div class="upgrade-center-wrap">
-            <div class="upgrade-circle-container" style="display:flex;justify-content:center;align-items:center;width:100%;height:340px;position:relative;">
-                <canvas id="upgrade-canvas" width="286" height="286" style="display:block;margin:0 auto;"></canvas>
+            <div class="upgrade-circle-container" style="display:flex;justify-content:center;align-items:center;width:100%;height:360px;position:relative;">
+                <canvas id="upgrade-canvas" width="340" height="340" style="display:block;margin:0 auto;"></canvas>
                 <div id="upgrade-nft-center" class="upgrade-nft-center"></div>
             </div>
             <div class="upgrade-actions"> <!-- ваши кнопки и UI --> </div>
@@ -3210,62 +3222,26 @@ function renderUpgradePage() {
     `;
     drawUpgradeCircle();
 }
-// --- drawUpgradeCircle для нового размера ---
-function drawUpgradeCircle(angle = 0) {
-    const canvas = document.getElementById('upgrade-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Круг
-    ctx.save();
-    ctx.translate(canvas.width/2, canvas.height/2);
-    ctx.lineWidth = 32;
-    // Серый фон
-    ctx.strokeStyle = '#bbb';
-    ctx.beginPath();
-    ctx.arc(0, 0, 130, 0, 2*Math.PI);
-    ctx.stroke();
-    // Градиентная дуга (шанс)
-    if (typeof upgradeChance !== 'undefined' && upgradeChance > 0) {
-        const grad = ctx.createLinearGradient(130, 0, -130, 0);
-        grad.addColorStop(0, '#27ae60');
-        grad.addColorStop(1, '#2980b9');
-        ctx.strokeStyle = grad;
-        ctx.beginPath();
-        ctx.arc(0, 0, 130, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
-        ctx.shadowColor = '#27ae60';
-        ctx.shadowBlur = 16;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-    }
-    // Красный треугольник (указатель) с glow
-    ctx.save();
-    ctx.rotate(angle);
-    ctx.shadowColor = '#fff';
-    ctx.shadowBlur = 12;
-    ctx.fillStyle = '#c0392b';
-    ctx.beginPath();
-    ctx.moveTo(0, -150);
-    ctx.lineTo(-22, -110);
-    ctx.lineTo(22, -110);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-    ctx.restore();
-    // В центре целевое NFT (upgradeTargetNFT)
-    const centerDiv = document.getElementById('upgrade-nft-center');
-    if (centerDiv) {
-        if (typeof upgradeTargetNFT !== 'undefined' && upgradeTargetNFT) {
-            let imgSrc = upgradeTargetNFT.id && upgradeTargetNFT.id.startsWith('gcoins')
-                ? 'assets/nft/gcoins.gif'
-                : `assets/nft/${upgradeTargetNFT.rarity || getRarityById(upgradeTargetNFT.id)}-${upgradeTargetNFT.id}.gif`;
-            centerDiv.innerHTML = `<img src='${imgSrc}' alt='NFT'>`;
-            centerDiv.style.display = '';
-        } else {
-            centerDiv.innerHTML = '';
-            centerDiv.style.display = 'none';
-        }
-    }
+// --- Исправленный депозит (иконка монеты меньше) ---
+function renderDepositTON() {
+    const content = document.getElementById('deposit-content');
+    content.innerHTML = `
+        <div class="deposit-form">
+            <input type="number" id="deposit-amount" placeholder="Сумма TON">
+            <input type="text" id="deposit-promo" placeholder="Промокод (если есть)">
+            <button class="btn-blue" id="btn-deposit-ton-pay">Пополнить <img src="assets/icons/gcoin.png" style="width:32px;height:32px;vertical-align:middle;"></button>
+        </div>
+    `;
+    document.getElementById('btn-deposit-ton-pay').onclick = () => {
+        let amount = parseFloat(document.getElementById('deposit-amount').value) || 0;
+        let promo = document.getElementById('deposit-promo').value.trim();
+        let bonus = 0;
+        if (promo.toUpperCase() === 'NEW') bonus = Math.floor(amount * 0.05);
+        showNotification(`Пополнено на ${amount + bonus} Gcoins!`);
+        window.gcoins += amount + bonus;
+        if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
+        document.getElementById('modal-deposit').remove();
+    };
 }
 
 // --- Загрузочный экран ---

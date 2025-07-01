@@ -1873,161 +1873,71 @@ body.modal-open::after {
 }
 
 .upgrade-header {
+    width: 100%;
+    text-align: center;
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #ffe7a0;
+    margin-bottom: 18px;
+    margin-top: 0;
+    letter-spacing: 1.2px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 8px 0;
-    font-size: 15px;
-    color: #bfc9d8;
-    font-weight: 500;
-    max-width: 220px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.upgrade-circle {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 10px auto;
-    position: relative;
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+.upgrade-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.upgrade-flow img {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #232b3a;
+    box-shadow: 0 2px 8px #0003;
+}
+
+.upgrade-flow .arrow {
+    font-size: 2.2rem;
+    color: #7ecbff;
+    font-weight: 900;
+}
+
+#page-profile {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0;
+}
+#page-upgrade {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 24px;
+}
+.upgrade-center-wrap {
+    margin-top: 0;
+    margin-bottom: 0;
+    align-items: flex-start;
+}
 #upgrade-canvas {
-    width: 200px;
-    height: 200px;
-    background: none;
-    display: block;
-    border-radius: 50%;
+    width: 340px !important;
+    height: 340px !important;
+    max-width: 95vw;
+    max-height: 95vw;
 }
-
-.upgrade-nft-center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.upgrade-nft-center img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    border-radius: 8px;
-    background: #232b36;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
-}
-
-.upgrade-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    max-width: 220px;
-    margin: 0 auto;
-}
-
-.btn-upgrade {
-    min-width: 80px;
-    height: 32px;
-    font-size: 14px;
-    border-radius: 8px;
-    background: #232b36;
-    color: #fff;
-    border: none;
-    font-weight: 600;
-    transition: background 0.15s, color 0.15s;
-    cursor: pointer;
-}
-.btn-upgrade:active {
-    background: #2e7fff;
-    color: #fff;
-}
-.btn-upgrade.btn-start {
-    background: #2e7fff;
-    color: #fff;
-    min-width: 100px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-@media (max-width: 600px) {
-    .upgrade-header, .upgrade-actions {
-        max-width: 98vw;
-        font-size: 13px;
-    }
-    .upgrade-circle, #upgrade-canvas {
-        width: 140px;
-        height: 140px;
-    }
-    .upgrade-nft-center {
-        width: 28px;
-        height: 28px;
-    }
-    .upgrade-nft-center img {
-        width: 22px;
-        height: 22px;
-    }
-    .btn-upgrade {
-        min-width: 60px;
-        height: 28px;
-        font-size: 12px;
-    }
-    .btn-upgrade.btn-start {
-        min-width: 70px;
-    }
-}
-
-#page-upgrade, #page-deposit {
-  justify-content: center !important;
-  align-items: center !important;
-  min-height: 70vh;
-  display: flex;
-}
-.upgrade-center-wrap, .deposit-modal {
-  min-height: 70vh;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-}
-/* --- Загрузочный экран --- */
-#loading-screen {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background: #181f2a;
-  z-index: 5000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.5s;
-  opacity: 1;
-}
-#loading-screen.hide {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s;
-}
-#star-canvas {
-  position: absolute;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: 1;
-  display: block;
-}
-.loading-title {
-  position: relative;
-  z-index: 2;
-  color: #ffe7a0;
-  font-size: 2.2rem;
-  font-weight: 800;
-  text-align: center;
-  margin-top: 0;
-  letter-spacing: 1.5px;
-  text-shadow: 0 2px 12px #000a;
+.deposit-modal img, .deposit-form img {
+    width: 32px !important;
+    height: 32px !important;
 }
