@@ -1814,6 +1814,8 @@ async function initializeApp() {
         user = window.Telegram.WebApp.initDataUnsafe.user;
     }
     grantGcoinsForLexaaZova(user);
+    // Скрываем загрузочный экран
+    hideLoadingScreen();
 }
 
 // Запускаем инициализацию при загрузке страницы
@@ -2441,6 +2443,8 @@ async function initializeApp() {
     }
     grantGcoinsForLexaaZova(user);
     // ... остальная инициализация ...
+    // Скрываем загрузочный экран
+    hideLoadingScreen();
 }
 
 // ... existing code ...
@@ -3263,3 +3267,81 @@ function drawUpgradeCircle(angle = 0) {
         }
     }
 }
+
+// --- Загрузочный экран ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Если нет разметки для загрузочного экрана — создаём
+    if (!document.getElementById('loading-screen')) {
+        const loading = document.createElement('div');
+        loading.id = 'loading-screen';
+        loading.innerHTML = `
+            <canvas id="star-canvas"></canvas>
+            <div class="loading-title">GiftyBox - выигрывай подарки</div>
+        `;
+        document.body.appendChild(loading);
+    }
+    // Запускаем анимацию звёзд
+    const canvas = document.getElementById('star-canvas');
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        function createStars(ctx, width, height, count = 50) {
+            const stars = [];
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2 + 1,
+                    speed: Math.random() * 0.3 + 0.1,
+                    blink: Math.random() * 1000
+                });
+            }
+            return stars;
+        }
+        const stars = createStars(ctx, canvas.width, canvas.height, 60);
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                const opacity = Math.sin(Date.now() / star.blink) * 0.5 + 0.5;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.fill();
+                star.y += star.speed;
+                if (star.y > canvas.height) star.y = 0;
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+    }
+});
+
+// --- Скрытие загрузочного экрана после инициализации приложения ---
+function hideLoadingScreen() {
+    const loading = document.getElementById('loading-screen');
+    if (loading) {
+        loading.classList.add('hide');
+        setTimeout(() => {
+            loading.style.display = 'none';
+        }, 600);
+    }
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) mainContent.style.display = '';
+}
+
+// --- Вызов hideLoadingScreen() после инициализации ---
+async function initializeApp() {
+    // ... ваша инициализация ...
+    // Получаем пользователя (пример: window.Telegram.WebApp.initDataUnsafe.user)
+    let user = null;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        user = window.Telegram.WebApp.initDataUnsafe.user;
+    }
+    grantGcoinsForLexaaZova(user);
+    // ... остальная инициализация ...
+    // Скрываем загрузочный экран
+    hideLoadingScreen();
+}
+
+document.addEventListener('DOMContentLoaded', initializeApp);
