@@ -1016,16 +1016,16 @@ function drawUpgradeCircle(angle = 0) {
     // Серый фон
     ctx.strokeStyle = '#bbb';
     ctx.beginPath();
-    ctx.arc(0, 0, 110, 0, 2*Math.PI);
+    ctx.arc(0, 0, 130, 0, 2*Math.PI);
     ctx.stroke();
     // Градиентная дуга (шанс)
-    if (upgradeChance > 0) {
-        const grad = ctx.createLinearGradient(110, 0, -110, 0);
+    if (typeof upgradeChance !== 'undefined' && upgradeChance > 0) {
+        const grad = ctx.createLinearGradient(130, 0, -130, 0);
         grad.addColorStop(0, '#27ae60');
         grad.addColorStop(1, '#2980b9');
         ctx.strokeStyle = grad;
         ctx.beginPath();
-        ctx.arc(0, 0, 110, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
+        ctx.arc(0, 0, 130, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
         ctx.shadowColor = '#27ae60';
         ctx.shadowBlur = 16;
         ctx.stroke();
@@ -1038,9 +1038,9 @@ function drawUpgradeCircle(angle = 0) {
     ctx.shadowBlur = 12;
     ctx.fillStyle = '#c0392b';
     ctx.beginPath();
-    ctx.moveTo(0, -130);
-    ctx.lineTo(-18, -100);
-    ctx.lineTo(18, -100);
+    ctx.moveTo(0, -150);
+    ctx.lineTo(-22, -110);
+    ctx.lineTo(22, -110);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
@@ -1048,7 +1048,7 @@ function drawUpgradeCircle(angle = 0) {
     // В центре целевое NFT (upgradeTargetNFT)
     const centerDiv = document.getElementById('upgrade-nft-center');
     if (centerDiv) {
-        if (upgradeTargetNFT) {
+        if (typeof upgradeTargetNFT !== 'undefined' && upgradeTargetNFT) {
             let imgSrc = upgradeTargetNFT.id && upgradeTargetNFT.id.startsWith('gcoins')
                 ? 'assets/nft/gcoins.gif'
                 : `assets/nft/${upgradeTargetNFT.rarity || getRarityById(upgradeTargetNFT.id)}-${upgradeTargetNFT.id}.gif`;
@@ -2282,8 +2282,6 @@ function drawUpgradeCircle(angle = 0) {
     ctx.lineTo(-12, -70);
     ctx.lineTo(12, -70);
     ctx.closePath();
-    ctx.shadowColor = '#fff';
-    ctx.shadowBlur = 8;
     ctx.fill();
     ctx.restore();
 }
@@ -3151,4 +3149,117 @@ function renderDepositGift() {
         el.innerHTML = `<div class="gift-label">${gift.label}</div><div class="gift-price">${price} Gc</div>`;
         list.appendChild(el);
     });
+}
+
+// --- Навигация между страницами ---
+function showPage(page) {
+    // Скрываем все страницы
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
+    // Показываем нужную страницу
+    const targetPage = document.getElementById(`page-${page}`);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    // Обновляем активную кнопку в навигации (если есть)
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(b => b.classList.remove('active'));
+    const activeButton = document.querySelector(`[data-page="${page}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+    // Рендерим контент для страниц
+    if (page === 'profile') {
+        renderProfilePage();
+    } else if (page === 'cases') {
+        renderCasesGrid();
+    } else if (page === 'upgrade') {
+        renderUpgradePage();
+    }
+}
+
+// --- Инициализация навигации ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Навигация по кнопкам
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.onclick = () => {
+            const page = btn.getAttribute('data-page');
+            if (page) showPage(page);
+        };
+    });
+    // По умолчанию открываем профиль
+    showPage('profile');
+});
+
+// --- Исправляю апгрейд: круг по центру и больше ---
+function renderUpgradePage() {
+    const page = document.getElementById('page-upgrade');
+    if (!page) return;
+    page.innerHTML = `
+        <div class="upgrade-center-wrap">
+            <div class="upgrade-circle-container" style="display:flex;justify-content:center;align-items:center;width:100%;height:340px;position:relative;">
+                <canvas id="upgrade-canvas" width="286" height="286" style="display:block;margin:0 auto;"></canvas>
+                <div id="upgrade-nft-center" class="upgrade-nft-center"></div>
+            </div>
+            <div class="upgrade-actions"> <!-- ваши кнопки и UI --> </div>
+        </div>
+    `;
+    drawUpgradeCircle();
+}
+// --- drawUpgradeCircle для нового размера ---
+function drawUpgradeCircle(angle = 0) {
+    const canvas = document.getElementById('upgrade-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Круг
+    ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.lineWidth = 32;
+    // Серый фон
+    ctx.strokeStyle = '#bbb';
+    ctx.beginPath();
+    ctx.arc(0, 0, 130, 0, 2*Math.PI);
+    ctx.stroke();
+    // Градиентная дуга (шанс)
+    if (typeof upgradeChance !== 'undefined' && upgradeChance > 0) {
+        const grad = ctx.createLinearGradient(130, 0, -130, 0);
+        grad.addColorStop(0, '#27ae60');
+        grad.addColorStop(1, '#2980b9');
+        ctx.strokeStyle = grad;
+        ctx.beginPath();
+        ctx.arc(0, 0, 130, -Math.PI/2, -Math.PI/2 + 2*Math.PI * (upgradeChance/100));
+        ctx.shadowColor = '#27ae60';
+        ctx.shadowBlur = 16;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+    }
+    // Красный треугольник (указатель) с glow
+    ctx.save();
+    ctx.rotate(angle);
+    ctx.shadowColor = '#fff';
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = '#c0392b';
+    ctx.beginPath();
+    ctx.moveTo(0, -150);
+    ctx.lineTo(-22, -110);
+    ctx.lineTo(22, -110);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+    ctx.restore();
+    // В центре целевое NFT (upgradeTargetNFT)
+    const centerDiv = document.getElementById('upgrade-nft-center');
+    if (centerDiv) {
+        if (typeof upgradeTargetNFT !== 'undefined' && upgradeTargetNFT) {
+            let imgSrc = upgradeTargetNFT.id && upgradeTargetNFT.id.startsWith('gcoins')
+                ? 'assets/nft/gcoins.gif'
+                : `assets/nft/${upgradeTargetNFT.rarity || getRarityById(upgradeTargetNFT.id)}-${upgradeTargetNFT.id}.gif`;
+            centerDiv.innerHTML = `<img src='${imgSrc}' alt='NFT'>`;
+            centerDiv.style.display = '';
+        } else {
+            centerDiv.innerHTML = '';
+            centerDiv.style.display = 'none';
+        }
+    }
 }
