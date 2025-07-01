@@ -3335,3 +3335,57 @@ async function initializeApp() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);
+
+// --- Заглушка для Telegram WebApp, если не в Telegram ---
+if (!window.tg || !window.tg.initDataUnsafe) {
+    window.tg = {
+        initDataUnsafe: {
+            user: {
+                username: 'testuser',
+                first_name: 'Test',
+                photo_url: ''
+            }
+        }
+    };
+}
+
+// --- Гарантируем рендер главной страницы ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Если ни одна страница не активна, активируем main
+    const activePage = document.querySelector('.page.active');
+    if (!activePage) {
+        const mainPage = document.getElementById('page-main');
+        if (mainPage) mainPage.classList.add('active');
+    }
+    // Показываем главную страницу
+    showPage('main');
+});
+
+// --- Исправленный showPage ---
+function showPage(page) {
+    // Скрываем все страницы
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
+    // Показываем нужную страницу
+    const targetPage = document.getElementById(`page-${page}`);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    } else if (pages.length > 0) {
+        pages[0].classList.add('active'); // fallback
+    }
+    // Обновляем активную кнопку в навигации (если есть)
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(b => b.classList.remove('active'));
+    const activeButton = document.querySelector(`[data-page="${page}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+    // Рендерим контент для страниц
+    if (page === 'profile') {
+        renderProfilePage();
+    } else if (page === 'cases') {
+        renderCasesGrid();
+    } else if (page === 'upgrade') {
+        renderUpgradePage();
+    }
+}
