@@ -2844,29 +2844,29 @@ function renderCasesGrid() {
 function renderProfilePage() {
     const page = document.getElementById('page-profile');
     if (!page) return;
-    page.style.alignItems = 'flex-start';
+    page.style.alignItems = 'center';
     page.style.paddingTop = '0';
     page.innerHTML = `
         <div class="profile-top-block">
-            <div class="profile-wallet-row">
-                <button id="btn-connect-wallet" class="btn-blue">Подключить кошелек</button>
-                <div class="profile-balance-block">
-                    <span id="profile-balance">${window.gcoins || 0} Gcoins</span>
-                    <img id="profile-avatar-mini" class="profile-avatar-mini" src="" alt="avatar">
-                </div>
-            </div>
-            <div class="profile-avatar-center">
-                <img id="profile-avatar" class="profile-avatar" src="" alt="avatar">
-            </div>
+            <img id="profile-avatar" class="profile-avatar" src="" alt="avatar">
             <div class="profile-nick-frame"><span id="profile-nick">@username</span></div>
+            <div class="profile-balance-block">
+                <span id="profile-balance">${window.gcoins || 0} Gcoins</span>
+                <img id="profile-avatar-mini" class="profile-avatar-mini" src="" alt="avatar">
+            </div>
+            <button id="btn-connect-wallet" class="btn-blue" style="margin-top:12px;">Подключить кошелек</button>
         </div>
-        <div class="profile-btn-row">
+        <div class="profile-btn-row" style="margin-bottom:18px;">
             <a href="https://t.me/guftybox_suooort" target="_blank" class="btn-grey">Поддержка</a>
             <a href="https://t.me/ytouy_official" target="_blank" class="btn-grey">Канал</a>
         </div>
         <div class="profile-inventory-block" id="profile-inventory-block">
             <div class="profile-inventory-title">Инвентарь</div>
             <div id="profile-inventory-preview"></div>
+        </div>
+        <div class="profile-history-block" style="background:#232b3a;border-radius:18px;box-shadow:0 2px 12px #0003;padding:18px 0 12px 0;max-width:420px;margin:0 auto 24px auto;text-align:center;">
+            <div style="color:#7ecbff;font-size:1.1rem;font-weight:700;margin-bottom:8px;">Последние действия</div>
+            <div id="profile-history-list" style="color:#fff;opacity:0.7;">Пока нет истории</div>
         </div>
     `;
     // Заполняем аватарку и ник
@@ -2883,13 +2883,18 @@ function renderProfilePage() {
     document.getElementById('btn-connect-wallet').onclick = connectTMAWallet;
     // Инвентарь
     renderProfileInventoryPreview();
+    // История (заглушка)
+    const historyList = document.getElementById('profile-history-list');
+    if (window.userHistory && window.userHistory.length > 0) {
+        historyList.innerHTML = window.userHistory.slice(-5).reverse().map(item => `<div style='margin-bottom:4px;'>${item.action} <span style='color:#7ecbff;'>${item.amount > 0 ? '+' : ''}${item.amount} Gc</span></div>`).join('');
+    }
 }
 
 function renderProfileInventoryPreview() {
     const preview = document.getElementById('profile-inventory-preview');
     if (!preview) return;
     if (!window.inventory || window.inventory.length === 0) {
-        preview.innerHTML = '<div class="profile-inventory-empty">Ваш инвентарь пуст</div>';
+        preview.innerHTML = '<div class="profile-inventory-empty">У вас пока нет NFT.<br>Открывайте кейсы!</div>';
     } else {
         const nft = window.inventory[0];
         preview.innerHTML = `<div class="profile-inventory-nft" id="profile-inventory-nft-preview">

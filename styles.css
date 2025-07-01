@@ -1914,9 +1914,10 @@ body.modal-open::after {
     min-height: 60vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     padding-top: 0;
+    background: none;
 }
 #page-upgrade {
     min-height: 60vh;
@@ -1938,6 +1939,76 @@ body.modal-open::after {
     max-height: 95vw;
 }
 .deposit-modal img, .deposit-form img {
-    width: 32px !important;
-    height: 32px !important;
+    width: 22px !important;
+    height: 22px !important;
+}
+.profile-top-block {
+    background: #232b3a;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0003;
+    padding: 24px 32px 18px 32px;
+    margin-top: 24px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+}
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffe7a0;
+    box-shadow: 0 2px 12px #0005;
+    margin-bottom: 8px;
+    background: #181f2a;
+}
+.profile-nick-frame {
+    border: 2px solid #3a8fff;
+    border-radius: 12px;
+    padding: 4px 18px;
+    background: #1a2340;
+    color: #7ecbff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px #0002;
+}
+.profile-balance-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    background: #181f2a;
+    border-radius: 10px;
+    padding: 6px 14px;
+    box-shadow: 0 2px 8px #0002;
+}
+.profile-inventory-block {
+    background: #232b3a;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px #0003;
+    padding: 18px 0 12px 0;
+    max-width: 420px;
+    margin: 0 auto 24px auto;
+    text-align: center;
+}
+.profile-inventory-empty {
+    color: #7ecbff;
+    font-size: 1.1rem;
+    margin: 18px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.profile-inventory-empty::before {
+    content: '\1F381'; /* 🎁 */
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 4px;
 }
