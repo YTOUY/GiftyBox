@@ -2950,22 +2950,32 @@ function showNFTDraggableModal(nft, idx) {
     }
     // Заполняем инфу
     const detail = modal.querySelector('#draggable-nft-detail');
-    detail.innerHTML = `<img src="assets/nft/${nft.id}.gif" style="width:80px;height:80px;"><div>${nft.label}</div><div>${nft.gcoins || ''} Gc</div>
+    const price = typeof getNFTPriceInGCoins === 'function' ? getNFTPriceInGCoins(nft.id, true) : (nft.gcoins || 0);
+    detail.innerHTML = `<img src="assets/nft/${nft.id}.gif" style="width:80px;height:80px;"><div class="nft-title">${nft.label}</div><div class="nft-price">${price} Gcoins</div>
         <div class="nft-modal-btn-row">
             <button class="btn-grey" id="btn-nft-withdraw">Вывод</button>
             <button class="btn-blue" id="btn-nft-sell">Продать</button>
         </div>`;
     document.getElementById('btn-nft-withdraw').onclick = () => {
         showNotification('Нфт будет выведено');
+        if (window.userHistory) {
+            window.userHistory.push({ action: `Вывел ${nft.label}`, amount: 0, type: 'withdrawn', timestamp: Date.now() });
+        }
         window.inventory.splice(idx, 1);
         if (typeof updateInventory === 'function') updateInventory();
         renderProfileInventoryPreview();
         modal.remove();
     };
     document.getElementById('btn-nft-sell').onclick = () => {
-        const price = nft.gcoins || 0;
-        window.gcoins += price;
+        if (typeof getNFTPriceInGCoins === 'function') {
+            window.gcoins += price;
+        } else {
+            window.gcoins += nft.gcoins || 0;
+        }
         showNotification(`NFT продан за ${price} Gcoins!`);
+        if (window.userHistory) {
+            window.userHistory.push({ action: `Продал ${nft.label}`, amount: price, type: 'sold', timestamp: Date.now() });
+        }
         window.inventory.splice(idx, 1);
         if (typeof updateBalanceDisplays === 'function') updateBalanceDisplays();
         if (typeof updateInventory === 'function') updateInventory();
@@ -2973,6 +2983,11 @@ function showNFTDraggableModal(nft, idx) {
         modal.remove();
     };
     modal.style.display = 'flex';
+    modal.style.cursor = 'grab';
+    modal.onmousedown = () => { modal.style.cursor = 'grabbing'; };
+    modal.onmouseup = () => { modal.style.cursor = 'grab'; };
+    modal.onmouseleave = () => { modal.style.cursor = 'grab'; };
+    modal.style.userSelect = 'none';
 }
 
 // Draggable реализация

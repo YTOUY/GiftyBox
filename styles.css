@@ -1331,14 +1331,12 @@ body.modal-open::after {
     margin: 0;
 }
 .main-btn {
+    font-size: 1.17rem;
+    min-height: 108px;
+    height: 108px;
+    max-width: 320px;
     width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    flex: 1 1 33.33%;
-    height: 33.33%;
-    min-height: 120px;
-    border-radius: 14px;
-    font-size: 1.3rem;
+    border-radius: 12px;
     font-weight: 700;
     color: #fff;
     text-align: center;
@@ -1357,16 +1355,10 @@ body.modal-open::after {
     box-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
 @media (max-width: 600px) {
-    .main-menu {
-        gap: 0;
-        padding: 0;
-        height: calc(100vh - 64px - 12px);
-    }
     .main-btn {
-        font-size: 1.1rem;
-        border-radius: 10px;
-        min-height: 80px;
-        height: 33.33%;
+        font-size: 0.99rem;
+        min-height: 72px;
+        height: 72px;
     }
 }
 
@@ -1928,9 +1920,12 @@ body.modal-open::after {
     margin-top: 24px;
 }
 .upgrade-center-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: 0;
     margin-bottom: 0;
-    align-items: flex-start;
 }
 #upgrade-canvas {
     width: 340px !important;
@@ -1939,8 +1934,8 @@ body.modal-open::after {
     max-height: 95vw;
 }
 .deposit-modal img, .deposit-form img {
-    width: 22px !important;
-    height: 22px !important;
+    width: 18px !important;
+    height: 18px !important;
 }
 .profile-top-block {
     background: #232b3a;
@@ -2011,4 +2006,65 @@ body.modal-open::after {
     font-size: 2.2rem;
     display: block;
     margin-bottom: 4px;
+}
+
+.profile-nft-modal, .nft-detail-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #232b3a;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #000a;
+    padding: 24px 32px;
+    z-index: 2000;
+    min-width: 320px;
+    min-height: 180px;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile-nft-modal:active, .nft-detail-modal:active {
+    cursor: grabbing;
+}
+.nft-detail-modal .nft-gif {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: #2226;
+    object-fit: contain;
+}
+.nft-detail-modal .nft-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffe7a0;
+    margin-bottom: 8px;
+}
+.nft-detail-modal .nft-price {
+    color: #7ecbff;
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+.nft-detail-modal .nft-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+}
+.nft-detail-modal .nft-actions button {
+    min-width: 90px;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.nft-detail-modal .nft-actions .btn-red {
+    background: #e74c3c;
+    color: #fff;
+}
+.nft-detail-modal .nft-actions .btn-blue {
+    background: #3a8fff;
+    color: #fff;
 }
