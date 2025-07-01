@@ -868,27 +868,21 @@ body {
 }
 .cases-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 18px;
-    padding: 18px;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px;
+    padding: 8px;
     justify-items: center;
-    margin: 0 2vw 0 2vw;
+    margin: 0;
+    height: calc(100vh - 64px - 56px); /* минус нижнее меню и отступ */
+    overflow-y: hidden;
 }
 .case-card {
-    background: #232b3a;
-    border-radius: 16px;
-    box-shadow: 0 4px 24px #0003;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #fff;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
+    min-height: 90px;
+    min-width: 0;
+    max-width: 90px;
+    font-size: 0.95rem;
+    padding: 6px 2px;
+    border-radius: 10px;
 }
 .case-card:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 8px 32px #0005; }
 .case-card .case-price { display: flex; align-items: center; gap: 4px; font-size: 1rem; font-weight: 700; color: #7ecbff; margin-top: 8px; }
@@ -1072,6 +1066,18 @@ body {
     .modal-content { min-width: 90vw; }
     .upgrade-circle { width: 140px; height: 140px; }
     .profile-header { flex-direction: column; gap: 8px; }
+    .cases-list {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px;
+        height: calc(100vh - 64px - 36px);
+    }
+    .case-card {
+        min-height: 70px;
+        max-width: 70px;
+        font-size: 0.85rem;
+        padding: 4px 1px;
+        border-radius: 8px;
+    }
 }
 
 .case-btn-grid {
@@ -1320,35 +1326,16 @@ body.modal-open::after {
 
 /* --- MAIN MENU --- */
 .main-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding: 0;
-    width: 100%;
-    height: calc(100vh - 64px - 24px); /* минус высота нижней навигации и отступ */
-    justify-content: stretch;
-    align-items: stretch;
+    gap: 8px;
+    padding: 0 4px;
     margin: 0;
 }
 .main-btn {
-    font-size: 1.17rem;
-    min-height: 108px;
-    height: 108px;
-    max-width: 320px;
-    width: 100%;
-    border-radius: 12px;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    transition: transform 0.15s, box-shadow 0.15s;
-    margin: 0;
+    margin-bottom: 0;
+    min-height: 44px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    padding: 0 2px;
 }
 .main-btn:hover {
     transform: translateY(-2px) scale(1.03);
@@ -1356,9 +1343,10 @@ body.modal-open::after {
 }
 @media (max-width: 600px) {
     .main-btn {
-        font-size: 0.99rem;
-        min-height: 72px;
-        height: 72px;
+        min-height: 36px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        padding: 0 1px;
     }
 }
 
@@ -1865,18 +1853,9 @@ body.modal-open::after {
 }
 
 .upgrade-header {
-    width: 100%;
-    text-align: center;
-    font-size: 2.1rem;
-    font-weight: 800;
-    color: #ffe7a0;
-    margin-bottom: 18px;
+    font-size: 1.2rem;
+    margin-bottom: 6px;
     margin-top: 0;
-    letter-spacing: 1.2px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .upgrade-flow {
@@ -1920,12 +1899,9 @@ body.modal-open::after {
     margin-top: 24px;
 }
 .upgrade-center-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     margin-top: 0;
     margin-bottom: 0;
+    padding: 0;
 }
 #upgrade-canvas {
     width: 340px !important;
@@ -1938,17 +1914,10 @@ body.modal-open::after {
     height: 18px !important;
 }
 .profile-top-block {
-    background: #232b3a;
-    border-radius: 18px;
-    box-shadow: 0 4px 24px #0003;
-    padding: 24px 32px 18px 32px;
-    margin-top: 24px;
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 420px;
+    max-height: 120px;
+    padding: 10px 8px 8px 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 .profile-avatar {
     width: 72px;
@@ -1984,13 +1953,9 @@ body.modal-open::after {
     box-shadow: 0 2px 8px #0002;
 }
 .profile-inventory-block {
-    background: #232b3a;
-    border-radius: 18px;
-    box-shadow: 0 2px 12px #0003;
-    padding: 18px 0 12px 0;
-    max-width: 420px;
-    margin: 0 auto 24px auto;
-    text-align: center;
+    max-height: 90px;
+    padding: 8px 0 6px 0;
+    margin-bottom: 8px;
 }
 .profile-inventory-empty {
     color: #7ecbff;
